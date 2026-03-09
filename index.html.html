@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Step Happier</title>
+<link rel="apple-touch-icon" id="touch-icon" href="">
+<link rel="icon" id="favicon" href="">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height:100vh;
+  background:#1a1020;
+  display:flex; flex-direction:column; align-items:center;
+  font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;
+  color:#f0f0f0;
+  padding:0 24px 80px;
+  transition:background 2.5s ease;
+}
+#app { max-width:460px; width:100%; }
+.header { text-align:center; padding:48px 0 32px; position:relative; }
+.home-btn { position:absolute; top:16px; right:0; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:6px 14px; color:rgba(255,255,255,0.6); cursor:pointer; font-size:11px; letter-spacing:2px; transition:all 0.2s; font-family:inherit; }
+.home-btn:hover { background:rgba(255,255,255,0.18); color:#fff; }
+.header-icon { font-size:48px; margin-bottom:12px; display:block; }
+.header-label { font-size:10px; letter-spacing:7px; color:rgba(255,255,255,0.4); margin-bottom:10px; }
+.header-title { font-size:24px; font-weight:bold; color:#fff; letter-spacing:1px; }
+.header-sub { font-size:12px; color:rgba(255,255,255,0.55); margin-top:8px; letter-spacing:2px; }
+.zone-chip { display:inline-flex; align-items:center; gap:7px; padding:6px 16px; border-radius:20px; font-size:13px; margin-top:14px; }
+
+/* 言語選択 */
+.lang-bar { display:flex; justify-content:center; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.lang-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:5px 14px; color:rgba(255,255,255,0.7); cursor:pointer; font-size:12px; transition:all 0.2s; }
+.lang-btn:hover,.lang-btn.active { background:rgba(255,255,255,0.2); color:#fff; border-color:rgba(255,255,255,0.5); }
+
+.screen { animation:fadeUp 0.7s ease forwards; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes flutter {
+  0%{transform:scale(1) rotate(-2deg)} 25%{transform:scale(1.05) rotate(2deg)}
+  50%{transform:scale(1) rotate(-1deg)} 75%{transform:scale(1.03) rotate(1deg)} 100%{transform:scale(1) rotate(-2deg)}
+}
+
+.intro-text { font-size:15px; line-height:2.1; color:#d0d0e8; margin-bottom:32px; }
+.intro-note { color:#9090b8; font-size:13px; }
+
+.zone-card { border-radius:12px; padding:14px 18px; display:flex; gap:14px; margin-bottom:8px; }
+.zone-card-name { font-size:15px; font-weight:bold; margin-bottom:3px; }
+.zone-card-range { font-size:11px; color:rgba(255,255,255,0.5); margin-left:8px; }
+.zone-card-desc { font-size:12px; color:#b0b0cc; line-height:1.7; }
+
+.tipping { text-align:center; font-size:11px; color:rgba(255,255,255,0.35); padding:8px 0; letter-spacing:5px; margin:4px 0; }
+
+.emo-btn { width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:11px 16px; color:#e0e0f0; cursor:pointer; font-family:inherit; font-size:14px; display:flex; align-items:center; gap:14px; transition:all 0.2s; text-align:left; margin-bottom:5px; }
+.emo-btn:hover { background:rgba(255,255,255,0.14); color:#fff; }
+.emo-num { font-size:13px; min-width:24px; color:rgba(255,255,255,0.45); font-weight:bold; }
+
+.msg-box { min-height:180px; font-size:17px; line-height:2.3; padding:8px 0; margin-bottom:8px; white-space:pre-wrap; }
+.cursor { animation:blink 1s infinite; opacity:0.5; }
+
+/* ボタン群 */
+.btn-row { display:flex; align-items:center; justify-content:center; gap:16px; margin-top:24px; flex-wrap:wrap; }
+.nb { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.35); border-radius:40px; padding:12px 36px; color:#fff; cursor:pointer; font-family:inherit; font-size:14px; letter-spacing:2px; transition:all 0.3s; }
+.nb:hover { border-color:rgba(255,255,255,0.7); background:rgba(255,255,255,0.18); }
+.nb-back { background:transparent; border:1px solid rgba(255,255,255,0.2); border-radius:40px; padding:10px 22px; color:rgba(255,255,255,0.55); cursor:pointer; font-family:inherit; font-size:13px; letter-spacing:1px; transition:all 0.3s; }
+.nb-back:hover { border-color:rgba(255,255,255,0.45); color:rgba(255,255,255,0.85); }
+.nb-ghost { background:transparent; border:none; color:rgba(255,255,255,0.35); cursor:pointer; font-family:inherit; font-size:12px; letter-spacing:2px; margin-top:8px; display:block; margin-left:auto; margin-right:auto; }
+
+/* 呼吸 */
+.breath-wrap { display:flex; flex-direction:column; align-items:center; gap:20px; padding:36px 0; }
+.breath-circle { width:130px; height:130px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; letter-spacing:1px; }
+.breath-timer { font-size:14px; color:rgba(255,255,255,0.55); letter-spacing:4px; }
+.breath-label { font-size:15px; color:#d0d0f0; text-align:center; line-height:2; margin-bottom:4px; }
+.breath-label span { font-size:13px; color:#9090b8; }
+.breath-hint { font-size:13px; color:#9090b8; text-align:center; line-height:2; }
+
+.done-ornament { font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:4px; text-align:center; margin-bottom:8px; }
+.done-btns { text-align:center; display:flex; flex-direction:column; gap:14px; align-items:center; }
+.select-hint { font-size:14px; color:#b8b8d8; margin-bottom:20px; line-height:1.9; }
+.select-hint span { font-size:12px; color:#8888a8; }
+.center { text-align:center; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header">
+    <span class="header-icon" id="header-butterfly">🦋</span>
+    <div class="header-label" id="header-label">ONE STEP HAPPIER</div>
+    <div class="header-title" id="header-title">今すぐ幸せになる</div>
+    <div class="header-sub" id="header-sub">1ミリ上を目指すセッション</div>
+    <div id="zone-chip-wrap"></div>
+  </div>
+  <div class="lang-bar" id="lang-bar"></div>
+  <div id="screen"></div>
+</div>
+
+<script>
+// ============================================================
+// 多言語テキスト
+// ============================================================
+const LANGS = {
+  ja: {
+    code:"ja", label:"日本語",
+    headerTitle:"今すぐ幸せになる",
+    headerSub:"1ミリ上を目指すセッション",
+    introText:`感情には段階があります。\n嵐の中にいるとき、いきなり快晴にはなれません。\nそれは自然の法則に反しています。\n\n今日のゴールは今いる場所がどこであれ、\n1段だけ上の気分に移動することです。\n\n感情は少しずつなら意図的に\nましな気分に変えられます。\n\nそれを体験してください。`,
+    introNote:`感情は1段ずつ、意図的にコントロールできます。`,
+    tipping:"── Turning Point ──",
+    startBtn:"今の気分を確認する",    selectHint:"今の気分に最も近い感情を選んでください。",
+    selectHint2:"1番（喜び）が上、22番（絶望）が下です。",
+    continueBtn:"続ける",
+    endBtn:"終わる",
+    breathBtn:"呼吸を始める",
+    breathAgainBtn:"もう一度",
+    skipBtn:"今日はスキップする",
+    backBtn:"← 戻る",
+    restartBtn:"最初に戻る",
+    recheckBtn:"もう一度気分を確認する",
+    breath30label:"呼吸を観察してください。",
+    breath30sub:"変えなくていい。ただ気づくだけでいい。",
+    breath60label:"1分間、呼吸だけに意識を向けましょう。",
+    breathHint:"出てきた → 気づく → 手放す → 呼吸に戻る。",
+    inhale:"吸う  3秒", exhale:"吐く  5秒",
+    tickSoundTitle:"秒針音",
+    soundLabels:{ hz432:"🌌 432Hz", hz528:"✨ 528Hz", hz963:"👑 963Hz", delta:"🌊 デルタ波" },
+    reminderBtn:"🔔 毎日リマインダーを設定する",
+    reminderSet:"通知時間を選んでください",
+    reminderSave:"設定する",
+    reminderCancel:"キャンセル",
+    reminderOn:"🔔 毎日 {time} に通知します",
+    reminderOff:"通知をオフにする",
+    notifyTitle:"今すぐ幸せになる",
+    notifyBody:"今日の気分を少しだけあげてみませんか？",
+    notifyDenied:"通知がブロックされています。\nブラウザの設定から許可してください。",
+    zones:{
+      storm:{ name:"嵐", desc:"これ以上ないひどい気分。何もしたくない状態。" },
+      rain:{  name:"雨", desc:"思考が重い。プレッシャーを感じている。呼吸で1段上を目指す。" },
+      cloud:{ name:"曇り", desc:"何かがずれている感覚。呼吸で立ち止まる時間。" },
+      sunny:{ name:"快晴", desc:"気分が良い状態。直感に従っていい。" },
+    },
+    emotions:[
+      {n:1,  label:"喜び・愛・感謝・自由"},
+      {n:2,  label:"情熱"},
+      {n:3,  label:"熱意・意欲・幸福"},
+      {n:4,  label:"前向きな期待・信念"},
+      {n:5,  label:"楽観的な姿勢"},
+      {n:6,  label:"希望"},
+      {n:7,  label:"満足"},
+      {n:8,  label:"退屈"},
+      {n:9,  label:"悲観的な姿勢"},
+      {n:10, label:"不満・苛立ち・焦り"},
+      {n:11, label:"打ちのめされている"},
+      {n:12, label:"失望"},
+      {n:13, label:"疑い"},
+      {n:14, label:"心配"},
+      {n:15, label:"非難"},
+      {n:16, label:"落胆"},
+      {n:17, label:"怒り"},
+      {n:18, label:"復讐心"},
+      {n:19, label:"嫌悪・憤り"},
+      {n:20, label:"嫉妬"},
+      {n:21, label:"恐れ・悲しみ・罪悪感"},
+      {n:22, label:"絶望・無力感・うつ状態"},
+    ],
+    getMsgs(n, goalLabel, nLabel="") {
+      const z = getZone(n);
+      if (z.id==="storm") return [
+        `${n}番　${nLabel}。\n\n今日はただ一つだけ、お願いがあります。`,
+        `休んでください。\n体の力を緩めましょう。\n考えないでください。\nできれば、寝てください。`,
+        `寝ている間、人間は思考しません。\nそれだけで、嵐は少し静まります。`,
+        `目が覚めた瞬間がチャンスです。\n思考が動き始める前に、\nそっと呼吸に意識を向けてください。\n\nそれで十分です。`,
+        `今日はそれだけです。\n\nでも少しだけ、呼吸を観察してみましょうか？\n\n今はそれで十分です。`,
+      ];
+      if (n===1) return [
+        `1番　${nLabel}。\n快晴ゾーンにいます。\n明晰さを感じています。`,
+        `あなた本来の純粋なエネルギーが\n存分に流れています。\n感じましょう。\n味わいましょう。\n\nふとした直感がきたら、\nそのまま従ってみましょう。`,
+        `呼吸を感じながら、\nその感覚をもう少し味わいましょう。`,
+      ];
+      if (z.id==="sunny") return [
+        `${n}番　${nLabel}。\n\n今の呼吸を感じましょう。\nとてもいい気分ですね。`,
+        `今、呼吸しています。\nその呼吸を、ただ観察してください。\n深くなるのを感じてください。`,
+        `息が入ってくる。\n息が出ていく。\n\nそれだけに意識を向けてください。\n30秒、やってみましょう。`,
+        `呼吸を観察している間、\nいろんな思考が出ても大丈夫です。\nそっと手放しましょう。\n\n出てきた → 気づく → 手放す → 呼吸に戻る。`,
+        `今日のゴールは\n「${goalLabel}」の感覚。\n\n1ミリだけ。呼吸を観察しましょう。`,
+      ];
+      return [
+        `${n}番　${nLabel}。\n\n体の力を緩めてみましょう。\n\nそれで十分です。`,
+        `今、呼吸しています。\nその呼吸を、ただ観察してください。\n深くなるのを感じてください。`,
+        `息が入ってくる。\n息が出ていく。\n\nそれだけに意識を向けてください。\n30秒、やってみましょう。`,
+        `呼吸を観察している間、\nいろんな思考が出ても大丈夫です。\nそっと手放しましょう。\n\n出てきた → 気づく → 手放す → 呼吸に戻る。`,
+        `今日のゴールは\n「${goalLabel}」の感覚。\n\n呼吸を観察しましょう。\n呼吸に気づく。\n気づくことは大きな進歩です。`,
+      ];
+    },
+    afterBreathStorm:`もう少し楽になりたいですか？\n\n今度は「吐く」だけです。\n\nゆっくり、ゆっくり、\n肺の中が空っぽになるまで吐ききってください。\n\n吐ききると、体が自然に\n深く息を吸い始めます。\n\n90秒、秒針に合わせて\n吐き続けてみましょう。`,
+    exhaleLabel:"吐く",
+    afterBreathSunny:`深い呼吸を楽しめましたか？\n\n気分の良いとき、呼吸はゆったりと深くなります。\nそれがあなた本来のエネルギー状態です。\n思い出していますね。本当の自分を。\n\n存分に味わいましょう。\n\nもう一度、今度は1分間。\nこの心地よさを、さらに深めましょう。`,
+    afterBreathOther:`呼吸に意識を向けている間、\n少し静かになりませんでしたか？\n\n呼吸が浅くなっていることに気づけたら\n呼吸は深くなります。\n\n呼吸に意識を向けると、\n体は自然に、深く呼吸し始めます。\n\nもう一度、今度は1分間。\n思考が出てきたら、そっと手放しましょう。\nそして呼吸に戻りましょう。`,
+    doneStorm:`吐ききれましたか？\n始めは少しで大丈夫です。\n\n深く吸いましたか？\n\n勢いよく吸えた時の爽快感を\n味わってくださいね。\n\n今日はここまでです。\n\nくつろいでください。\nできれば寝てください。\n\n寝ている間、人間は思考しません。\n\n目が覚めた瞬間に\n呼吸に意識を向けてください。\n\nまた来てくださいね。`,
+    done1:`今のあなたは快晴ゾーンにいます。\n\n直感に従ってください。\n浮かんできたことを、やってみてください。\n\nその感覚を大切に。\n自分を信頼しましょう。`,
+    doneSunny(goalLabel){return `今日のセッションはここまでです。\n\nあなた本来の純粋なエネルギーの中にいます。\nそのままの気分を味わってください。\n\nなにげない直感が来たら従ってみましょう。\n\n今日のゴールは「${goalLabel}」\nの感覚に近づくこと。\n\n明日また1段。それだけでいい。`;},
+    doneOther(goalLabel){return `今日のセッションはここまでです。\n\n1ミリ感情が動きました。\n小さな変化です。\nそれで十分です。\n少しだけ、ましになった気分を感じてくださいね。\n\n今日のゴールは「${goalLabel}」\nの感覚に近づくこと。\n\n明日また1段。それだけでいい。`;}
+  },
+
+  en: {
+    code:"en", label:"English",
+    headerTitle:"One Step Happier",
+    headerSub:"Just one step at a time",
+    introText:`Emotions come in levels.\nWhen you're in a storm,\nyou can't jump straight to sunshine.\nThat would go against the laws of nature.\n\nToday's goal — wherever you are —\nis to move just one level up.\n\nEmotions can be shifted intentionally,\nlittle by little, toward feeling better.\n\nExperience it for yourself.`,
+    introNote:`Emotions can be controlled intentionally, one step at a time.`,
+    tipping:"── Turning Point ──",
+    startBtn:"Check your mood",
+    selectHint:"Choose the emotion closest to how you feel right now.",
+    selectHint2:"1 = Joy (lightest), 22 = Despair (heaviest).",
+    continueBtn:"Continue",
+    endBtn:"Finish",
+    breathBtn:"Start breathing",
+    breathAgainBtn:"Once more",
+    skipBtn:"Skip for today",
+    backBtn:"← Back",
+    restartBtn:"Start over",
+    recheckBtn:"Check mood again",
+    breath30label:"Observe your breath.",
+    breath30sub:"Don't change it. Just notice it.",
+    breath60label:"Focus only on your breath for 1 minute.",
+    breathHint:"Notice → Acknowledge → Release → Return to breath.",
+    inhale:"Inhale  3s", exhale:"Exhale  5s",
+    tickSoundTitle:"Tick Sound",
+    soundLabels:{ hz432:"🌌 432Hz", hz528:"✨ 528Hz", hz963:"👑 963Hz", delta:"🌊 Delta Wave" },
+    reminderBtn:"🔔 Set Daily Reminder",
+    reminderSet:"Choose notification time",
+    reminderSave:"Set",
+    reminderCancel:"Cancel",
+    reminderOn:"🔔 Daily reminder at {time}",
+    reminderOff:"Turn off notifications",
+    notifyTitle:"One Step Happier",
+    notifyBody:"Shall we lift your mood just a little today?",
+    notifyDenied:"Notifications are blocked.\nPlease allow them in your browser settings.",
+    zones:{
+      storm:{ name:"Storm", desc:"Feeling as bad as it gets. No energy for anything." },
+      rain:{  name:"Rain",  desc:"Thoughts feel heavy. Use breath to move one step up." },
+      cloud:{ name:"Cloudy", desc:"Something feels off. Time to pause with your breath." },
+      sunny:{ name:"Sunny", desc:"You feel good. Trust your instincts." },
+    },
+    emotions:[
+      {n:1,  label:"Joy · Love · Gratitude · Freedom"},
+      {n:2,  label:"Passion"},
+      {n:3,  label:"Enthusiasm · Eagerness · Happiness"},
+      {n:4,  label:"Positive expectation · Belief"},
+      {n:5,  label:"Optimism"},
+      {n:6,  label:"Hopefulness"},
+      {n:7,  label:"Contentment"},
+      {n:8,  label:"Boredom"},
+      {n:9,  label:"Pessimism"},
+      {n:10, label:"Frustration · Irritation · Impatience"},
+      {n:11, label:"Overwhelm"},
+      {n:12, label:"Disappointment"},
+      {n:13, label:"Doubt"},
+      {n:14, label:"Worry"},
+      {n:15, label:"Blame"},
+      {n:16, label:"Discouragement"},
+      {n:17, label:"Anger"},
+      {n:18, label:"Revenge"},
+      {n:19, label:"Hatred · Rage"},
+      {n:20, label:"Jealousy"},
+      {n:21, label:"Fear · Grief · Guilt"},
+      {n:22, label:"Despair · Powerlessness · Depression"},
+    ],
+    getMsgs(n, goalLabel, nLabel="") {
+      const z = getZone(n);
+      if (z.id==="storm") return [
+        `#${n}  ${nLabel}.\n\nJust one request for today.`,
+        `Rest.\nRelax your body.\nStop thinking.\nIf you can — sleep.`,
+        `While you sleep, the mind stops.\nThat alone calms the storm a little.`,
+        `The moment you wake up is your chance.\nBefore thoughts begin,\ngently bring your attention to your breath.\n\nThat's enough.`,
+        `That's all for today.\n\nBut shall we observe the breath\njust a little?`,
+        `Shall we observe the breath\njust a little?\n\nThat's enough for now.`,
+      ];
+      if (n===1) return [
+        `#1  ${nLabel}.
+ You're in the Sunny zone.\nYou feel clarity.`,
+        `Your pure natural energy is flowing freely.\nFeel it.\nSavor it.\n\nIf an intuition arises,\nfollow it.`,
+        `Feel your breath\nand enjoy this feeling a little longer.`,
+      ];
+      if (z.id==="sunny") return [
+        `#${n}  ${nLabel}.\n\nFeel your breath right now.\nYou're feeling good.`,
+        `You are breathing.\nJust observe that breath.\nFeel it deepen.`,
+        `Breathe in.\nBreathe out.\n\nFocus only on that.\nLet's try for 30 seconds.`,
+        `Thoughts may have come up while observing.\nThat's okay.\nGently release them.\n\nNotice → Acknowledge → Release → Return.`,
+        `Today's goal:\n"${goalLabel}"\n\nJust one step. Observe your breath.`,
+      ];
+      return [
+        `#${n}  ${nLabel}.\n\nRelax your body.\nLet go of any tension.\n\nThat's enough.`,
+        `You are breathing.\nJust observe that breath.\nFeel it deepen.`,
+        `Breathe in.\nBreathe out.\n\nFocus only on that.\nLet's try for 30 seconds.`,
+        `Thoughts may have come up while observing.\nThat's okay.\nGently release them.\n\nNotice → Acknowledge → Release → Return.`,
+        `Today's goal:\n"${goalLabel}"\n\nJust one step. Observe your breath.`,
+      ];
+    },
+    afterBreathStorm:`Would you like to feel a little better?\n\nThis time — just exhale.\n\nSlowly, slowly,\nexhale until your lungs are completely empty.\n\nWhen you exhale fully,\nyour body will naturally breathe deeply in.\n\n90 seconds — follow the tick.\nJust keep exhaling.`,
+    exhaleLabel:"Exhale",
+    afterBreathSunny:`Did you enjoy the deep breath?\n\nWhen you feel good, your breath is naturally deep and slow.\nThis is your natural state of energy.\nYou are remembering your true self.\n\nSavor it fully.\n\nOnce more — this time for 1 minute.\nLet's deepen this feeling even more.`,
+    afterBreathOther:`Did things feel a little quieter\nwhile you focused on your breath?\n\nWhen we feel low, our breath becomes shallow.\nBut when we turn attention to it,\nthe body naturally begins to breathe deeper.\n\nOnce more — this time for 1 minute.\nWhen thoughts arise, gently release them\nand return to your breath.`,
+    doneStorm:`Did you exhale fully?\nA little is enough at first.\n\nDid you breathe in deeply?\n\nSavor that rush of fresh air\nwhen it came in.\n\nThat's enough for today.\n\nRest. Sleep if you can.\n\nWhile you sleep, the mind stops.\n\nThe moment you wake,\nbring your attention to your breath.\n\nCome back again.`,
+    done1:`You are in the Sunny zone.\n\nFollow your intuition.\nTry what comes to mind.\n\nTrust yourself.`,
+    doneSunny(g){return `Session complete.\n\nYou are in your natural pure energy.\nStay with this feeling.\n\nIf a quiet intuition arises, follow it.\n\nToday's goal: "${g}"\n\nOne more step tomorrow.`;},
+    doneOther(g){return `Session complete.\n\nYour emotion shifted — just a little.\nA small change.\nThat is enough.\nNotice that things feel slightly better.\n\nToday's goal: "${g}"\n\nOne more step tomorrow.`;}
+  },
+
+  es: {
+    code:"es", label:"Español",
+    headerTitle:"Un Paso Más Feliz",
+    headerSub:"Un paso a la vez",
+    introText:`Las emociones tienen niveles.\nCuando estás en una tormenta,\nno puedes saltar directamente al sol.\nEso iría en contra de las leyes de la naturaleza.\n\nEl objetivo de hoy — donde sea que estés —\nes subir solo un nivel.\n\nLas emociones pueden cambiarse intencionalmente,\npoco a poco, hacia sentirte mejor.\n\nExperiméntalo por ti mismo.`,
+    introNote:`Las emociones se pueden controlar intencionalmente, un paso a la vez.`,
+    tipping:"── Punto de Cambio ──",
+    startBtn:"Verificar mi estado",
+    selectHint:"Elige la emoción más cercana a cómo te sientes ahora.",
+    selectHint2:"1 = Alegría (más leve), 22 = Desesperación (más pesada).",
+    continueBtn:"Continuar",
+    endBtn:"Terminar",
+    breathBtn:"Comenzar respiración",
+    breathAgainBtn:"Una vez más",
+    skipBtn:"Omitir por hoy",
+    backBtn:"← Volver",
+    restartBtn:"Volver al inicio",
+    recheckBtn:"Verificar estado de nuevo",
+    breath30label:"Observa tu respiración.",
+    breath30sub:"No la cambies. Solo obsérvala.",
+    breath60label:"Enfócate solo en tu respiración por 1 minuto.",
+    breathHint:"Nota → Reconoce → Suelta → Vuelve a la respiración.",
+    inhale:"Inhala  3s", exhale:"Exhala  5s",
+    tickSoundTitle:"Sonido de Reloj",
+    soundLabels:{ hz432:"🌌 432Hz", hz528:"✨ 528Hz", hz963:"👑 963Hz", delta:"🌊 Onda Delta" },
+    reminderBtn:"🔔 Establecer recordatorio diario",
+    reminderSet:"Elige la hora de notificación",
+    reminderSave:"Establecer",
+    reminderCancel:"Cancelar",
+    reminderOn:"🔔 Recordatorio diario a las {time}",
+    reminderOff:"Desactivar notificaciones",
+    notifyTitle:"One Step Happier",
+    notifyBody:"¿Subimos un poco tu estado de ánimo hoy?",
+    notifyDenied:"Las notificaciones están bloqueadas.\nPermítelas en la configuración de tu navegador.",
+    zones:{
+      storm:{ name:"Tormenta", desc:"La peor sensación posible. Sin ganas de hacer nada." },
+      rain:{  name:"Lluvia",   desc:"Pensamientos pesados. Usa la respiración para subir un escalón." },
+      cloud:{ name:"Nublado",  desc:"Algo se siente fuera de lugar. Pausa con tu respiración." },
+      sunny:{ name:"Soleado",  desc:"Te sientes bien. Confía en tus instintos." },
+    },
+    emotions:[
+      {n:1,  label:"Alegría · Amor · Gratitud · Libertad"},
+      {n:2,  label:"Pasión"},
+      {n:3,  label:"Entusiasmo · Felicidad"},
+      {n:4,  label:"Expectativa positiva · Fe"},
+      {n:5,  label:"Optimismo"},
+      {n:6,  label:"Esperanza"},
+      {n:7,  label:"Satisfacción"},
+      {n:8,  label:"Aburrimiento"},
+      {n:9,  label:"Pesimismo"},
+      {n:10, label:"Frustración · Irritación · Impaciencia"},
+      {n:11, label:"Agobio"},
+      {n:12, label:"Decepción"},
+      {n:13, label:"Duda"},
+      {n:14, label:"Preocupación"},
+      {n:15, label:"Culpa a otros"},
+      {n:16, label:"Desaliento"},
+      {n:17, label:"Enojo"},
+      {n:18, label:"Venganza"},
+      {n:19, label:"Odio · Rabia"},
+      {n:20, label:"Celos"},
+      {n:21, label:"Miedo · Tristeza · Culpa"},
+      {n:22, label:"Desesperación · Impotencia · Depresión"},
+    ],
+    getMsgs(n, goalLabel, nLabel="") {
+      const z = getZone(n);
+      if (z.id==="storm") return [
+        `#${n}  ${nLabel}.\n\nSolo una petición para hoy.`,
+        `Descansa.\nRelaja tu cuerpo.\nDeja de pensar.\nSi puedes — duerme.`,
+        `Mientras duermes, la mente se detiene.\nEso solo calma la tormenta un poco.`,
+        `El momento de despertar es tu oportunidad.\nAntes de que empiecen los pensamientos,\nlleva suavemente tu atención a tu respiración.\n\nEso es suficiente.`,
+        `Eso es todo por hoy.\n\nVuelve pronto.`,
+        `Si puedes, observa tu respiración.\n\nEso es suficiente por ahora.`,
+      ];
+      if (n===1) return [
+        `#1  ${nLabel}.\n Estás en la zona Soleada.\nSientes claridad.`,
+        `Tu energía natural pura fluye libremente.\nSiéntela.\nSabóreala.\n\nSi surge una intuición,\nsíguela.`,
+        `Siente tu respiración\ny disfruta un poco más de esta sensación.`,
+      ];
+      return [
+        `#${n}  ${nLabel}.\n\nRelaja tu cuerpo.\nSuelta cualquier tensión.\n\nEso es suficiente.`,
+        `Estás respirando.\nSolo observa esa respiración.\nSiente cómo se profundiza.`,
+        `El aire entra.\nEl aire sale.\n\nEnfócate solo en eso.\n30 segundos.`,
+        `Pueden surgir pensamientos.\nEsá bien.\nSuéltalos suavemente.\n\nNota → Reconoce → Suelta → Vuelve.`,
+        `Objetivo de hoy:\n"${goalLabel}"\n\nSolo un paso. Observa tu respiración.`,
+      ];
+    },
+    afterBreathStorm:`¿Quieres sentirte un poco mejor?\n\nEsta vez — solo exhala.\n\nDespacio, despacio,\nexhala hasta vaciar completamente los pulmones.\n\nAl exhalar del todo,\ntu cuerpo respirará profundo de forma natural.\n\n90 segundos — sigue el tic.\nSolo sigue exhalando.`,
+    exhaleLabel:"Exhala",
+    afterBreathSunny:`¿Disfrutaste la respiración profunda?\n\nCuando te sientes bien, tu respiración es naturalmente profunda.\nEste es tu estado natural de energía.\n\nSabórealo plenamente.\n\nUna vez más — esta vez 1 minuto.\nProfundicemos aún más esta sensación.`,
+    afterBreathOther:`¿Las cosas se sintieron más tranquilas\nmientras enfocabas tu respiración?\n\nCuando nos sentimos mal, la respiración se vuelve superficial.\nPero cuando le ponemos atención,\nel cuerpo naturalmente comienza a respirar más profundo.\n\nUna vez más — esta vez 1 minuto.\nSuelta los pensamientos y vuelve a tu respiración.`,
+    doneStorm:`¿Pudiste exhalar del todo?\nAl principio, un poco es suficiente.\n\n¿Pudiste respirar profundo?\n\nSaborea esa sensación de alivio\ncuando el aire entró con fuerza.\n\nEso es suficiente por hoy.\n\nDescansa. Duerme si puedes.\n\nMientras duermes, la mente se detiene.\n\nAl despertar,\nlleva tu atención a tu respiración.\n\nVuelve pronto.`,
+    done1:`Estás en la zona Soleada.\n\nSigue tu intuición.\nPrueba lo que se te ocurra.\n\nConfía en ti mismo.`,
+    doneSunny(g){return `Sesión completa.\n\nEstás en tu energía pura y natural.\nQuédate con esta sensación.\n\nSi surge una intuición, síguela.\n\nObjetivo de hoy: "${g}"\n\nUn paso más mañana.`;},
+    doneOther(g){return `Sesión completa.\n\nTu emoción se movió — solo un poco.\nUn pequeño cambio.\nEso es suficiente.\n\nObjetivo de hoy: "${g}"\n\nUn paso más mañana.`;}
+  },
+
+  zh: {
+    code:"zh", label:"中文",
+    headerTitle:"一步更快乐",
+    headerSub:"每次只走一步",
+    introText:`情绪是有层次的。\n当你处于风暴中时，\n你无法一下子跳到晴天。\n那违背了自然法则。\n\n今天的目标——无论你在哪里——\n只是向上移动一级。\n\n情绪可以有意识地改变，\n一点一点地，朝着感觉更好的方向。\n\n亲身体验一下。`,
+    introNote:`情绪可以有意识地控制，一次一步。`,
+    tipping:"── 转折点 ──",
+    startBtn:"确认我的心情",
+    selectHint:"选择最接近你现在感受的情绪。",
+    selectHint2:"1 = 喜悦（最轻），22 = 绝望（最重）。",
+    continueBtn:"继续",
+    endBtn:"结束",
+    breathBtn:"开始呼吸",
+    breathAgainBtn:"再来一次",
+    skipBtn:"今天跳过",
+    backBtn:"← 返回",
+    restartBtn:"重新开始",
+    recheckBtn:"再次确认心情",
+    breath30label:"观察你的呼吸。",
+    breath30sub:"不要改变它。只是注意它。",
+    breath60label:"专注于呼吸1分钟。",
+    breathHint:"注意 → 认识 → 放下 → 回到呼吸。",
+    inhale:"吸气  3秒", exhale:"呼气  5秒",
+    tickSoundTitle:"秒针音效",
+    soundLabels:{ hz432:"🌌 432Hz", hz528:"✨ 528Hz", hz963:"👑 963Hz", delta:"🌊 德尔塔波" },
+    reminderBtn:"🔔 设置每日提醒",
+    reminderSet:"选择通知时间",
+    reminderSave:"设置",
+    reminderCancel:"取消",
+    reminderOn:"🔔 每天 {time} 提醒您",
+    reminderOff:"关闭通知",
+    notifyTitle:"One Step Happier",
+    notifyBody:"今天稍微提升一下心情如何？",
+    notifyDenied:"通知已被屏蔽。\n请在浏览器设置中允许通知。",
+    zones:{
+      storm:{ name:"暴风雨", desc:"感觉糟透了。什么都不想做。" },
+      rain:{  name:"下雨",   desc:"思绪沉重。用呼吸向上走一步。" },
+      cloud:{ name:"多云",   desc:"感觉有些不对。用呼吸暂停一下。" },
+      sunny:{ name:"晴天",   desc:"感觉良好。相信你的直觉。" },
+    },
+    emotions:[
+      {n:1,  label:"喜悦·爱·感恩·自由"},
+      {n:2,  label:"激情"},
+      {n:3,  label:"热情·积极·幸福"},
+      {n:4,  label:"积极期待·信念"},
+      {n:5,  label:"乐观"},
+      {n:6,  label:"希望"},
+      {n:7,  label:"满足"},
+      {n:8,  label:"无聊"},
+      {n:9,  label:"悲观"},
+      {n:10, label:"沮丧·烦躁·不耐烦"},
+      {n:11, label:"不知所措"},
+      {n:12, label:"失望"},
+      {n:13, label:"怀疑"},
+      {n:14, label:"担心"},
+      {n:15, label:"责备"},
+      {n:16, label:"气馁"},
+      {n:17, label:"愤怒"},
+      {n:18, label:"报复心"},
+      {n:19, label:"憎恨·暴怒"},
+      {n:20, label:"嫉妒"},
+      {n:21, label:"恐惧·悲伤·罪恶感"},
+      {n:22, label:"绝望·无力感·抑郁"},
+    ],
+    getMsgs(n, goalLabel, nLabel="") {
+      const z = getZone(n);
+      if (z.id==="storm") return [
+        `第${n}级　${nLabel}。\n\n今天只有一个请求。`,
+        `休息。\n放松你的身体。\n停止思考。\n如果可以——睡觉。`,
+        `睡眠时，思维停止。\n这本身就能让暴风雨平静一些。`,
+        `醒来的那一刻是你的机会。\n在思绪开始之前，\n轻轻地将注意力转向呼吸。\n\n这就足够了。`,
+        `今天就到这里。\n\n再来吧。`,
+        `如果可以，请观察你的呼吸。\n\n现在这就足够了。`,
+      ];
+      if (n===1) return [
+        `第1级　${nLabel}。\n你在晴天区域。\n感受到清明。`,
+        `你本源的纯净能量正在充分流动。\n感受它。\n品味它。\n\n如果有直觉浮现，\n跟随它。`,
+        `感受你的呼吸，\n再多享受一会儿这种感觉。`,
+      ];
+      return [
+        `第${n}级　${nLabel}。\n\n放松你的身体。\n释放任何紧张感。\n\n这就足够了。`,
+        `你正在呼吸。\n只是观察那个呼吸。\n感受它变深。`,
+        `气息进来。\n气息出去。\n\n只专注于此。\n试试30秒。`,
+        `观察时可能会有思绪出现。\n没关系。\n轻轻放下它们。\n\n注意 → 认识 → 放下 → 回来。`,
+        `今天的目标：\n"${goalLabel}"\n\n只走一步。观察你的呼吸。`,
+      ];
+    },
+    afterBreathStorm:`想感觉好一点吗？\n\n这次——只是呼气。\n\n慢慢地，慢慢地，\n呼气直到肺部完全排空。\n\n当你完全呼出时，\n身体会自然地深吸一口气。\n\n90秒——跟随秒针。\n只是继续呼气。`,
+    exhaleLabel:"呼气",
+    afterBreathSunny:`你享受深呼吸了吗？\n\n感觉良好时，呼吸自然深沉而缓慢。\n这是你的自然能量状态。\n你正在想起真实的自己。\n\n尽情品味。\n\n再来一次——这次1分钟。\n让我们更深地感受这种美好。`,
+    afterBreathOther:`当你专注于呼吸时，\n是否感觉稍微安静了一些？\n\n心情不好时，呼吸会变浅。\n但当我们关注呼吸时，\n身体自然开始深呼吸。\n\n再来一次——这次1分钟。\n思绪出现时，轻轻放下，\n回到呼吸。`,
+    doneStorm:`你完全呼出了吗？\n刚开始呼出一点点也没关系。\n\n你深深吸气了吗？\n\n品味那股气息涌入时的\n畅快感吧。\n\n今天到这里就够了。\n\n休息吧。如果可以，请睡觉。\n\n睡眠时，思维停止。\n\n醒来时，\n将注意力转向呼吸。\n\n再来吧。`,
+    done1:`你在晴天区域。\n\n跟随你的直觉。\n尝试脑中浮现的事情。\n\n相信自己。`,
+    doneSunny(g){return `练习完成。\n\n你正处于本源的纯净能量中。\n保持这种感觉。\n\n如果有直觉浮现，跟随它。\n\n今天的目标："${g}"\n\n明天再走一步。`;},
+    doneOther(g){return `练习完成。\n\n情绪移动了——只是一点点。\n小小的变化。\n这就足够了。\n\n今天的目标："${g}"\n\n明天再走一步。`;}
+  },
+
+  ko: {
+    code:"ko", label:"한국어",
+    headerTitle:"한 걸음 더 행복하게",
+    headerSub:"한 번에 한 걸음씩",
+    introText:`감정에는 단계가 있습니다.\n폭풍 속에 있을 때,\n갑자기 맑은 날씨가 될 수는 없습니다.\n그것은 자연의 법칙에 어긋납니다.\n\n오늘의 목표는 지금 있는 곳이 어디든,\n단 한 단계만 위로 올라가는 것입니다.\n\n감정은 조금씩 의도적으로\n더 나은 기분으로 바꿀 수 있습니다.\n\n직접 체험해 보세요.`,
+    introNote:`감정은 한 단계씩 의도적으로 조절할 수 있습니다.`,
+    tipping:"── 전환점 ──",
+    startBtn:"지금 기분 확인하기",
+    selectHint:"지금 느끼는 감정에 가장 가까운 것을 선택하세요.",
+    selectHint2:"1 = 기쁨 (가장 가벼움), 22 = 절망 (가장 무거움).",
+    continueBtn:"계속",
+    endBtn:"끝내기",
+    breathBtn:"호흡 시작",
+    breathAgainBtn:"한 번 더",
+    skipBtn:"오늘은 건너뛰기",
+    backBtn:"← 뒤로",
+    restartBtn:"처음으로",
+    recheckBtn:"기분 다시 확인",
+    breath30label:"호흡을 관찰하세요.",
+    breath30sub:"바꾸지 않아도 됩니다. 그저 알아차리기만 하세요.",
+    breath60label:"1분 동안 호흡에만 집중하세요.",
+    breathHint:"알아차림 → 인식 → 내려놓기 → 호흡으로 돌아오기.",
+    inhale:"들이쉬기  3초", exhale:"내쉬기  5초",
+    tickSoundTitle:"초침 소리",
+    soundLabels:{ hz432:"🌌 432Hz", hz528:"✨ 528Hz", hz963:"👑 963Hz", delta:"🌊 델타파" },
+    reminderBtn:"🔔 매일 알림 설정",
+    reminderSet:"알림 시간을 선택하세요",
+    reminderSave:"설정",
+    reminderCancel:"취소",
+    reminderOn:"🔔 매일 {time} 에 알림",
+    reminderOff:"알림 끄기",
+    notifyTitle:"One Step Happier",
+    notifyBody:"오늘 기분을 조금만 올려볼까요?",
+    notifyDenied:"알림이 차단되어 있습니다.\n브라우저 설정에서 허용해 주세요.",
+    zones:{
+      storm:{ name:"폭풍",   desc:"최악의 기분. 아무것도 하기 싫은 상태." },
+      rain:{  name:"비",     desc:"생각이 무겁습니다. 호흡으로 한 단계 올라가세요." },
+      cloud:{ name:"흐림",   desc:"뭔가 어긋난 느낌. 호흡으로 잠시 멈추세요." },
+      sunny:{ name:"맑음",   desc:"기분이 좋습니다. 직감을 믿으세요." },
+    },
+    emotions:[
+      {n:1,  label:"기쁨·사랑·감사·자유"},
+      {n:2,  label:"열정"},
+      {n:3,  label:"열의·의욕·행복"},
+      {n:4,  label:"긍정적 기대·믿음"},
+      {n:5,  label:"낙관"},
+      {n:6,  label:"희망"},
+      {n:7,  label:"만족"},
+      {n:8,  label:"지루함"},
+      {n:9,  label:"비관"},
+      {n:10, label:"불만·짜증·초조"},
+      {n:11, label:"압도됨"},
+      {n:12, label:"실망"},
+      {n:13, label:"의심"},
+      {n:14, label:"걱정"},
+      {n:15, label:"비난"},
+      {n:16, label:"낙담"},
+      {n:17, label:"분노"},
+      {n:18, label:"복수심"},
+      {n:19, label:"혐오·격분"},
+      {n:20, label:"질투"},
+      {n:21, label:"두려움·슬픔·죄책감"},
+      {n:22, label:"절망·무력감·우울"},
+    ],
+    getMsgs(n, goalLabel, nLabel="") {
+      const z = getZone(n);
+      if (z.id==="storm") return [
+        `${n}번　${nLabel}.\n\n오늘은 딱 한 가지만 부탁드립니다.`,
+        `쉬세요.\n몸의 힘을 빼세요.\n생각을 멈추세요.\n가능하면 — 주무세요.`,
+        `잠자는 동안 마음은 멈춥니다.\n그것만으로도 폭풍은 조금 잠잠해집니다.`,
+        `눈을 뜨는 순간이 기회입니다.\n생각이 시작되기 전에,\n조용히 호흡에 주의를 기울이세요.\n\n그것으로 충분합니다.`,
+        `오늘은 여기까지입니다.\n\n다시 오세요.`,
+        `가능하다면 호흡을 관찰해 보세요.\n\n지금은 그것으로 충분합니다.`,
+      ];
+      if (n===1) return [
+        `1번　${nLabel}.\n맑음 구역에 있습니다.\n명료함을 느끼고 있습니다.`,
+        `당신 본래의 순수한 에너지가\n충분히 흐르고 있습니다.\n느끼세요.\n음미하세요.\n\n직감이 오면\n따라가 보세요.`,
+        `호흡을 느끼면서\n이 감각을 조금 더 음미하세요.`,
+      ];
+      return [
+        `${n}번　${nLabel}.\n\n몸의 힘을 빼보세요.\n\n그것으로 충분합니다.`,
+        `지금 호흡하고 있습니다.\n그 호흡을 그저 관찰하세요.\n깊어지는 것을 느껴보세요.`,
+        `숨이 들어옵니다.\n숨이 나갑니다.\n\n그것에만 집중하세요.\n30초 해보세요.`,
+        `관찰하는 동안 생각이 올 수 있습니다.\n괜찮습니다.\n조용히 내려놓으세요.\n\n알아차림 → 인식 → 내려놓기 → 돌아오기.`,
+        `오늘의 목표:\n"${goalLabel}"\n\n딱 한 걸음. 호흡을 관찰하세요.`,
+      ];
+    },
+    afterBreathStorm:`조금 더 편해지고 싶으신가요？\n\n이번엔 — 내쉬기만 하세요.\n\n천천히, 천천히,\n폐가 완전히 비워질 때까지 내쉬세요.\n\n완전히 내쉬면,\n몸이 자연스럽게 깊게 들이쉽니다.\n\n90초 — 초침을 따라\n계속 내쉬어 보세요.`,
+    exhaleLabel:"내쉬기",
+    afterBreathSunny:`깊은 호흡을 즐기셨나요?\n\n기분이 좋을 때 호흡은 자연스럽게 깊고 여유롭습니다.\n이것이 당신 본래의 에너지 상태입니다.\n진정한 자신을 기억하고 있네요.\n\n충분히 음미하세요.\n\n한 번 더 — 이번엔 1분.\n이 편안함을 더 깊이 느껴봅시다.`,
+    afterBreathOther:`호흡에 집중하는 동안\n조금 조용해지지 않았나요?\n\n기분이 좋지 않을 때 호흡은 얕아집니다.\n하지만 호흡에 주의를 기울이면\n몸은 자연스럽게 깊게 호흡하기 시작합니다.\n\n한 번 더 — 이번엔 1분.\n생각이 오면 조용히 내려놓고\n호흡으로 돌아오세요.`,
+    doneStorm:`완전히 내쉬셨나요?\n처음엔 조금만 해도 괜찮습니다.\n\n깊게 들이쉬셨나요？\n\n숨이 세차게 들어왔을 때의\n그 상쾌함을 느껴보세요.\n\n오늘은 여기까지면 충분합니다.\n\n편히 쉬세요. 가능하면 주무세요.\n\n잠자는 동안 마음은 멈춥니다.\n\n눈을 뜨는 순간\n호흡에 주의를 기울이세요.\n\n다시 오세요.`,
+    done1:`맑음 구역에 있습니다.\n\n직감을 따르세요.\n떠오르는 것을 해보세요.\n\n자신을 믿으세요.`,
+    doneSunny(g){return `세션 완료.\n\n본래의 순수한 에너지 안에 있습니다.\n이 기분을 그대로 음미하세요.\n\n직감이 오면 따라가 보세요.\n\n오늘의 목표: "${g}"\n\n내일 또 한 걸음.`;},
+    doneOther(g){return `세션 완료.\n\n감정이 조금 움직였습니다.\n작은 변화입니다.\n그것으로 충분합니다.\n\n오늘의 목표: "${g}"\n\n내일 또 한 걸음.`;}
+  }
+};
+
+// ============================================================
+// ゾーン定義
+// ============================================================
+const ZONES = {
+  storm:{ id:"storm", emoji:"⛈",  range:[17,22], bg:"#2a1040", accent:"#7c3aed", glow:"#c4b5fd", text:"#f0e8ff" },
+  rain: { id:"rain",  emoji:"🌧", range:[12,16], bg:"#0f2040", accent:"#2563eb", glow:"#93c5fd", text:"#e0f0ff" },
+  cloud:{ id:"cloud", emoji:"🌤", range:[8,11],  bg:"#0f2030", accent:"#0891b2", glow:"#67e8f9", text:"#e0f8ff" },
+  sunny:{ id:"sunny", emoji:"☀️", range:[1,7],   bg:"#0a2818", accent:"#16a34a", glow:"#86efac", text:"#e0ffe8" },
+};
+
+function getZone(n) {
+  if (n >= 17) return ZONES.storm;
+  if (n >= 12) return ZONES.rain;
+  if (n >= 8)  return ZONES.cloud;
+  return ZONES.sunny;
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let lang = LANGS.ja;
+let state = { step:"intro", n:null, zone:null, goalN:null, goalLabel:null, msgs:[], mi:0, history:[] };
+
+function setState(patch) {
+  if (patch.step && patch.step !== state.step) {
+    state.history.push(state.step);
+  }
+  Object.assign(state, patch);
+  render();
+}
+
+function goBack() {
+  if (state.history.length === 0) return;
+  const prev = state.history.pop();
+  state.step = prev;
+  // breathステップから戻るときインターバルをクリア
+  if (state.breathInterval) { state.breathInterval.clear(); state.breathInterval = null; }
+  if (state.countInterval)  { clearInterval(state.countInterval); state.countInterval = null; }
+  render();
+}
+
+// ============================================================
+// 秒針音 - 5種類・選択可能
+// ============================================================
+let _audioCtx = null;
+function getAudioCtx() {
+  if (!_audioCtx || _audioCtx.state === "closed") {
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (_audioCtx.state === "suspended") _audioCtx.resume();
+  return _audioCtx;
+}
+document.addEventListener("touchstart", function initAudio() {
+  try { getAudioCtx(); } catch(e) {}
+}, { once: true });
+
+let currentSound = localStorage.getItem("tickSound") || "hz528";
+
+
+const SOUNDS = {
+  hz432: {
+    label:"🌌 432Hz",
+    play(ctx) {
+      const now=ctx.currentTime;
+      [432, 864, 1296].forEach((freq,i) => {
+        const osc=ctx.createOscillator(), g=ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.type="sine"; osc.frequency.value=freq;
+        g.gain.setValueAtTime([0.18,0.07,0.03][i], now);
+        g.gain.exponentialRampToValueAtTime(0.001, now+0.32);
+        osc.start(now); osc.stop(now+0.32);
+      });
+    }
+  },
+  hz528: {
+    label:"✨ 528Hz",
+    play(ctx) {
+      const now=ctx.currentTime;
+      [528, 1056, 1584].forEach((freq,i) => {
+        const osc=ctx.createOscillator(), g=ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.type="sine"; osc.frequency.value=freq;
+        g.gain.setValueAtTime([0.18,0.07,0.03][i], now);
+        g.gain.exponentialRampToValueAtTime(0.001, now+0.28);
+        osc.start(now); osc.stop(now+0.28);
+      });
+    }
+  },
+  hz963: {
+    label:"👑 963Hz",
+    play(ctx) {
+      const now=ctx.currentTime;
+      [963, 1926].forEach((freq,i) => {
+        const osc=ctx.createOscillator(), g=ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.type="sine"; osc.frequency.value=freq;
+        g.gain.setValueAtTime(i===0?0.16:0.05, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now+0.22);
+        osc.start(now); osc.stop(now+0.22);
+      });
+    }
+  },
+  delta: {
+    label:"🌊 デルタ波",
+    play(ctx) {
+      const now=ctx.currentTime;
+      // 200Hzと202Hzで2Hzのバイノーラルビート（デルタ波域）
+      // + 528Hzの軽いキャリア音で存在感を持たせる
+      [[200,0.15],[202,0.15],[528,0.06]].forEach(([freq,vol]) => {
+        const osc=ctx.createOscillator(), g=ctx.createGain();
+        osc.connect(g); g.connect(ctx.destination);
+        osc.type="sine"; osc.frequency.value=freq;
+        g.gain.setValueAtTime(vol, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now+0.4);
+        osc.start(now); osc.stop(now+0.4);
+      });
+    }
+  }
+};
+
+
+function playTick() {
+  try {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    SOUNDS[currentSound].play(ctx);
+  } catch(e) {}
+}
+
+function renderSoundSelector(container) {
+  const wrap = document.createElement("div");
+  wrap.style.cssText = "margin:20px 0 0;";
+  const label = document.createElement("div");
+  label.style.cssText = "font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.35);margin-bottom:10px;text-align:center;";
+  label.textContent = (lang.tickSoundTitle || "TICK SOUND").toUpperCase();
+  wrap.appendChild(label);
+  const row = document.createElement("div");
+  row.style.cssText = "display:flex;flex-wrap:wrap;gap:7px;justify-content:center;";
+  Object.entries(SOUNDS).forEach(([id, s]) => {
+    const displayLabel = (lang.soundLabels && lang.soundLabels[id]) ? lang.soundLabels[id] : s.label;
+    const btn = document.createElement("button");
+    btn.id = "snd_"+id;
+    btn.style.cssText = `background:${currentSound===id?"rgba(255,255,255,0.18)":"rgba(255,255,255,0.07)"};border:1px solid ${currentSound===id?"rgba(255,255,255,0.5)":"rgba(255,255,255,0.18)"};border-radius:20px;padding:6px 14px;color:${currentSound===id?"#fff":"rgba(255,255,255,0.55)"};cursor:pointer;font-size:12px;font-family:inherit;transition:all 0.2s;`;
+    btn.textContent = displayLabel;
+    btn.onclick = () => {
+      currentSound = id;
+      try { localStorage.setItem("tickSound", id); } catch(e) {}
+      playTick();
+      row.querySelectorAll("button").forEach(b => {
+        b.style.background = "rgba(255,255,255,0.07)";
+        b.style.borderColor = "rgba(255,255,255,0.18)";
+        b.style.color = "rgba(255,255,255,0.55)";
+      });
+      btn.style.background = "rgba(255,255,255,0.18)";
+      btn.style.borderColor = "rgba(255,255,255,0.5)";
+      btn.style.color = "#fff";
+    };
+    row.appendChild(btn);
+  });
+  wrap.appendChild(row);
+  container.appendChild(wrap);
+}
+
+// ============================================================
+// タイプライター
+// ============================================================
+let twTimer = null;
+function typewrite(el, text, speed, onDone) {
+  if (twTimer) clearInterval(twTimer);
+  let i = 0; el.innerHTML = "";
+  const cur = document.createElement("span");
+  cur.className = "cursor"; cur.textContent = "▌";
+  twTimer = setInterval(() => {
+    if (i < text.length) { el.textContent = text.slice(0,i+1); el.appendChild(cur); i++; }
+    else { clearInterval(twTimer); cur.remove(); onDone?.(); }
+  }, speed);
+}
+
+// ============================================================
+// 呼吸
+// ============================================================
+function startBreath(zone, seconds, onDone) {
+  const circle = document.getElementById("breath-circle");
+  const timer  = document.getElementById("breath-timer");
+  if (!circle || !timer) return;
+  circle.style.background = `radial-gradient(circle,${zone.glow}28 0%,transparent 70%)`;
+  circle.style.border = `1.5px solid ${zone.glow}77`;
+  circle.style.color  = `${zone.glow}ee`;
+  let phase = "in", left = seconds;
+  const INHALE = 3000, EXHALE = 5000;
+  function updateCircle() {
+    const dur = phase==="in" ? INHALE : EXHALE;
+    circle.style.transition = `transform ${dur}ms cubic-bezier(0.4,0,0.2,1)`;
+    circle.style.transform  = `scale(${phase==="in"?1.3:0.78})`;
+    circle.textContent = phase==="in" ? lang.inhale : lang.exhale;
+  }
+  updateCircle();
+  if (state.breathInterval) state.breathInterval.clear();
+  if (state.countInterval)  clearInterval(state.countInterval);
+  let phaseTimer;
+  function scheduleNext() {
+    const dur = phase==="in" ? INHALE : EXHALE;
+    phaseTimer = setTimeout(() => { phase = phase==="in"?"out":"in"; updateCircle(); scheduleNext(); }, dur);
+  }
+  scheduleNext();
+  state.breathInterval = { clear: () => clearTimeout(phaseTimer) };
+  const ci = setInterval(() => {
+    left--; playTick();
+    if (timer) timer.textContent = left > 0 ? `${left}s` : "✓";
+    if (left <= 0) { clearInterval(ci); state.breathInterval?.clear(); onDone?.(); }
+  }, 1000);
+  state.countInterval = ci;
+  timer.textContent = `${left}s`;
+}
+
+// ============================================================
+// 蝶アイコン生成（512×512px - Retina対応）
+// ============================================================
+function generateButterflyIcon() {
+  try {
+    const S = 512;
+    const c = document.createElement("canvas");
+    c.width = S; c.height = S;
+    const ctx = c.getContext("2d");
+    // ダーク背景（グラデーション）
+    const bg = ctx.createRadialGradient(S*0.5,S*0.45,S*0.05, S*0.5,S*0.5,S*0.5);
+    bg.addColorStop(0,"#2a1248");
+    bg.addColorStop(1,"#0a0518");
+    ctx.fillStyle = bg;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(0,0,S,S,S*0.2); else ctx.rect(0,0,S,S);
+    ctx.fill();
+    // 光彩
+    const glow = ctx.createRadialGradient(S*0.5,S*0.5,S*0.05, S*0.5,S*0.5,S*0.42);
+    glow.addColorStop(0,"rgba(190,140,255,0.3)");
+    glow.addColorStop(0.5,"rgba(120,90,220,0.12)");
+    glow.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(0,0,S,S);
+    // 蝶（大きく・くっきり）
+    ctx.font = `${Math.floor(S*0.62)}px serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.shadowColor = "rgba(190,140,255,0.95)";
+    ctx.shadowBlur = S * 0.08;
+    ctx.fillText("🦋", S*0.5, S*0.52);
+    ctx.shadowBlur = 0;
+    const dataURL = c.toDataURL("image/png");
+    document.getElementById("touch-icon").href = dataURL;
+    document.getElementById("favicon").href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a0a2e'/><text y='.88em' font-size='72' x='10'>🦋</text></svg>";
+  } catch(e) {}
+}
+
+// ============================================================
+// 言語バー
+// ============================================================
+function renderLangBar() {
+  const bar = document.getElementById("lang-bar");
+  bar.innerHTML = "";
+  Object.values(LANGS).forEach(l => {
+    const btn = document.createElement("button");
+    btn.className = "lang-btn" + (l.code===lang.code?" active":"");
+    btn.textContent = l.label;
+    btn.onclick = () => {
+      lang = LANGS[l.code];
+      setState({ step:"intro", n:null, zone:null, goalN:null, goalLabel:null, msgs:[], mi:0, history:[] });
+    };
+    bar.appendChild(btn);
+  });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  const scr = document.getElementById("screen");
+  const z = state.zone;
+  document.body.style.background = z ? z.bg : "#1a1020";
+  document.getElementById("header-title").textContent = lang.headerTitle;
+  document.getElementById("header-sub").textContent   = lang.headerSub;
+  // zone chip
+  const chipWrap = document.getElementById("zone-chip-wrap");
+  if (z) {
+    const zname = lang.zones[z.id].name;
+    chipWrap.innerHTML = `<span class='zone-chip' style='border:1px solid ${z.glow}44;color:${z.glow};background:${z.accent}18'>${z.emoji} ${zname}</span>`;
+  } else { chipWrap.innerHTML = ""; }
+  renderLangBar();
+  // HOMEボタン（intro以外の画面で表示）
+  const existingHome = document.getElementById("home-btn");
+  if (existingHome) existingHome.remove();
+  if (state.step !== "intro") {
+    const homeBtn = document.createElement("button");
+    homeBtn.id = "home-btn";
+    homeBtn.className = "home-btn";
+    homeBtn.textContent = "HOME";
+    homeBtn.onclick = () => setState({step:"intro", n:null, zone:null, goalN:null, goalLabel:null, msgs:[], mi:0, history:[]});
+    document.querySelector(".header").appendChild(homeBtn);
+  }
+  scr.innerHTML = "";
+  const div = document.createElement("div");
+  div.className = "screen";
+  if      (state.step==="intro")        renderIntro(div);
+  else if (state.step==="select")       renderSelect(div);
+  else if (state.step==="session")      renderSession(div);
+  else if (state.step==="breath")       renderBreath(div,30,"afterbreath");
+  else if (state.step==="afterbreath")  renderAfterBreath(div);
+  else if (state.step==="breathstorm")  renderBreathStorm(div);
+  else if (state.step==="breath2")      renderBreath(div,60,"done");
+  else if (state.step==="done")         renderDone(div);
+  scr.appendChild(div);
+}
+
+// ============================================================
+// リマインダー機能
+// ============================================================
+let reminderInterval = null;
+
+function getReminderTime() {
+  try { return localStorage.getItem("reminderTime") || null; } catch(e) { return null; }
+}
+function setReminderTime(t) {
+  try { localStorage.setItem("reminderTime", t); } catch(e) {}
+}
+function clearReminderTime() {
+  try { localStorage.removeItem("reminderTime"); } catch(e) {}
+}
+
+function scheduleReminder(timeStr) {
+  if (reminderInterval) clearInterval(reminderInterval);
+  reminderInterval = setInterval(() => {
+    const now = new Date();
+    const [h, m] = timeStr.split(":").map(Number);
+    if (now.getHours() === h && now.getMinutes() === m && now.getSeconds() < 5) {
+      if (Notification.permission === "granted") {
+        new Notification(lang.notifyTitle, {
+          body: lang.notifyBody,
+          icon: document.querySelector("link[rel='apple-touch-icon']")?.href || ""
+        });
+      }
+    }
+  }, 3000);
+}
+
+async function requestAndSchedule(timeStr) {
+  if (!("Notification" in window)) return false;
+  if (Notification.permission === "denied") {
+    alert(lang.notifyDenied);
+    return false;
+  }
+  if (Notification.permission !== "granted") {
+    const perm = await Notification.requestPermission();
+    if (perm !== "granted") {
+      alert(lang.notifyDenied);
+      return false;
+    }
+  }
+  setReminderTime(timeStr);
+  scheduleReminder(timeStr);
+  return true;
+}
+
+// ページ読み込み時に既存のリマインダーを復元
+window.addEventListener("load", () => {
+  const t = getReminderTime();
+  if (t) scheduleReminder(t);
+});
+
+function renderReminderSection(div) {
+  const savedTime = getReminderTime();
+  const wrap = div.appendChild(document.createElement("div"));
+  wrap.id = "reminder-wrap";
+  wrap.style.cssText = "margin:24px 0 0;text-align:center;";
+
+  if (savedTime) {
+    // 設定済み表示
+    const onLabel = document.createElement("div");
+    onLabel.style.cssText = "font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:10px;";
+    onLabel.textContent = lang.reminderOn.replace("{time}", savedTime);
+    wrap.appendChild(onLabel);
+    const offBtn = document.createElement("button");
+    offBtn.style.cssText = "background:transparent;border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:7px 18px;color:rgba(255,255,255,0.4);cursor:pointer;font-size:12px;font-family:inherit;";
+    offBtn.textContent = lang.reminderOff;
+    offBtn.onclick = () => {
+      clearReminderTime();
+      if (reminderInterval) { clearInterval(reminderInterval); reminderInterval = null; }
+      renderReminderSection_refresh(wrap);
+    };
+    wrap.appendChild(offBtn);
+  } else {
+    // 未設定表示
+    const setBtn = document.createElement("button");
+    setBtn.style.cssText = "background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:9px 20px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:13px;font-family:inherit;transition:all 0.2s;";
+    setBtn.textContent = lang.reminderBtn;
+    setBtn.onclick = () => showTimePickerInline(wrap);
+    wrap.appendChild(setBtn);
+  }
+}
+
+function renderReminderSection_refresh(wrap) {
+  wrap.innerHTML = "";
+  const savedTime = getReminderTime();
+  if (savedTime) {
+    const onLabel = document.createElement("div");
+    onLabel.style.cssText = "font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:10px;";
+    onLabel.textContent = lang.reminderOn.replace("{time}", savedTime);
+    wrap.appendChild(onLabel);
+    const offBtn = document.createElement("button");
+    offBtn.style.cssText = "background:transparent;border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:7px 18px;color:rgba(255,255,255,0.4);cursor:pointer;font-size:12px;font-family:inherit;";
+    offBtn.textContent = lang.reminderOff;
+    offBtn.onclick = () => {
+      clearReminderTime();
+      if (reminderInterval) { clearInterval(reminderInterval); reminderInterval = null; }
+      renderReminderSection_refresh(wrap);
+    };
+    wrap.appendChild(offBtn);
+  } else {
+    const setBtn = document.createElement("button");
+    setBtn.style.cssText = "background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:9px 20px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:13px;font-family:inherit;";
+    setBtn.textContent = lang.reminderBtn;
+    setBtn.onclick = () => showTimePickerInline(wrap);
+    wrap.appendChild(setBtn);
+  }
+}
+
+function showTimePickerInline(wrap) {
+  wrap.innerHTML = "";
+  const label = document.createElement("div");
+  label.style.cssText = "font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:10px;";
+  label.textContent = lang.reminderSet;
+  wrap.appendChild(label);
+  const row = document.createElement("div");
+  row.style.cssText = "display:flex;align-items:center;justify-content:center;gap:10px;";
+  const input = document.createElement("input");
+  input.type = "time";
+  input.value = "08:00";
+  input.style.cssText = "background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:8px 14px;color:#fff;font-size:16px;font-family:inherit;outline:none;";
+  row.appendChild(input);
+  const saveBtn = document.createElement("button");
+  saveBtn.style.cssText = "background:rgba(160,100,255,0.35);border:1px solid rgba(160,100,255,0.6);border-radius:20px;padding:8px 18px;color:#fff;cursor:pointer;font-size:13px;font-family:inherit;";
+  saveBtn.textContent = lang.reminderSave;
+  saveBtn.onclick = async () => {
+    const ok = await requestAndSchedule(input.value);
+    if (ok) renderReminderSection_refresh(wrap);
+  };
+  row.appendChild(saveBtn);
+  const cancelBtn = document.createElement("button");
+  cancelBtn.style.cssText = "background:transparent;border:none;color:rgba(255,255,255,0.35);cursor:pointer;font-size:13px;font-family:inherit;padding:8px;";
+  cancelBtn.textContent = lang.reminderCancel;
+  cancelBtn.onclick = () => renderReminderSection_refresh(wrap);
+  row.appendChild(cancelBtn);
+  wrap.appendChild(row);
+}
+
+
+// ---- INTRO ----
+function renderIntro(div) {
+  const txt = div.appendChild(document.createElement("div"));
+  txt.className = "intro-text";
+  txt.innerHTML = lang.introText.replace(/\n/g,"<br>") +
+    `<br><br><span class='intro-note'>${lang.introNote}</span>`;
+  // ゾーンカード（快晴が上）
+  const zonesRev = Object.values(ZONES).slice().reverse();
+  zonesRev.forEach((z,i) => {
+    if (i===1) { const t=div.appendChild(document.createElement("div")); t.className="tipping"; t.textContent=lang.tipping; }
+    const card = div.appendChild(document.createElement("div"));
+    card.className = "zone-card";
+    card.style.background = z.accent+"22"; card.style.border = `1px solid ${z.accent}55`;
+    const zl = lang.zones[z.id];
+    card.innerHTML = `<span style='font-size:22px'>${z.emoji}</span><div>
+      <div class='zone-card-name' style='color:${z.text}'>${zl.name}<span class='zone-card-range'> ${z.range[0]}–${z.range[1]}</span></div>
+      <div class='zone-card-desc'>${zl.desc}</div></div>`;
+  });
+  const btn = div.appendChild(document.createElement("button"));
+  btn.className="nb"; btn.style.marginTop="28px";
+  btn.textContent = lang.startBtn;
+  btn.onclick = () => setState({step:"select"});
+  // リマインダー
+  renderReminderSection(div);
+}
+
+// ---- SELECT ----
+function renderSelect(div) {
+  const hint = div.appendChild(document.createElement("div"));
+  hint.className="select-hint";
+  hint.innerHTML = `${lang.selectHint}<br><span>${lang.selectHint2}</span>`;
+  const emotions = lang.emotions; // 1が先頭
+  emotions.forEach(e => {
+    if (e.n===8) { const t=div.appendChild(document.createElement("div")); t.className="tipping"; t.style.padding="10px 0"; t.textContent=lang.tipping; }
+    const z = getZone(e.n);
+    const btn = div.appendChild(document.createElement("button"));
+    btn.className="emo-btn"; btn.style.borderLeft=`3px solid ${z.accent}77`;
+    btn.innerHTML = `<span class='emo-num'>${e.n}</span><span>${e.label}</span>`;
+    btn.onclick = () => {
+      const zone = getZone(e.n);
+      const emos = lang.emotions;
+      const idx  = emos.findIndex(x=>x.n===e.n);
+      const goalEmo = idx>0 ? emos[idx-1] : emos[0];
+      const goalLabel = `${goalEmo.n}番　${goalEmo.label}`;
+      const nLabel = e.label;
+      setState({ n:e.n, zone, goalN:goalEmo.n, goalLabel, msgs:lang.getMsgs(e.n, goalLabel, nLabel), mi:0, step:"session" });
+    };
+  });
+}
+
+// ---- SESSION ----
+function renderSession(div) {
+  const z = state.zone;
+  const msgBox = div.appendChild(document.createElement("div"));
+  msgBox.className="msg-box"; msgBox.style.color=z.text;
+  const btnRow = div.appendChild(document.createElement("div"));
+  btnRow.className="btn-row";
+  const isLast     = state.mi >= state.msgs.length-1;
+  const isStorm    = z.id==="storm";
+  const isStormBreath = isStorm && isLast; // 嵐の最後＝呼吸誘導画面
+  const isEnd1     = state.n===1;
+
+  typewrite(msgBox, state.msgs[state.mi], 28, () => {
+    // 戻るボタン
+    if (state.mi > 0) {
+      const bk = document.createElement("button");
+      bk.className="nb-back"; bk.textContent=lang.backBtn;
+      bk.onclick = () => { state.mi--; state.history.pop(); setState({}); };
+      btnRow.appendChild(bk);
+    }
+
+    if (isStormBreath) {
+      // 嵐ゾーン最後：呼吸ボタン＋スキップ
+      const nx = document.createElement("button");
+      nx.className="nb"; nx.textContent=lang.breathBtn;
+      nx.onclick = () => setState({step:"breath"});
+      btnRow.appendChild(nx);
+      const sk = document.createElement("button");
+      sk.className="nb-ghost"; sk.textContent=lang.skipBtn;
+      sk.onclick = () => setState({step:"done"});
+      btnRow.appendChild(sk);
+    } else if (isLast && isEnd1) {
+      const nx = document.createElement("button");
+      nx.className="nb"; nx.textContent=lang.endBtn;
+      nx.onclick = () => setState({step:"done"});
+      btnRow.appendChild(nx);
+    } else if (isLast) {
+      const nx = document.createElement("button");
+      nx.className="nb"; nx.textContent=lang.breathBtn;
+      nx.onclick = () => setState({step:"breath"});
+      btnRow.appendChild(nx);
+    } else {
+      const nx = document.createElement("button");
+      nx.className="nb"; nx.textContent=lang.continueBtn;
+      nx.onclick = () => setState({mi:state.mi+1});
+      btnRow.appendChild(nx);
+    }
+  });
+}
+
+// ---- BREATH ----
+function renderBreath(div, seconds, nextStep) {
+  const z = state.zone;
+  const lbl = div.appendChild(document.createElement("div"));
+  lbl.className="breath-label";
+  lbl.innerHTML = seconds===30
+    ? `${lang.breath30label}<br><span>${lang.breath30sub}</span>`
+    : lang.breath60label;
+  const wrap = div.appendChild(document.createElement("div"));
+  wrap.className="breath-wrap";
+  wrap.innerHTML = `<div class='breath-circle' id='breath-circle'></div><div class='breath-timer' id='breath-timer'></div>`;
+  if (seconds===30) {
+    const hint = div.appendChild(document.createElement("div"));
+    hint.className="breath-hint"; hint.textContent=lang.breathHint;
+  }
+  // 戻るボタン
+  const bkRow = div.appendChild(document.createElement("div"));
+  bkRow.className="center";
+  const bk = document.createElement("button");
+  bk.className="nb-back"; bk.textContent=lang.backBtn; bk.style.marginTop="20px";
+  bk.onclick = goBack;
+  bkRow.appendChild(bk);
+  // 音選択
+  renderSoundSelector(div);
+  setTimeout(()=>startBreath(z, seconds, ()=>setState({step:nextStep})), 60);
+}
+
+// ---- AFTER BREATH ----
+function renderAfterBreath(div) {
+  const z = state.zone;
+  const msgBox = div.appendChild(document.createElement("div"));
+  msgBox.className="msg-box"; msgBox.style.color=z.text;
+  const btnRow = div.appendChild(document.createElement("div"));
+  btnRow.className="btn-row";
+  const isStorm = z.id==="storm";
+  const isSunny = z.id==="sunny";
+  const text = isStorm ? lang.afterBreathStorm : (isSunny ? lang.afterBreathSunny : lang.afterBreathOther);
+  typewrite(msgBox, text, 26, () => {
+    const bk = document.createElement("button");
+    bk.className="nb-back"; bk.textContent=lang.backBtn;
+    bk.onclick = goBack;
+    btnRow.appendChild(bk);
+    const nx = document.createElement("button");
+    nx.className="nb"; nx.textContent=isStorm ? lang.breathBtn : lang.breathAgainBtn;
+    nx.onclick = () => setState({step: isStorm ? "breathstorm" : "breath2"});
+    btnRow.appendChild(nx);
+    if (isStorm) {
+      const sk = document.createElement("button");
+      sk.className="nb-ghost"; sk.textContent=lang.skipBtn;
+      sk.onclick = () => setState({step:"done"});
+      btnRow.appendChild(sk);
+    }
+  });
+}
+
+// ---- BREATH STORM (吐くだけ 90秒) ----
+function renderBreathStorm(div) {
+  const z = state.zone;
+
+  // ラベル（他ゾーンと同じ構造）
+  const lbl = div.appendChild(document.createElement("div"));
+  lbl.className="breath-label";
+  lbl.textContent = lang.breath30label; // 「呼吸を観察してください。」の位置に使う
+
+  // 円＋タイマー（他ゾーンと全く同じ構造）
+  const wrap = div.appendChild(document.createElement("div"));
+  wrap.className="breath-wrap";
+  wrap.innerHTML = `<div class='breath-circle' id='breath-circle'></div><div class='breath-timer' id='breath-timer'></div>`;
+
+  // 戻るボタン
+  const bkRow = div.appendChild(document.createElement("div"));
+  bkRow.className="center";
+  const bk = document.createElement("button");
+  bk.className="nb-back"; bk.textContent=lang.backBtn; bk.style.marginTop="20px";
+  bk.onclick = goBack;
+  bkRow.appendChild(bk);
+
+  // 音選択
+  renderSoundSelector(div);
+
+  // 吐くだけアニメーション開始
+  setTimeout(() => {
+    const circle = document.getElementById("breath-circle");
+    const timer  = document.getElementById("breath-timer");
+    if (!circle || !timer) return;
+
+    // 円のスタイル（嵐ゾーンカラー）
+    circle.style.background = `radial-gradient(circle,${z.glow}28 0%,transparent 70%)`;
+    circle.style.border = `1.5px solid ${z.glow}77`;
+    circle.style.color  = `${z.glow}ee`;
+
+    // 吐くだけ：常に縮む方向にアニメーション
+    // 8秒かけてゆっくり縮む → また縮むを繰り返す
+    let shrinking = true;
+    function animateExhale() {
+      circle.style.transition = `transform 8000ms cubic-bezier(0.4,0,0.6,1)`;
+      circle.style.transform  = shrinking ? "scale(0.72)" : "scale(1.05)";
+      circle.textContent = lang.exhaleLabel;
+      shrinking = !shrinking;
+    }
+    animateExhale();
+    const animInterval = setInterval(animateExhale, 8000);
+    state.breathInterval = { clear: () => clearInterval(animInterval) };
+
+    // 90秒カウントダウン
+    let left = 90;
+    timer.textContent = `${left}s`;
+    if (state.countInterval) clearInterval(state.countInterval);
+    const ci = setInterval(() => {
+      playTick();
+      left--;
+      timer.textContent = left > 0 ? `${left}s` : "✓";
+      if (left <= 0) {
+        clearInterval(ci);
+        state.breathInterval?.clear();
+        setState({step:"done"});
+      }
+    }, 1000);
+    state.countInterval = ci;
+  }, 60);
+}
+
+// ---- DONE ----
+function renderDone(div) {
+  const z = state.zone; const n = state.n; const gl = state.goalLabel;
+  const msgBox = div.appendChild(document.createElement("div"));
+  msgBox.className="msg-box"; msgBox.style.color=z.text; msgBox.style.textAlign="center";
+  const btns = div.appendChild(document.createElement("div"));
+  btns.className="done-btns";
+  let text;
+  if (z.id==="storm")       text = lang.doneStorm;
+  else if (n===1)           text = lang.done1;
+  else if (z.id==="sunny")  text = lang.doneSunny(gl);
+  else                      text = lang.doneOther(gl);
+  typewrite(msgBox, text, 26, () => {
+    const orn = document.createElement("div"); orn.className="done-ornament"; orn.textContent="— 🦋 —";
+    btns.appendChild(orn);
+    const b1 = document.createElement("button"); b1.className="nb"; b1.textContent=lang.restartBtn;
+    b1.onclick = ()=>setState({step:"intro",n:null,zone:null,goalN:null,goalLabel:null,msgs:[],mi:0,history:[]});
+    btns.appendChild(b1);
+    const b2 = document.createElement("button"); b2.className="nb-ghost"; b2.textContent=lang.recheckBtn;
+    b2.onclick = ()=>setState({step:"select",history:[]});
+    btns.appendChild(b2);
+  });
+}
+
+// ============================================================
+// START
+// ============================================================
+window.addEventListener("load", () => { generateButterflyIcon(); render(); });
+</script>
+</body>
+</html>
