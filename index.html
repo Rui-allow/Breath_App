@@ -48,7 +48,7 @@
   --z-pill-c: #ff9966;
 }
 
-html, body { height: 100%; }
+html, body { height: 100%; margin: 0; padding: 0; }
 
 body {
   background: var(--bg);
@@ -56,10 +56,10 @@ body {
   font-weight: 300;
   color: var(--text);
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  padding: 20px 16px;
   overflow-x: hidden;
 }
 
@@ -82,12 +82,12 @@ body {
 }
 
 /* ── App ── */
-.app { position: relative; z-index: 1; width: 100%; max-width: 400px; display: flex; flex-direction: column; }
+.app { position: relative; z-index: 1; width: 100%; max-width: 480px; display: flex; flex-direction: column; }
 
 /* ── Topbar ── */
 .topbar {
   display: flex; justify-content: flex-start; align-items: center;
-  padding: 0 2px; margin-bottom: 14px; min-height: 36px;
+  padding: 12px 20px 0; margin-bottom: 0; min-height: 48px;
 }
 .nav-area { display: flex; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
 .nav-area.show { opacity: 1; pointer-events: auto; }
@@ -117,12 +117,13 @@ body {
 .card {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--z-border);
-  border-radius: var(--r);
+  border-radius: 0;
   backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255,153,102,0.04), 0 20px 60px rgba(0,0,0,0.45),
-              inset 0 1px 0 rgba(255,200,150,0.07);
-  min-height: 480px; display: flex; flex-direction: column;
+  box-shadow: none;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   transition: border-color 1.2s ease;
 }
 .card::before {
@@ -133,7 +134,7 @@ body {
 }
 
 /* ── Screens ── */
-.screen { display: none; flex-direction: column; flex: 1; padding: 32px 28px 28px; }
+.screen { display: none; flex-direction: column; flex: 1; padding: 24px 28px 40px; }
 .screen.active { display: flex; animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) both; }
 @keyframes revealUp {
   from { opacity: 0; transform: translateY(14px); }
@@ -351,7 +352,7 @@ body {
         </div>
       </div>
       <div class="spacer"></div>
-      <button class="btn" onclick="next(2)" data-i18n="s1btn">今の気分を確認する</button>
+      <button class="btn" onclick="next(2)" data-i18n="s1btn">今の気分をチェックする</button>
     </div>
 
     <!-- S2: Mood -->
@@ -505,7 +506,7 @@ const LANGS = {
     s1p1:'感情は、一気に変えることはできません',
     s1p2:'でも、少しずつなら動かせます',
     s1p3:'呼吸を、少しだけ観察してみましょう',
-    s1btn:'今の気分を確認する',
+    s1btn:'今の気分をチェックする',
     s2title:'今の気分に近いもの',
     s3p1:'今の気分に気づけただけで、', s3p2:'十分です', s3btn:'つづける',
     soundLabel:'音を選ぶ', hz432:'自然な共鳴', hz528:'修復・癒し', hz963:'意識の覚醒',
@@ -725,7 +726,7 @@ function playTick() {
     const osc = ctx.createOscillator(), gain = ctx.createGain();
     osc.type = 'sine'; osc.frequency.value = soundFreq;
     gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime+0.03);
+    gain.gain.linearRampToValueAtTime(0.24, ctx.currentTime+0.03);
     gain.gain.linearRampToValueAtTime(0, ctx.currentTime+0.15);
     osc.connect(gain); gain.connect(ctx.destination);
     osc.start(); osc.stop(ctx.currentTime+0.18);
