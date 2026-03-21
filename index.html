@@ -150,11 +150,11 @@ body {
 }
 
 .tagline {
-  font-size: 13px; letter-spacing: 0.14em;
+  font-size: 19px; letter-spacing: 0.08em;
   color: #f5c07a; margin-bottom: 28px; font-weight: 300;
 }
 
-.body-text { font-size: 15px; line-height: 2; color: var(--text); }
+.body-text { font-size: 15px; line-height: 2; color: var(--text); text-align: center; }
 .body-text .dim { color: var(--sub); }
 .spacer { flex: 1; min-height: 12px; }
 
@@ -179,8 +179,8 @@ body {
 /* ── Sound selector ── */
 .sound-section { margin-top: 22px; }
 .sound-label {
-  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--sub); margin-bottom: 10px;
+  font-size: 14px; letter-spacing: 0.10em;
+  color: var(--sub); margin-bottom: 12px; font-weight: 300;
 }
 .sound-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 .sound-btn {
@@ -197,13 +197,13 @@ body {
 .sound-btn.active .hz { color: var(--accent); }
 
 /* ── Mood list ── */
-.mood-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.mood-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; flex: 1; }
 .mood-item {
   display: flex; align-items: center; gap: 16px;
-  padding: 15px 18px; border-radius: var(--rs);
+  padding: 0 18px; border-radius: var(--rs);
   background: var(--surface); border: 1px solid var(--border);
   cursor: pointer; transition: background 0.22s, border-color 0.22s, transform 0.18s;
-  position: relative; overflow: hidden;
+  position: relative; overflow: hidden; flex: 1;
 }
 .mood-item::before {
   content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
@@ -212,8 +212,8 @@ body {
 }
 .mood-item:hover { background: var(--surface2); border-color: var(--border2); transform: translateX(4px); }
 .mood-item:hover::before { opacity: 1; }
-.mood-icon  { font-size: 22px; width: 28px; text-align: center; flex-shrink: 0; }
-.mood-emotion { font-size: 22px; }
+.mood-icon  { font-size: 28px; width: 34px; text-align: center; flex-shrink: 0; }
+.mood-emotion { font-size: 28px; }
 
 /* ── Zone pill ── */
 .zone-pill {
@@ -326,7 +326,7 @@ body {
           <button class="lang-btn"        onclick="setLang('es')">ES</button>
         </div>
       </div>
-      <div class="tagline" data-i18n="tagline">今すぐ、幸せになる</div>
+      <div class="tagline" data-i18n="tagline">今すぐ幸せになる</div>
       <div class="body-text">
         <p class="dim" data-i18n="s1p1">感情は、一気に変えることはできません</p>
         <br>
@@ -334,6 +334,7 @@ body {
         <br>
         <p data-i18n="s1p3">呼吸を、少しだけ観察してみましょう</p>
       </div>
+      <div class="spacer"></div>
       <div class="sound-section">
         <div class="sound-label" data-i18n="soundLabel">音を選ぶ</div>
         <div class="sound-grid">
@@ -351,13 +352,12 @@ body {
           </button>
         </div>
       </div>
-      <div class="spacer"></div>
-      <button class="btn" onclick="next(2)" data-i18n="s1btn">今の気分をチェックする</button>
+      <button class="btn" onclick="next(2)" data-i18n="s1btn" style="margin-top:20px;">今の気分をチェックする</button>
     </div>
 
     <!-- S2: Mood -->
-    <div id="s2" class="screen">
-      <p data-i18n="s2title">今の気分に近いもの</p>
+    <div id="s2" class="screen" style="display:none;flex-direction:column;">
+      <p data-i18n="s2title" style="font-size:18px;text-align:center;margin-bottom:4px;">今の気分に近いもの</p>
       <div class="mood-list">
         <div class="mood-item" onclick="selectZone('sun')">
           <span class="mood-icon">🌞</span><span class="mood-emotion">😊</span>
@@ -502,7 +502,7 @@ const ZONE_THEMES = {
 ═══════════════════════════════ */
 const LANGS = {
   ja: {
-    home:'ホーム', tagline:'今すぐ、幸せになる',
+    home:'ホーム', tagline:'今すぐ幸せになる',
     s1p1:'感情は、一気に変えることはできません',
     s1p2:'でも、少しずつなら動かせます',
     s1p3:'呼吸を、少しだけ観察してみましょう',
