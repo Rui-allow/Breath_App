@@ -328,17 +328,19 @@ body{
 ═══════════════════════════════ */
 #s3.active .ack-badge{animation:goldReveal 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both;}
 #s3.active .ack-line1{animation:riseUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.45s both;}
-#s3.active .ack-line2{animation:riseUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.65s both;}
-#s3.active .ack-btn  {animation:riseUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.85s both;}
-.ack-badge,.ack-line1,.ack-line2,.ack-btn{opacity:0;}
+#s3.active .ack-line2{animation:riseUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.70s both;}
+#s3.active .ack-line3{animation:riseUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.95s both;}
+#s3.active .ack-btn  {animation:riseUp 0.8s cubic-bezier(0.22,1,0.36,1) 1.15s both;}
+.ack-badge,.ack-line1,.ack-line2,.ack-line3,.ack-btn{opacity:0;}
 #s3.active .ack-badge,
 #s3.active .ack-line1,
 #s3.active .ack-line2,
+#s3.active .ack-line3,
 #s3.active .ack-btn{opacity:1;}
 
 .ack-body{
   flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;gap:0;
+  align-items:center;justify-content:center;text-align:center;gap:4px;
 }
 .ack-badge{
   display:inline-flex;align-items:center;gap:10px;
@@ -348,6 +350,11 @@ body{
   box-shadow:0 0 16px rgba(212,168,76,0.12);
 }
 .ack-line1,.ack-line2{
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:26px;line-height:1.7;color:var(--sub);
+  display:block;
+}
+.ack-line3{
   font-family:var(--serif);font-style:italic;font-weight:300;
   font-size:26px;line-height:1.7;color:var(--text);
   display:block;
@@ -521,8 +528,9 @@ body{
     <div id="s3" class="screen">
       <div class="ack-body">
         <div class="ack-badge" id="zoneBadge">🌞 😊</div>
-        <span class="ack-line1" data-i="s3p1">今の気分に気づけただけで、</span>
-        <span class="ack-line2" data-i="s3p2">十分です</span>
+        <span class="ack-line1" data-i="s3p1">今の気分に</span>
+        <span class="ack-line2" data-i="s3p2">気づいただけで</span>
+        <span class="ack-line3" data-i="s3p3">十分です</span>
       </div>
       <button class="btn ack-btn" onclick="startBreath()" data-i="s3btn">つづける</button>
     </div>
@@ -666,7 +674,7 @@ const L={
     s1p3:'呼吸を、少しだけ観察してみましょう',s1btn:'今の気分をチェックする',
     soundLabel:'秒針音',hz432:'自然な共鳴',hz528:'修復・癒し',hz963:'意識の覚醒',
     s2title:'今の気分に近いもの',
-    s3p1:'今の気分に気づけただけで、',s3p2:'十分です',s3btn:'つづける',
+    s3p1:'今の気分に',s3p2:'気づいただけで',s3p3:'十分です',s3btn:'つづける',
     guide1m:'通常の呼吸　1分',guide90:'吐くだけ　90秒',phIn:'吸う',phOut:'吐く',
     transP1:'次は、吐くことだけに<br>任せてみます',transP2:'肺の空気が、自然に出ていきます',transbtn:'つづける',
     finP1:'それで十分です',finP2:'あなたは今、少し上にいます',finNote:'また、いつでも',finBtn:'もう一度'},
@@ -675,14 +683,14 @@ const L={
     s1p3:'Observe your breath for a moment.',s1btn:'Check how you feel',
     soundLabel:'Tone',hz432:'Natural resonance',hz528:'Repair & healing',hz963:'Awakening',
     s2title:'Which feels closest to now?',
-    s3p1:'Just noticing how you feel',s3p2:'is enough.',s3btn:'Continue',
+    s3p1:'Just noticing',s3p2:'how you feel',s3p3:'is enough.',s3btn:'Continue',
     guide1m:'Breathing · 1 min',guide90:'Exhale only · 90 sec',phIn:'Inhale',phOut:'Exhale',
     transP1:"Now, let's just<br>exhale.",transP2:'Let the air find its own way out.',transbtn:'Continue',
     finP1:'That was enough.',finP2:"You're a little higher now.",finNote:'Come back anytime.',finBtn:'Again'},
   zh:{home:'主页',tagline:'立刻，感到幸福',
     s1p1:'情绪无法一下子改变，',s1p2:'但可以慢慢移动。',s1p3:'试着观察一下呼吸吧。',
     s1btn:'确认现在的心情',soundLabel:'节拍音',hz432:'自然共鸣',hz528:'修复与疗愈',hz963:'意识觉醒',
-    s2title:'最接近你现在心情的是？',s3p1:'能意识到自己的心情，',s3p2:'就已经足够了。',s3btn:'继续',
+    s2title:'最接近你现在心情的是？',s3p1:'能意识到',s3p2:'自己的心情，',s3p3:'就已经足够了。',s3btn:'继续',
     guide1m:'呼吸练习　1分钟',guide90:'仅呼气　90秒',phIn:'吸气',phOut:'呼气',
     transP1:'接下来，把一切<br>交给呼气。',transP2:'让空气自然地流出。',transbtn:'继续',
     finP1:'这就足够了。',finP2:'你现在，比刚才好一点点。',finNote:'随时都可以回来。',finBtn:'再来一次'},
@@ -690,7 +698,7 @@ const L={
     s1p1:'Las emociones no cambian de golpe.',s1p2:'Pero pueden moverse, poco a poco.',
     s1p3:'Observa tu respiración un momento.',s1btn:'Ver cómo me siento',
     soundLabel:'Sonido',hz432:'Resonancia natural',hz528:'Reparación y alivio',hz963:'Despertar',
-    s2title:'¿Cuál se acerca más a ahora?',s3p1:'Solo notar cómo te sientes',s3p2:'ya es suficiente.',s3btn:'Continuar',
+    s2title:'¿Cuál se acerca más a ahora?',s3p1:'Solo notar',s3p2:'cómo te sientes',s3p3:'ya es suficiente.',s3btn:'Continuar',
     guide1m:'Respiración · 1 min',guide90:'Solo exhalar · 90 seg',phIn:'Inhala',phOut:'Exhala',
     transP1:'Ahora, solo<br>exhala.',transP2:'Deja que el aire salga solo.',transbtn:'Continuar',
     finP1:'Eso fue suficiente.',finP2:'Estás un poco mejor ahora.',finNote:'Vuelve cuando quieras.',finBtn:'Otra vez'},
