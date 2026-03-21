@@ -179,7 +179,7 @@ body {
 .sound-section { margin-top: 22px; }
 .sound-label {
   font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--dim); margin-bottom: 10px;
+  color: var(--sub); margin-bottom: 10px;
 }
 .sound-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 .sound-btn {
@@ -725,7 +725,7 @@ function playTick() {
     const osc = ctx.createOscillator(), gain = ctx.createGain();
     osc.type = 'sine'; osc.frequency.value = soundFreq;
     gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.013, ctx.currentTime+0.03);
+    gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime+0.03);
     gain.gain.linearRampToValueAtTime(0, ctx.currentTime+0.15);
     osc.connect(gain); gain.connect(ctx.destination);
     osc.start(); osc.stop(ctx.currentTime+0.18);
