@@ -154,8 +154,8 @@ body {
   color: #f5c07a; margin-bottom: 28px; font-weight: 300;
 }
 
-.body-text { font-size: 15px; line-height: 2; color: var(--text); text-align: center; }
-.body-text .dim { color: var(--sub); }
+.body-text { font-size: 15px; line-height: 2; color: var(--text); text-align: left; }
+.body-text .dim { color: rgba(245,237,230,0.80); }
 .spacer { flex: 1; min-height: 12px; }
 
 /* ── Button ── */
@@ -179,20 +179,20 @@ body {
 /* ── Sound selector ── */
 .sound-section { margin-top: 22px; }
 .sound-label {
-  font-size: 14px; letter-spacing: 0.10em;
-  color: var(--sub); margin-bottom: 12px; font-weight: 300;
+  font-size: 14px; letter-spacing: 0.06em;
+  color: var(--text); margin-bottom: 12px; font-weight: 300;
 }
 .sound-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 .sound-btn {
   background: var(--surface); border: 1px solid var(--border);
-  color: var(--sub); padding: 12px 10px; border-radius: var(--rs);
-  font-family: inherit; font-size: 11px; font-weight: 300;
+  color: var(--text); padding: 14px 10px; border-radius: var(--rs);
+  font-family: inherit; font-size: 12px; font-weight: 300;
   cursor: pointer; transition: all 0.2s; text-align: center; line-height: 1.5;
 }
-.sound-btn .hz { font-size: 13px; color: var(--text); display: block; margin-bottom: 3px; font-weight: 400; }
-.sound-btn .hz-sub { font-size: 10px; color: var(--dim); letter-spacing: 0.04em; }
+.sound-btn .hz { font-size: 16px; color: var(--text); display: block; margin-bottom: 4px; font-weight: 400; }
+.sound-btn .hz-sub { font-size: 11px; color: rgba(245,237,230,0.75); letter-spacing: 0.04em; }
 .sound-btn.active {
-  background: rgba(255,153,102,0.12); border-color: rgba(255,153,102,0.35); color: var(--text);
+  background: rgba(255,153,102,0.15); border-color: rgba(255,153,102,0.45); color: var(--text);
 }
 .sound-btn.active .hz { color: var(--accent); }
 
@@ -336,7 +336,7 @@ body {
       </div>
       <div class="spacer"></div>
       <div class="sound-section">
-        <div class="sound-label" data-i18n="soundLabel">音を選ぶ</div>
+        <div class="sound-label" data-i18n="soundLabel">秒針音</div>
         <div class="sound-grid">
           <button class="sound-btn" onclick="selectSound(432,this)">
             <span class="hz">432 Hz</span>
@@ -356,7 +356,7 @@ body {
     </div>
 
     <!-- S2: Mood -->
-    <div id="s2" class="screen" style="display:none;flex-direction:column;">
+    <div id="s2" class="screen">
       <p data-i18n="s2title" style="font-size:18px;text-align:center;margin-bottom:4px;">今の気分に近いもの</p>
       <div class="mood-list">
         <div class="mood-item" onclick="selectZone('sun')">
@@ -509,7 +509,7 @@ const LANGS = {
     s1btn:'今の気分をチェックする',
     s2title:'今の気分に近いもの',
     s3p1:'今の気分に気づけただけで、', s3p2:'十分です', s3btn:'つづける',
-    soundLabel:'音を選ぶ', hz432:'自然な共鳴', hz528:'修復・癒し', hz963:'意識の覚醒',
+    soundLabel:'秒針音', hz432:'自然な共鳴', hz528:'修復・癒し', hz963:'意識の覚醒',
     guide1min:'通常の呼吸　1分', guide90s:'吐くだけ　90秒',
     phaseIn:'吸う', phaseOut:'吐く',
     transP1:'次は、吐くことだけに<br>任せてみます', transP2:'肺の空気が、自然に出ていきます',
@@ -526,7 +526,7 @@ const LANGS = {
     s1btn:'Check how you feel',
     s2title:'Which feels closest to now?',
     s3p1:'Just noticing how you feel', s3p2:'is enough.', s3btn:'Continue',
-    soundLabel:'Choose a tone', hz432:'Natural resonance', hz528:'Repair & healing', hz963:'Awakening',
+    soundLabel:'Tone', hz432:'Natural resonance', hz528:'Repair & healing', hz963:'Awakening',
     guide1min:'Breathing  ·  1 min', guide90s:'Exhale only  ·  90 sec',
     phaseIn:'Inhale', phaseOut:'Exhale',
     transP1:'Now, let\'s just<br>exhale.', transP2:'Let the air find its own way out.',
@@ -543,7 +543,7 @@ const LANGS = {
     s1btn:'确认现在的心情',
     s2title:'最接近你现在心情的是？',
     s3p1:'能意识到自己的心情，', s3p2:'就已经足够了。', s3btn:'继续',
-    soundLabel:'选择音调', hz432:'自然共鸣', hz528:'修复与疗愈', hz963:'意识觉醒',
+    soundLabel:'节拍音', hz432:'自然共鸣', hz528:'修复与疗愈', hz963:'意识觉醒',
     guide1min:'呼吸练习　1分钟', guide90s:'仅呼气　90秒',
     phaseIn:'吸气', phaseOut:'呼气',
     transP1:'接下来，把一切<br>交给呼气。', transP2:'让空气自然地流出。',
@@ -560,7 +560,7 @@ const LANGS = {
     s1btn:'Ver cómo me siento',
     s2title:'¿Cuál se acerca más a ahora?',
     s3p1:'Solo notar cómo te sientes', s3p2:'ya es suficiente.', s3btn:'Continuar',
-    soundLabel:'Elige un tono', hz432:'Resonancia natural', hz528:'Reparación y alivio', hz963:'Despertar',
+    soundLabel:'Sonido', hz432:'Resonancia natural', hz528:'Reparación y alivio', hz963:'Despertar',
     guide1min:'Respiración  ·  1 min', guide90s:'Solo exhalar  ·  90 seg',
     phaseIn:'Inhala', phaseOut:'Exhala',
     transP1:'Ahora, solo<br>exhala.', transP2:'Deja que el aire salga solo.',
