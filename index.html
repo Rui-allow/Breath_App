@@ -2,818 +2,614 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Breath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Sans+JP:wght@200;300;400&family=Noto+Sans:wght@200;300&family=Noto+Sans+SC:wght@200;300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+JP:wght@300;400&family=Noto+Sans:wght@300;400&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:       #100a06;
+  --bg:       #050d1a;
+  --gold:     #c9a84c;
+  --gold2:    #e8c97a;
+  --gold3:    #f5e0a8;
+  --text:     #eef4f8;
+  --sub:      rgba(238,244,248,0.65);
+  --dim:      rgba(238,244,248,0.38);
   --surface:  rgba(255,255,255,0.04);
-  --surface2: rgba(255,255,255,0.07);
-  --border:   rgba(255,200,150,0.12);
-  --border2:  rgba(255,200,150,0.22);
-  --text:     #f5ede6;
-  --sub:      rgba(245,237,230,0.55);
-  --dim:      rgba(245,237,230,0.28);
-  --accent:   #ff9966;
-  --accent2:  #ffb347;
-  --r:  24px;
-  --rs: 14px;
-  --font-serif: 'Playfair Display', serif;
-  --font-sans:  'Noto Sans JP', 'Noto Sans SC', 'Noto Sans', sans-serif;
-
-  /* Zone theme vars — overridden per zone */
-  --z-bg1:    rgba(255,153,102,0.28);
-  --z-bg2:    rgba(255,179,71,0.10);
-  --z-bg3:    rgba(232,131,122,0.10);
-  --z-cin1:   rgba(255,215,160,0.97);
-  --z-cin2:   rgba(255,140,70,0.88);
-  --z-cin3:   rgba(220,100,55,0.80);
-  --z-cout1:  rgba(255,180,120,0.92);
-  --z-cout2:  rgba(210,100,70,0.82);
-  --z-cout3:  rgba(180,70,50,0.75);
-  --z-glow:   rgba(255,140,60,0.28);
-  --z-ring:   rgba(255,153,102,0.18);
-  --z-arc1:   #ff9966;
-  --z-arc2:   #ffcb8a;
-  --z-btn1:   #ff9966;
-  --z-btn2:   #ffb347;
-  --z-bshadow:rgba(255,153,102,0.30);
-  --z-border: rgba(255,200,150,0.12);
-  --z-pill-bg:rgba(255,153,102,0.08);
-  --z-pill-bd:rgba(255,153,102,0.20);
-  --z-pill-c: #ff9966;
+  --surface2: rgba(255,255,255,0.08);
+  --border:   rgba(201,168,76,0.18);
+  --border2:  rgba(201,168,76,0.35);
+  --r: 22px; --rs: 14px;
+  --font-display: 'Great Vibes', cursive;
+  --font-serif:   'Cormorant Garamond', serif;
+  --font-sans:    'Noto Sans JP','Noto Sans SC','Noto Sans',sans-serif;
+  --z-bg-a: rgba(13,107,154,0.35);
+  --z-bg-b: rgba(10,74,110,0.20);
+  --z-cin1: rgba(200,220,255,0.95);
+  --z-cin2: rgba(100,180,230,0.88);
+  --z-cin3: rgba(40,120,190,0.80);
+  --z-cout1:rgba(160,200,240,0.92);
+  --z-cout2:rgba(70,150,210,0.82);
+  --z-cout3:rgba(20,90,160,0.75);
+  --z-glow: rgba(100,180,230,0.25);
+  --z-ring: rgba(126,200,227,0.22);
+  --z-arc1: #7ec8e3;
+  --z-arc2: #c9a84c;
+  --z-btn1: #0d6b9a;
+  --z-btn2: #083d5e;
+  --z-bsh:  rgba(13,107,154,0.40);
+  --z-card: rgba(5,18,38,0.65);
+  --z-bord: rgba(201,168,76,0.18);
 }
 
-html, body { height: 100%; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  font-family: var(--font-sans);
-  font-weight: 300;
-  color: var(--text);
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  overflow-x: hidden;
+html,body{ height:100%; }
+body{
+  background:var(--bg);
+  font-family:var(--font-sans);
+  font-weight:300;
+  color:var(--text);
+  min-height:100vh; min-height:100dvh;
+  display:flex; align-items:stretch; justify-content:center;
+  overflow:hidden;
 }
 
-/* ── Background ── */
-.bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-.bg-layer::before {
-  content: '';
-  position: absolute; inset: 0;
+/* Background */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bg::before{
+  content:'';position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 100% 60% at 50% -10%, var(--z-bg1) 0%, transparent 55%),
-    radial-gradient(ellipse 60%  40% at 90%  50%, var(--z-bg2) 0%, transparent 50%),
-    radial-gradient(ellipse 50%  50% at 10%  90%, var(--z-bg3) 0%, transparent 55%);
-  transition: background 1.2s ease;
+    radial-gradient(ellipse 130% 70% at 65% -5%, var(--z-bg-a) 0%,transparent 55%),
+    radial-gradient(ellipse 80% 60% at -10% 85%, var(--z-bg-b) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(201,168,76,0.06) 0%,transparent 55%);
+  transition:background 1.4s ease;
 }
-.bg-layer::after {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 256px; opacity: 0.55;
-}
-
-/* ── App ── */
-.app { position: relative; z-index: 1; width: 100%; max-width: 480px; display: flex; flex-direction: column; }
-
-/* ── Topbar ── */
-.topbar {
-  display: flex; justify-content: flex-start; align-items: center;
-  padding: 12px 20px 0; margin-bottom: 0; min-height: 48px;
-}
-.nav-area { display: flex; gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
-.nav-area.show { opacity: 1; pointer-events: auto; }
-.nav-btn {
-  background: var(--surface2); border: 1px solid var(--border);
-  color: var(--sub); padding: 7px 15px; border-radius: 99px;
-  font-family: inherit; font-size: 12px; font-weight: 300;
-  cursor: pointer; transition: background 0.2s, color 0.2s; backdrop-filter: blur(10px);
-}
-.nav-btn:hover { background: rgba(255,255,255,0.10); color: var(--text); }
-
-/* ── Lang switcher ── */
-.lang-switcher {
-  display: flex; gap: 2px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 99px; padding: 4px; backdrop-filter: blur(10px);
-}
-.lang-btn {
-  background: none; border: none; color: var(--dim);
-  font-size: 11px; font-family: inherit; font-weight: 300;
-  padding: 4px 9px; border-radius: 99px; cursor: pointer;
-  transition: background 0.2s, color 0.2s; letter-spacing: 0.04em;
-}
-.lang-btn.active { background: var(--surface2); color: var(--text); }
-
-/* ── Card ── */
-.card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--z-border);
-  border-radius: 0;
-  backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-  overflow: hidden;
-  box-shadow: none;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  transition: border-color 1.2s ease;
-}
-.card::before {
-  content: ''; display: block; height: 2px;
-  background: linear-gradient(90deg,
-    transparent 0%, var(--z-arc1) 30%, var(--z-arc2) 50%, var(--z-arc1) 70%, transparent 100%);
-  transition: background 1.2s ease;
+.bg::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%,rgba(201,168,76,0.45) 0%,transparent 100%),
+    radial-gradient(1px 1px at 33% 12%,rgba(126,200,227,0.30) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 52% 38%,rgba(201,168,76,0.38) 0%,transparent 100%),
+    radial-gradient(1px 1px at 73% 18%,rgba(126,200,227,0.28) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 42%,rgba(201,168,76,0.32) 0%,transparent 100%),
+    radial-gradient(1px 1px at 22% 68%,rgba(126,200,227,0.22) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 48% 78%,rgba(201,168,76,0.28) 0%,transparent 100%),
+    radial-gradient(1px 1px at 68% 88%,rgba(126,200,227,0.32) 0%,transparent 100%),
+    radial-gradient(1px 1px at 82% 65%,rgba(201,168,76,0.22) 0%,transparent 100%),
+    radial-gradient(1px 1px at 8%  92%,rgba(126,200,227,0.26) 0%,transparent 100%);
 }
 
-/* ── Screens ── */
-.screen { display: none; flex-direction: column; flex: 1; padding: 24px 28px 40px; }
-.screen.active { display: flex; animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) both; }
-@keyframes revealUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* App */
+.app{
+  position:relative;z-index:1;
+  width:100%;max-width:480px;
+  display:flex;flex-direction:column;
+  min-height:100dvh;
 }
 
-/* ── Title ── */
-.title-serif {
-  font-family: var(--font-serif); font-style: italic; font-weight: 400;
-  font-size: 72px; letter-spacing: -0.02em; line-height: 1; margin-bottom: 6px;
-  background: linear-gradient(135deg, #ff9966 0%, #ffcb8a 50%, #ff9966 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+/* Topbar */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:env(safe-area-inset-top,16px) 24px 0;
+  padding-top:max(env(safe-area-inset-top),16px);
+  min-height:52px;flex-shrink:0;
+}
+.nav-area{display:flex;gap:8px;opacity:0;pointer-events:none;transition:opacity 0.35s;}
+.nav-area.show{opacity:1;pointer-events:auto;}
+.nav-btn{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--sub);padding:7px 16px;border-radius:99px;
+  font-family:var(--font-sans);font-size:13px;font-weight:300;
+  cursor:pointer;transition:all 0.2s;backdrop-filter:blur(10px);
+}
+.nav-btn:hover{background:rgba(201,168,76,0.12);color:var(--text);border-color:var(--border2);}
+.lang-sw{
+  display:flex;gap:2px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:99px;padding:3px;backdrop-filter:blur(12px);
+}
+.lang-btn{
+  background:none;border:none;color:var(--dim);
+  font-size:11px;font-family:var(--font-sans);font-weight:300;
+  padding:5px 10px;border-radius:99px;cursor:pointer;
+  transition:all 0.2s;letter-spacing:0.04em;
+}
+.lang-btn.on{background:rgba(201,168,76,0.18);color:var(--gold2);}
+
+/* Card */
+.card{
+  flex:1;display:flex;flex-direction:column;
+  margin:12px 16px max(env(safe-area-inset-bottom),20px);
+  background:var(--z-card);
+  border:1px solid var(--z-bord);
+  border-radius:var(--r);
+  backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);
+  overflow:hidden;
+  box-shadow:0 0 0 1px rgba(201,168,76,0.05),0 24px 80px rgba(0,0,0,0.55),inset 0 1px 0 rgba(201,168,76,0.12);
+  transition:background 1.4s ease,border-color 1.4s ease;
+}
+.card::before{
+  content:'';display:block;height:1.5px;flex-shrink:0;
+  background:linear-gradient(90deg,transparent 0%,var(--z-arc1) 25%,var(--gold2) 50%,var(--z-arc1) 75%,transparent 100%);
+  transition:background 1.4s ease;
 }
 
-.tagline {
-  font-size: 19px; letter-spacing: 0.08em;
-  color: #f5c07a; margin-bottom: 28px; font-weight: 300;
+/* Screens */
+.screen{display:none;flex-direction:column;flex:1;padding:28px 28px 32px;}
+.screen.active{display:flex;animation:su 0.55s cubic-bezier(0.22,1,0.36,1) both;}
+@keyframes su{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* S1 */
+.brand-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0;}
+.title-brand{
+  font-family:var(--font-display);font-size:86px;line-height:1;
+  color:var(--gold2);
+  filter:drop-shadow(0 2px 16px rgba(201,168,76,0.40));
+  letter-spacing:0.02em;
+}
+.tagline{
+  font-family:var(--font-serif);font-style:italic;font-weight:300;
+  font-size:19px;color:var(--gold3);letter-spacing:0.06em;
+  margin-bottom:24px;
+}
+.home-body{display:flex;flex-direction:column;gap:10px;}
+.home-body p{font-size:17px;line-height:1.85;color:var(--text);font-weight:300;}
+.home-body p.soft{color:var(--sub);}
+.spacer{flex:1;min-height:8px;}
+
+/* Sound */
+.sound-wrap{padding-top:24px;}
+.sound-title{
+  font-size:14px;letter-spacing:0.08em;
+  color:var(--gold);margin-bottom:12px;font-weight:300;
+}
+.sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.s-btn{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rs);padding:14px 8px;
+  cursor:pointer;text-align:center;transition:all 0.22s;
+  font-family:var(--font-sans);
+}
+.s-btn:hover{background:rgba(201,168,76,0.08);border-color:var(--border2);}
+.s-btn.on{background:rgba(201,168,76,0.13);border-color:var(--border2);}
+.s-hz{display:block;font-size:17px;font-weight:400;color:var(--text);margin-bottom:4px;}
+.s-btn.on .s-hz{color:var(--gold2);}
+.s-sub{display:block;font-size:11px;color:var(--sub);letter-spacing:0.04em;}
+
+/* Button */
+.btn{
+  width:100%;padding:17px;border-radius:var(--rs);border:none;
+  background:linear-gradient(135deg,var(--z-btn1) 0%,var(--z-btn2) 100%);
+  color:var(--gold3);font-family:var(--font-sans);font-size:16px;
+  font-weight:400;letter-spacing:0.08em;cursor:pointer;
+  margin-top:20px;
+  box-shadow:0 4px 24px var(--z-bsh),inset 0 1px 0 rgba(201,168,76,0.18);
+  transition:transform 0.15s,box-shadow 0.2s,background 1.4s ease;
+  position:relative;overflow:hidden;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,0.08) 0%,transparent 60%);
+  pointer-events:none;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--z-bsh);}
+.btn:active{transform:translateY(0);}
+
+/* S2 Mood */
+.mood-title{
+  font-family:var(--font-serif);font-style:italic;font-weight:300;
+  font-size:24px;color:var(--gold3);text-align:center;
+  margin-bottom:18px;letter-spacing:0.04em;
+}
+.mood-list{display:flex;flex-direction:column;gap:10px;flex:1;}
+.mood-row{
+  flex:1;display:flex;align-items:center;gap:20px;
+  padding:0 22px;border-radius:var(--rs);
+  background:var(--surface);border:1px solid var(--border);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:background 0.22s,border-color 0.22s,transform 0.18s;
+  min-height:58px;
+}
+.mood-row::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold),var(--gold2));
+  opacity:0;transition:opacity 0.2s;
+}
+.mood-row:hover{background:var(--surface2);border-color:var(--border2);transform:translateX(3px);}
+.mood-row:hover::before{opacity:1;}
+.m-weather{font-size:28px;flex-shrink:0;}
+.m-emotion{font-size:28px;flex-shrink:0;}
+
+/* S3 Ack */
+.ack-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.zone-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 20px;border-radius:99px;
+  background:rgba(201,168,76,0.10);border:1px solid rgba(201,168,76,0.25);
+  font-size:22px;color:var(--gold2);margin-bottom:28px;
+  transition:all 1.4s ease;
+}
+.ack-text{
+  font-family:var(--font-serif);font-style:italic;font-weight:300;
+  font-size:26px;line-height:2;color:var(--text);
 }
 
-.body-text { font-size: 15px; line-height: 2; color: var(--text); text-align: left; }
-.body-text .dim { color: rgba(245,237,230,0.80); }
-.spacer { flex: 1; min-height: 12px; }
-
-/* ── Button ── */
-.btn {
-  width: 100%; padding: 16px; border-radius: var(--rs); border: none;
-  background: linear-gradient(135deg, var(--z-btn1) 0%, var(--z-btn2) 100%);
-  color: #1a0f0a; font-family: inherit; font-size: 14px; font-weight: 400;
-  letter-spacing: 0.08em; cursor: pointer; margin-top: 20px;
-  box-shadow: 0 4px 24px var(--z-bshadow), 0 1px 0 rgba(255,255,255,0.15) inset;
-  transition: transform 0.15s, box-shadow 0.2s, background 1.2s ease;
-  position: relative; overflow: hidden;
+/* S4 Breath */
+.breath-wrap{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:0 20px;
 }
-.btn::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 50%);
-  pointer-events: none;
+.session-chip{
+  font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--dim);border:1px solid var(--border);border-radius:99px;
+  padding:6px 16px;margin-bottom:36px;display:flex;align-items:center;
 }
-.btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px var(--z-bshadow); }
-.btn:active { transform: translateY(0); }
-
-/* ── Sound selector ── */
-.sound-section { margin-top: 22px; }
-.sound-label {
-  font-size: 14px; letter-spacing: 0.06em;
-  color: var(--text); margin-bottom: 12px; font-weight: 300;
+.ring-wrap{position:relative;width:230px;height:230px;margin-bottom:36px;flex-shrink:0;}
+.r-outer{position:absolute;inset:0;border-radius:50%;border:1px solid var(--z-ring);transform-origin:center;}
+.r-mid{position:absolute;inset:24px;border-radius:50%;border:1px solid rgba(126,200,227,0.08);transform-origin:center;}
+.r-glow{
+  position:absolute;inset:46px;border-radius:50%;
+  background:radial-gradient(circle,var(--z-glow) 0%,transparent 70%);
+  filter:blur(16px);transform-origin:center;
 }
-.sound-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-.sound-btn {
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--text); padding: 14px 10px; border-radius: var(--rs);
-  font-family: inherit; font-size: 12px; font-weight: 300;
-  cursor: pointer; transition: all 0.2s; text-align: center; line-height: 1.5;
+.r-core{
+  position:absolute;inset:46px;border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transform-origin:center;
 }
-.sound-btn .hz { font-size: 16px; color: var(--text); display: block; margin-bottom: 4px; font-weight: 400; }
-.sound-btn .hz-sub { font-size: 11px; color: rgba(245,237,230,0.75); letter-spacing: 0.04em; }
-.sound-btn.active {
-  background: rgba(255,153,102,0.15); border-color: rgba(255,153,102,0.45); color: var(--text);
+.r-phase{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(5,13,26,0.72);font-weight:400;}
+.r-count{
+  font-family:var(--font-serif);font-style:italic;
+  font-size:44px;font-weight:300;color:rgba(5,13,26,0.82);
+  line-height:1;margin-top:2px;min-height:48px;
 }
-.sound-btn.active .hz { color: var(--accent); }
-
-/* ── Mood list ── */
-.mood-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; flex: 1; }
-.mood-item {
-  display: flex; align-items: center; gap: 16px;
-  padding: 0 18px; border-radius: var(--rs);
-  background: var(--surface); border: 1px solid var(--border);
-  cursor: pointer; transition: background 0.22s, border-color 0.22s, transform 0.18s;
-  position: relative; overflow: hidden; flex: 1;
-}
-.mood-item::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-  background: linear-gradient(180deg, var(--accent), var(--accent2));
-  opacity: 0; transition: opacity 0.2s;
-}
-.mood-item:hover { background: var(--surface2); border-color: var(--border2); transform: translateX(4px); }
-.mood-item:hover::before { opacity: 1; }
-.mood-icon  { font-size: 28px; width: 34px; text-align: center; flex-shrink: 0; }
-.mood-emotion { font-size: 28px; }
-
-/* ── Zone pill ── */
-.zone-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 14px; border-radius: 99px;
-  background: var(--z-pill-bg); border: 1px solid var(--z-pill-bd);
-  font-size: 12px; color: var(--z-pill-c); letter-spacing: 0.06em;
-  margin-bottom: 20px; transition: all 1.2s ease;
-}
-
-/* ── Breathing screen ── */
-.breath-screen {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: 24px 28px;
-}
-.guide-chip {
-  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--dim); border: 1px solid var(--border); border-radius: 99px;
-  padding: 5px 14px; margin-bottom: 32px; min-height: 26px;
-  display: flex; align-items: center;
-}
-
-/* ── Ring ── */
-.ring-wrap { position: relative; width: 220px; height: 220px; margin-bottom: 32px; flex-shrink: 0; }
-.ring-outer {
-  position: absolute; inset: 0; border-radius: 50%;
-  border: 1px solid var(--z-ring); transform-origin: center;
-}
-.ring-mid {
-  position: absolute; inset: 22px; border-radius: 50%;
-  border: 1px solid rgba(255,153,102,0.08); transform-origin: center;
-}
-.ring-glow {
-  position: absolute; inset: 44px; border-radius: 50%;
-  background: radial-gradient(circle, var(--z-ring) 0%, transparent 70%);
-  filter: blur(14px); transform-origin: center;
-}
-.circle-core {
-  position: absolute; inset: 44px; border-radius: 50%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transform-origin: center;
-}
-.phase-text {
-  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgba(26,15,10,0.72); font-weight: 400;
-}
-.count-num {
-  font-family: var(--font-serif); font-style: italic; font-size: 38px; font-weight: 400;
-  color: rgba(26,15,10,0.82); line-height: 1; margin-top: 2px; min-height: 42px;
-}
+.breath-note{font-size:13px;color:var(--dim);letter-spacing:0.06em;text-align:center;min-height:20px;}
 
 /* Arc */
-.arc-svg-wrap { position: absolute; inset: 0; pointer-events: none; display: none; }
-.arc-svg-wrap.show { display: block; }
-.arc-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.arc-bg   { fill: none; stroke: rgba(255,153,102,0.08); stroke-width: 1.5; }
-.arc-prog {
-  fill: none; stroke: url(#aGrad); stroke-width: 1.5; stroke-linecap: round;
-  stroke-dasharray: 629; stroke-dashoffset: 629;
-  transition: stroke-dashoffset 0.95s linear;
+.arc-wrap{position:absolute;inset:0;pointer-events:none;display:none;}
+.arc-wrap.show{display:block;}
+.arc-svg{width:100%;height:100%;transform:rotate(-90deg);}
+.arc-bg{fill:none;stroke:rgba(201,168,76,0.08);stroke-width:1.5;}
+.arc-prog{
+  fill:none;stroke:url(#ag);stroke-width:1.5;stroke-linecap:round;
+  stroke-dasharray:660;stroke-dashoffset:660;
+  transition:stroke-dashoffset 0.95s linear;
 }
-.breath-hint { font-size: 12px; color: var(--dim); letter-spacing: 0.08em; text-align: center; min-height: 18px; }
 
-/* ── Transition ── */
-.trans-content {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center; gap: 16px;
-}
-.trans-content p { font-size: 16px; line-height: 2; color: var(--text); }
-.trans-content .dim { font-size: 13px; color: var(--sub); }
+/* S4b Trans */
+.trans-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;}
+.trans-body p{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:24px;line-height:1.9;color:var(--text);}
+.trans-body .soft{font-size:16px;color:var(--sub);font-style:normal;font-family:var(--font-sans);}
 
-/* ── Finish ── */
-.finish-content {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center;
-}
-.finish-mark { font-size: 13px; letter-spacing: 0.3em; color: var(--dim); margin-bottom: 28px; }
-.finish-text { font-size: 16px; line-height: 2.1; color: var(--text); }
-.finish-note { font-size: 12px; color: var(--dim); margin-top: 14px; letter-spacing: 0.08em; }
-
-/* ── Divider ── */
-.divider {
-  width: 32px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border2), transparent);
-  margin: 18px auto;
-}
+/* S5 Finish */
+.fin-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.fin-mark{font-family:var(--font-serif);font-style:italic;font-size:34px;color:var(--gold);margin-bottom:24px;letter-spacing:0.2em;}
+.fin-text{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:24px;line-height:2;color:var(--text);}
+.fin-note{font-size:13px;color:var(--dim);margin-top:16px;letter-spacing:0.08em;}
 </style>
 </head>
 <body>
-<div class="bg-layer" id="bgLayer"></div>
-
+<div class="bg" id="bgEl"></div>
 <div class="app">
   <div class="topbar">
     <div class="nav-area" id="navArea">
-      <button class="nav-btn" onclick="goBack()">←</button>
-      <button class="nav-btn" onclick="goHome()" data-i18n="home">ホーム</button>
+      <button class="nav-btn" onclick="goBack()">← 戻る</button>
+      <button class="nav-btn" onclick="goHome()" data-i="home">ホーム</button>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-btn on" onclick="setLang('ja')">JP</button>
+      <button class="lang-btn"   onclick="setLang('en')">EN</button>
+      <button class="lang-btn"   onclick="setLang('zh')">中</button>
+      <button class="lang-btn"   onclick="setLang('es')">ES</button>
     </div>
   </div>
 
   <div class="card" id="card">
 
-    <!-- S1: Welcome -->
+    <!-- S1 -->
     <div id="s1" class="screen active">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div class="title-serif">Breath</div>
-        <div class="lang-switcher" style="margin-top:10px;flex-shrink:0;">
-          <button class="lang-btn active" onclick="setLang('ja')">JP</button>
-          <button class="lang-btn"        onclick="setLang('en')">EN</button>
-          <button class="lang-btn"        onclick="setLang('zh')">中</button>
-          <button class="lang-btn"        onclick="setLang('es')">ES</button>
-        </div>
+      <div class="brand-row">
+        <div class="title-brand">Breath</div>
       </div>
-      <div class="tagline" data-i18n="tagline">今すぐ幸せになる</div>
-      <div class="body-text">
-        <p class="dim" data-i18n="s1p1">感情は、一気に変えることはできません</p>
-        <br>
-        <p class="dim" data-i18n="s1p2">でも、少しずつなら動かせます</p>
-        <br>
-        <p data-i18n="s1p3">呼吸を、少しだけ観察してみましょう</p>
+      <div class="tagline" data-i="tagline">今すぐ幸せになる</div>
+      <div class="home-body">
+        <p class="soft" data-i="s1p1">感情は、一気に変えることはできません</p>
+        <p class="soft" data-i="s1p2">でも、少しずつなら動かせます</p>
+        <p data-i="s1p3">呼吸を、少しだけ観察してみましょう</p>
       </div>
       <div class="spacer"></div>
-      <div class="sound-section">
-        <div class="sound-label" data-i18n="soundLabel">秒針音</div>
+      <div class="sound-wrap">
+        <div class="sound-title" data-i="soundLabel">秒針音</div>
         <div class="sound-grid">
-          <button class="sound-btn" onclick="selectSound(432,this)">
-            <span class="hz">432 Hz</span>
-            <span class="hz-sub" data-i18n="hz432">自然な共鳴</span>
+          <button class="s-btn" onclick="pickSound(432,this)">
+            <span class="s-hz">432 Hz</span>
+            <span class="s-sub" data-i="hz432">自然な共鳴</span>
           </button>
-          <button class="sound-btn active" onclick="selectSound(528,this)">
-            <span class="hz">528 Hz</span>
-            <span class="hz-sub" data-i18n="hz528">修復・癒し</span>
+          <button class="s-btn on" onclick="pickSound(528,this)">
+            <span class="s-hz">528 Hz</span>
+            <span class="s-sub" data-i="hz528">修復・癒し</span>
           </button>
-          <button class="sound-btn" onclick="selectSound(963,this)">
-            <span class="hz">963 Hz</span>
-            <span class="hz-sub" data-i18n="hz963">意識の覚醒</span>
+          <button class="s-btn" onclick="pickSound(963,this)">
+            <span class="s-hz">963 Hz</span>
+            <span class="s-sub" data-i="hz963">意識の覚醒</span>
           </button>
         </div>
       </div>
-      <button class="btn" onclick="next(2)" data-i18n="s1btn" style="margin-top:20px;">今の気分をチェックする</button>
+      <button class="btn" onclick="next(2)" data-i="s1btn">今の気分をチェックする</button>
     </div>
 
-    <!-- S2: Mood -->
+    <!-- S2 -->
     <div id="s2" class="screen">
-      <p data-i18n="s2title" style="font-size:18px;text-align:center;margin-bottom:4px;">今の気分に近いもの</p>
+      <div class="mood-title" data-i="s2title">今の気分に近いもの</div>
       <div class="mood-list">
-        <div class="mood-item" onclick="selectZone('sun')">
-          <span class="mood-icon">🌞</span><span class="mood-emotion">😊</span>
-        </div>
-        <div class="mood-item" onclick="selectZone('cloud')">
-          <span class="mood-icon">☁️</span><span class="mood-emotion">😑</span>
-        </div>
-        <div class="mood-item" onclick="selectZone('rain')">
-          <span class="mood-icon">🌧️</span><span class="mood-emotion">😓</span>
-        </div>
-        <div class="mood-item" onclick="selectZone('storm')">
-          <span class="mood-icon">⛈️</span><span class="mood-emotion">😡</span>
-        </div>
-        <div class="mood-item" onclick="selectZone('fog')">
-          <span class="mood-icon">🌫️</span><span class="mood-emotion">🥶</span>
-        </div>
+        <div class="mood-row" onclick="pickZone('sun')"><span class="m-weather">🌞</span><span class="m-emotion">😊</span></div>
+        <div class="mood-row" onclick="pickZone('cloud')"><span class="m-weather">☁️</span><span class="m-emotion">😑</span></div>
+        <div class="mood-row" onclick="pickZone('rain')"><span class="m-weather">🌧️</span><span class="m-emotion">😓</span></div>
+        <div class="mood-row" onclick="pickZone('storm')"><span class="m-weather">⛈️</span><span class="m-emotion">😡</span></div>
+        <div class="mood-row" onclick="pickZone('fog')"><span class="m-weather">🌫️</span><span class="m-emotion">🥶</span></div>
       </div>
     </div>
 
-    <!-- S3: Ack -->
+    <!-- S3 -->
     <div id="s3" class="screen">
-      <div id="zonePill"></div>
-      <p data-i18n="s3p1">今の気分に気づけただけで、</p>
-      <p data-i18n="s3p2">十分です</p>
-      <div class="spacer"></div>
-      <button class="btn" onclick="startBreathing()" data-i18n="s3btn">つづける</button>
+      <div class="ack-wrap">
+        <div id="zoneBadge" class="zone-badge">🌞 😊</div>
+        <div class="ack-text">
+          <span data-i="s3p1">今の気分に気づけただけで、</span><br>
+          <span data-i="s3p2">十分です</span>
+        </div>
+      </div>
+      <button class="btn" onclick="startBreath()" data-i="s3btn">つづける</button>
     </div>
 
-    <!-- S4: Breathing -->
+    <!-- S4 -->
     <div id="s4" class="screen" style="padding:0">
-      <div class="breath-screen">
-        <div class="guide-chip" id="guideChip" data-i18n="guide1min">通常の呼吸　1分</div>
+      <div class="breath-wrap">
+        <div class="session-chip" id="sessionChip">通常の呼吸　1分</div>
         <div class="ring-wrap">
-          <div class="arc-svg-wrap" id="arcWrap">
-            <svg class="arc-svg" viewBox="0 0 220 220">
+          <div class="arc-wrap" id="arcWrap">
+            <svg class="arc-svg" viewBox="0 0 230 230">
               <defs>
-                <linearGradient id="aGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%"   stop-color="#ff9966" id="arcStop1"/>
-                  <stop offset="100%" stop-color="#ffcb8a" id="arcStop2"/>
+                <linearGradient id="ag" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#7ec8e3" id="ag1"/>
+                  <stop offset="100%" stop-color="#c9a84c" id="ag2"/>
                 </linearGradient>
               </defs>
-              <circle class="arc-bg"   cx="110" cy="110" r="100"/>
-              <circle class="arc-prog" id="arcProg" cx="110" cy="110" r="100"/>
+              <circle class="arc-bg"   cx="115" cy="115" r="105"/>
+              <circle class="arc-prog" id="arcProg" cx="115" cy="115" r="105"/>
             </svg>
           </div>
-          <div class="ring-outer"  id="ringOuter"></div>
-          <div class="ring-mid"    id="ringMid"></div>
-          <div class="ring-glow"   id="ringGlow"></div>
-          <div class="circle-core" id="circleCore">
-            <div class="phase-text" id="phaseText">吸う</div>
-            <div class="count-num"  id="countNum">1</div>
+          <div class="r-outer" id="rOuter"></div>
+          <div class="r-mid"   id="rMid"></div>
+          <div class="r-glow"  id="rGlow"></div>
+          <div class="r-core"  id="rCore">
+            <div class="r-phase" id="rPhase">吸う</div>
+            <div class="r-count" id="rCount">1</div>
           </div>
         </div>
-        <div class="breath-hint" id="breathHint"></div>
+        <div class="breath-note" id="breathNote"></div>
       </div>
     </div>
 
-    <!-- S4b: Transition -->
+    <!-- S4b -->
     <div id="s4b" class="screen">
-      <div class="trans-content">
-        <p data-i18n="transP1">次は、吐くことだけに<br>任せてみます</p>
-        <p class="dim" data-i18n="transP2">肺の空気が、自然に出ていきます</p>
+      <div class="trans-body">
+        <p data-i="transP1">次は、吐くことだけに<br>任せてみます</p>
+        <p class="soft" data-i="transP2">肺の空気が、自然に出ていきます</p>
       </div>
-      <button class="btn" onclick="startExhale()" data-i18n="transbtn">つづける</button>
+      <button class="btn" onclick="startExhale()" data-i="transbtn">つづける</button>
     </div>
 
-    <!-- S5: Finish -->
+    <!-- S5 -->
     <div id="s5" class="screen">
-      <div class="finish-content">
-        <div class="finish-mark">· · ·</div>
-        <div class="finish-text">
-          <span data-i18n="finP1">それで十分です</span><br><br>
-          <span data-i18n="finP2">あなたは今、少し上にいます</span>
+      <div class="fin-body">
+        <div class="fin-mark">✦</div>
+        <div class="fin-text">
+          <span data-i="finP1">それで十分です</span><br><br>
+          <span data-i="finP2">あなたは今、少し上にいます</span>
         </div>
-        <div class="finish-note" data-i18n="finNote">また、いつでも</div>
+        <div class="fin-note" data-i="finNote">また、いつでも</div>
       </div>
-      <button class="btn" onclick="next(1)" data-i18n="finBtn">もう一度</button>
+      <button class="btn" onclick="next(1)" data-i="finBtn">もう一度</button>
     </div>
 
-  </div><!-- /card -->
-</div><!-- /app -->
+  </div>
+</div>
 
 <script>
-/* ═══════════════════════════════
-   ZONE THEMES
-═══════════════════════════════ */
-const ZONE_THEMES = {
-  sun: {
-    bg1:'rgba(135,206,250,0.30)', bg2:'rgba(255,215,80,0.16)', bg3:'rgba(255,180,60,0.10)',
-    cin1:'rgba(255,240,160,0.98)', cin2:'rgba(255,210,60,0.90)', cin3:'rgba(240,170,30,0.82)',
-    cout1:'rgba(255,230,120,0.92)', cout2:'rgba(240,190,40,0.82)', cout3:'rgba(210,150,20,0.75)',
-    glow:'rgba(255,215,60,0.28)', ring:'rgba(255,215,80,0.20)',
-    arc1:'#ffe066', arc2:'#ffd700',
-    btn1:'#f5c020', btn2:'#ffd740', bshadow:'rgba(240,200,30,0.35)',
-    border:'rgba(255,220,100,0.18)', pillBg:'rgba(255,215,60,0.10)',
-    pillBd:'rgba(255,215,60,0.25)', pillC:'#f5c020',
-  },
-  cloud: {
-    bg1:'rgba(160,185,210,0.25)', bg2:'rgba(180,200,220,0.12)', bg3:'rgba(140,160,180,0.10)',
-    cin1:'rgba(220,232,245,0.95)', cin2:'rgba(180,200,220,0.88)', cin3:'rgba(140,165,190,0.80)',
-    cout1:'rgba(200,215,232,0.90)', cout2:'rgba(160,180,205,0.80)', cout3:'rgba(120,145,170,0.72)',
-    glow:'rgba(180,200,220,0.22)', ring:'rgba(180,200,220,0.18)',
-    arc1:'#a0bcd8', arc2:'#c8dcea',
-    btn1:'#7a9ab8', btn2:'#96b4cc', bshadow:'rgba(120,160,200,0.30)',
-    border:'rgba(180,200,220,0.18)', pillBg:'rgba(160,185,210,0.10)',
-    pillBd:'rgba(160,185,210,0.25)', pillC:'#96b4cc',
-  },
-  rain: {
-    bg1:'rgba(40,80,140,0.35)', bg2:'rgba(60,100,160,0.18)', bg3:'rgba(80,120,170,0.12)',
-    cin1:'rgba(160,200,240,0.95)', cin2:'rgba(80,140,210,0.88)', cin3:'rgba(40,100,180,0.80)',
-    cout1:'rgba(120,170,220,0.90)', cout2:'rgba(60,120,190,0.80)', cout3:'rgba(30,80,155,0.72)',
-    glow:'rgba(80,140,210,0.25)', ring:'rgba(100,160,220,0.18)',
-    arc1:'#5090d0', arc2:'#90c0e8',
-    btn1:'#3a78c0', btn2:'#5090d8', bshadow:'rgba(50,120,200,0.35)',
-    border:'rgba(80,140,210,0.18)', pillBg:'rgba(60,110,180,0.12)',
-    pillBd:'rgba(80,140,210,0.28)', pillC:'#78b0e0',
-  },
-  storm: {
-    bg1:'rgba(20,20,60,0.55)', bg2:'rgba(30,25,70,0.25)', bg3:'rgba(40,35,80,0.18)',
-    cin1:'rgba(255,210,130,0.95)', cin2:'rgba(220,160,60,0.88)', cin3:'rgba(180,120,20,0.80)',
-    cout1:'rgba(235,190,100,0.90)', cout2:'rgba(200,145,40,0.80)', cout3:'rgba(160,105,15,0.72)',
-    glow:'rgba(220,160,60,0.25)', ring:'rgba(200,150,50,0.18)',
-    arc1:'#d4a030', arc2:'#f0c870',
-    btn1:'#b87820', btn2:'#d49830', bshadow:'rgba(200,150,30,0.35)',
-    border:'rgba(180,140,50,0.18)', pillBg:'rgba(180,130,30,0.10)',
-    pillBd:'rgba(200,150,40,0.28)', pillC:'#d4a030',
-  },
-  fog: {
-    bg1:'rgba(60,55,80,0.40)', bg2:'rgba(75,65,95,0.20)', bg3:'rgba(55,50,75,0.15)',
-    cin1:'rgba(240,225,190,0.95)', cin2:'rgba(210,190,145,0.88)', cin3:'rgba(175,155,110,0.80)',
-    cout1:'rgba(225,210,170,0.90)', cout2:'rgba(195,175,130,0.80)', cout3:'rgba(160,140,95,0.72)',
-    glow:'rgba(210,190,145,0.22)', ring:'rgba(200,180,135,0.16)',
-    arc1:'#c8b078', arc2:'#e0cc9a',
-    btn1:'#a08840', btn2:'#c0a858', bshadow:'rgba(175,145,60,0.32)',
-    border:'rgba(180,160,110,0.18)', pillBg:'rgba(160,140,80,0.10)',
-    pillBd:'rgba(180,155,90,0.26)', pillC:'#c8b078',
-  },
+/* ZONE THEMES */
+const ZT={
+  sun:{bga:'rgba(180,140,20,0.32)',bgb:'rgba(220,180,40,0.16)',
+    cin1:'rgba(255,248,180,0.97)',cin2:'rgba(255,215,60,0.88)',cin3:'rgba(220,170,20,0.80)',
+    cout1:'rgba(248,232,140,0.92)',cout2:'rgba(222,188,30,0.82)',cout3:'rgba(190,152,10,0.75)',
+    glow:'rgba(240,205,40,0.30)',ring:'rgba(255,225,80,0.24)',
+    arc1:'#f5d060',arc2:'#fae898',btn1:'#8a6008',btn2:'#b08018',bsh:'rgba(180,140,20,0.42)',
+    card:'rgba(18,12,2,0.65)',bord:'rgba(240,205,40,0.24)'},
+  cloud:{bga:'rgba(90,120,165,0.32)',bgb:'rgba(120,148,185,0.16)',
+    cin1:'rgba(222,232,248,0.95)',cin2:'rgba(168,190,218,0.88)',cin3:'rgba(118,145,178,0.80)',
+    cout1:'rgba(202,218,238,0.90)',cout2:'rgba(148,172,202,0.80)',cout3:'rgba(98,125,162,0.72)',
+    glow:'rgba(158,182,212,0.24)',ring:'rgba(168,192,222,0.20)',
+    arc1:'#a0bcd8',arc2:'#d0e4f4',btn1:'#486080',btn2:'#385070',bsh:'rgba(72,96,128,0.42)',
+    card:'rgba(6,10,20,0.68)',bord:'rgba(168,192,222,0.22)'},
+  rain:{bga:'rgba(18,58,122,0.42)',bgb:'rgba(28,78,152,0.22)',
+    cin1:'rgba(148,202,252,0.95)',cin2:'rgba(58,140,222,0.88)',cin3:'rgba(18,88,182,0.80)',
+    cout1:'rgba(108,178,242,0.90)',cout2:'rgba(38,115,202,0.80)',cout3:'rgba(8,68,158,0.72)',
+    glow:'rgba(58,140,222,0.30)',ring:'rgba(88,168,232,0.24)',
+    arc1:'#3898e8',arc2:'#80c8f0',btn1:'#082e70',btn2:'#0a40a0',bsh:'rgba(18,68,182,0.44)',
+    card:'rgba(3,8,22,0.72)',bord:'rgba(58,140,222,0.24)'},
+  storm:{bga:'rgba(12,8,38,0.62)',bgb:'rgba(22,14,52,0.32)',
+    cin1:'rgba(255,222,140,0.95)',cin2:'rgba(222,170,60,0.88)',cin3:'rgba(182,125,18,0.80)',
+    cout1:'rgba(242,202,110,0.90)',cout2:'rgba(202,152,38,0.80)',cout3:'rgba(162,112,8,0.72)',
+    glow:'rgba(222,170,60,0.30)',ring:'rgba(202,158,52,0.24)',
+    arc1:'#d4a830',arc2:'#f0cc70',btn1:'#5a3808',btn2:'#7a5018',bsh:'rgba(182,122,18,0.44)',
+    card:'rgba(6,4,16,0.78)',bord:'rgba(202,158,52,0.24)'},
+  fog:{bga:'rgba(38,32,62,0.48)',bgb:'rgba(52,45,78,0.24)',
+    cin1:'rgba(242,230,202,0.95)',cin2:'rgba(208,190,150,0.88)',cin3:'rgba(168,150,110,0.80)',
+    cout1:'rgba(228,212,178,0.90)',cout2:'rgba(190,172,130,0.80)',cout3:'rgba(150,132,92,0.72)',
+    glow:'rgba(208,190,150,0.26)',ring:'rgba(198,180,140,0.22)',
+    arc1:'#c8b078',arc2:'#e0cc9a',btn1:'#504018',btn2:'#6a5828',bsh:'rgba(162,132,50,0.40)',
+    card:'rgba(8,6,16,0.75)',bord:'rgba(198,178,122,0.24)'},
 };
 
-/* ═══════════════════════════════
-   i18n
-═══════════════════════════════ */
-const LANGS = {
-  ja: {
-    home:'ホーム', tagline:'今すぐ幸せになる',
-    s1p1:'感情は、一気に変えることはできません',
-    s1p2:'でも、少しずつなら動かせます',
-    s1p3:'呼吸を、少しだけ観察してみましょう',
-    s1btn:'今の気分をチェックする',
-    s2title:'今の気分に近いもの',
-    s3p1:'今の気分に気づけただけで、', s3p2:'十分です', s3btn:'つづける',
-    soundLabel:'秒針音', hz432:'自然な共鳴', hz528:'修復・癒し', hz963:'意識の覚醒',
-    guide1min:'通常の呼吸　1分', guide90s:'吐くだけ　90秒',
-    phaseIn:'吸う', phaseOut:'吐く',
-    transP1:'次は、吐くことだけに<br>任せてみます', transP2:'肺の空気が、自然に出ていきます',
-    transbtn:'つづける',
-    finP1:'それで十分です', finP2:'あなたは今、少し上にいます',
-    finNote:'また、いつでも', finBtn:'もう一度',
-    msun:'🌞 😊', mcloud:'☁️ 😑', mrain:'🌧️ 😓', mstorm:'⛈️ 😡', mfog:'🌫️ 😞',
-  },
-  en: {
-    home:'Home', tagline:'Feel better, right now',
-    s1p1:'Emotions can\'t change all at once.',
-    s1p2:'But they can shift, little by little.',
-    s1p3:'Observe your breath for a moment.',
-    s1btn:'Check how you feel',
-    s2title:'Which feels closest to now?',
-    s3p1:'Just noticing how you feel', s3p2:'is enough.', s3btn:'Continue',
-    soundLabel:'Tone', hz432:'Natural resonance', hz528:'Repair & healing', hz963:'Awakening',
-    guide1min:'Breathing  ·  1 min', guide90s:'Exhale only  ·  90 sec',
-    phaseIn:'Inhale', phaseOut:'Exhale',
-    transP1:'Now, let\'s just<br>exhale.', transP2:'Let the air find its own way out.',
-    transbtn:'Continue',
-    finP1:'That was enough.', finP2:'You\'re a little higher now.',
-    finNote:'Come back anytime.', finBtn:'Again',
-    msun:'🌞 😊', mcloud:'☁️ 😑', mrain:'🌧️ 😓', mstorm:'⛈️ 😡', mfog:'🌫️ 😞',
-  },
-  zh: {
-    home:'主页', tagline:'立刻，感到幸福',
-    s1p1:'情绪无法一下子改变，',
-    s1p2:'但可以慢慢移动。',
-    s1p3:'试着观察一下呼吸吧。',
-    s1btn:'确认现在的心情',
-    s2title:'最接近你现在心情的是？',
-    s3p1:'能意识到自己的心情，', s3p2:'就已经足够了。', s3btn:'继续',
-    soundLabel:'节拍音', hz432:'自然共鸣', hz528:'修复与疗愈', hz963:'意识觉醒',
-    guide1min:'呼吸练习　1分钟', guide90s:'仅呼气　90秒',
-    phaseIn:'吸气', phaseOut:'呼气',
-    transP1:'接下来，把一切<br>交给呼气。', transP2:'让空气自然地流出。',
-    transbtn:'继续',
-    finP1:'这就足够了。', finP2:'你现在，比刚才好一点点。',
-    finNote:'随时都可以回来。', finBtn:'再来一次',
-    msun:'🌞 😊', mcloud:'☁️ 😑', mrain:'🌧️ 😓', mstorm:'⛈️ 😡', mfog:'🌫️ 😞',
-  },
-  es: {
-    home:'Inicio', tagline:'Siente bienestar, ahora',
-    s1p1:'Las emociones no cambian de golpe.',
-    s1p2:'Pero pueden moverse, poco a poco.',
-    s1p3:'Observa tu respiración un momento.',
-    s1btn:'Ver cómo me siento',
-    s2title:'¿Cuál se acerca más a ahora?',
-    s3p1:'Solo notar cómo te sientes', s3p2:'ya es suficiente.', s3btn:'Continuar',
-    soundLabel:'Sonido', hz432:'Resonancia natural', hz528:'Reparación y alivio', hz963:'Despertar',
-    guide1min:'Respiración  ·  1 min', guide90s:'Solo exhalar  ·  90 seg',
-    phaseIn:'Inhala', phaseOut:'Exhala',
-    transP1:'Ahora, solo<br>exhala.', transP2:'Deja que el aire salga solo.',
-    transbtn:'Continuar',
-    finP1:'Eso fue suficiente.', finP2:'Estás un poco mejor ahora.',
-    finNote:'Vuelve cuando quieras.', finBtn:'Otra vez',
-    msun:'🌞 😊', mcloud:'☁️ 😑', mrain:'🌧️ 😓', mstorm:'⛈️ 😡', mfog:'🌫️ 😞',
-  },
+function applyTheme(z){
+  const th=z?ZT[z]:null;
+  const R=document.documentElement;
+  const d={
+    '--z-bg-a':'rgba(13,107,154,0.35)','--z-bg-b':'rgba(10,74,110,0.20)',
+    '--z-cin1':'rgba(200,220,255,0.95)','--z-cin2':'rgba(100,180,230,0.88)','--z-cin3':'rgba(40,120,190,0.80)',
+    '--z-cout1':'rgba(160,200,240,0.92)','--z-cout2':'rgba(70,150,210,0.82)','--z-cout3':'rgba(20,90,160,0.75)',
+    '--z-glow':'rgba(100,180,230,0.25)','--z-ring':'rgba(126,200,227,0.22)',
+    '--z-arc1':'#7ec8e3','--z-arc2':'#c9a84c',
+    '--z-btn1':'#0d6b9a','--z-btn2':'#083d5e','--z-bsh':'rgba(13,107,154,0.40)',
+    '--z-card':'rgba(5,18,38,0.65)','--z-bord':'rgba(201,168,76,0.18)',
+  };
+  const m=th?{
+    '--z-bg-a':th.bga,'--z-bg-b':th.bgb,
+    '--z-cin1':th.cin1,'--z-cin2':th.cin2,'--z-cin3':th.cin3,
+    '--z-cout1':th.cout1,'--z-cout2':th.cout2,'--z-cout3':th.cout3,
+    '--z-glow':th.glow,'--z-ring':th.ring,
+    '--z-arc1':th.arc1,'--z-arc2':th.arc2,
+    '--z-btn1':th.btn1,'--z-btn2':th.btn2,'--z-bsh':th.bsh,
+    '--z-card':th.card,'--z-bord':th.bord,
+  }:d;
+  for(const[k,v]of Object.entries(m))R.style.setProperty(k,v);
+  if(th){document.getElementById('ag1').setAttribute('stop-color',th.arc1);document.getElementById('ag2').setAttribute('stop-color',th.arc2);}
+}
+
+/* i18n */
+const L={
+  ja:{home:'ホーム',tagline:'今すぐ幸せになる',
+    s1p1:'感情は、一気に変えることはできません',s1p2:'でも、少しずつなら動かせます',s1p3:'呼吸を、少しだけ観察してみましょう',
+    s1btn:'今の気分をチェックする',soundLabel:'秒針音',hz432:'自然な共鳴',hz528:'修復・癒し',hz963:'意識の覚醒',
+    s2title:'今の気分に近いもの',s3p1:'今の気分に気づけただけで、',s3p2:'十分です',s3btn:'つづける',
+    guide1m:'通常の呼吸　1分',guide90:'吐くだけ　90秒',phIn:'吸う',phOut:'吐く',
+    transP1:'次は、吐くことだけに<br>任せてみます',transP2:'肺の空気が、自然に出ていきます',transbtn:'つづける',
+    finP1:'それで十分です',finP2:'あなたは今、少し上にいます',finNote:'また、いつでも',finBtn:'もう一度'},
+  en:{home:'Home',tagline:'Feel better, right now',
+    s1p1:"Emotions can't change all at once.",s1p2:'But they can shift, little by little.',s1p3:'Observe your breath for a moment.',
+    s1btn:'Check how you feel',soundLabel:'Tone',hz432:'Natural resonance',hz528:'Repair & healing',hz963:'Awakening',
+    s2title:'Which feels closest to now?',s3p1:'Just noticing how you feel',s3p2:'is enough.',s3btn:'Continue',
+    guide1m:'Breathing · 1 min',guide90:'Exhale only · 90 sec',phIn:'Inhale',phOut:'Exhale',
+    transP1:"Now, let's just<br>exhale.",transP2:'Let the air find its own way out.',transbtn:'Continue',
+    finP1:'That was enough.',finP2:"You're a little higher now.",finNote:'Come back anytime.',finBtn:'Again'},
+  zh:{home:'主页',tagline:'立刻，感到幸福',
+    s1p1:'情绪无法一下子改变，',s1p2:'但可以慢慢移动。',s1p3:'试着观察一下呼吸吧。',
+    s1btn:'确认现在的心情',soundLabel:'节拍音',hz432:'自然共鸣',hz528:'修复与疗愈',hz963:'意识觉醒',
+    s2title:'最接近你现在心情的是？',s3p1:'能意识到自己的心情，',s3p2:'就已经足够了。',s3btn:'继续',
+    guide1m:'呼吸练习　1分钟',guide90:'仅呼气　90秒',phIn:'吸气',phOut:'呼气',
+    transP1:'接下来，把一切<br>交给呼气。',transP2:'让空气自然地流出。',transbtn:'继续',
+    finP1:'这就足够了。',finP2:'你现在，比刚才好一点点。',finNote:'随时都可以回来。',finBtn:'再来一次'},
+  es:{home:'Inicio',tagline:'Siente bienestar, ahora',
+    s1p1:'Las emociones no cambian de golpe.',s1p2:'Pero pueden moverse, poco a poco.',s1p3:'Observa tu respiración un momento.',
+    s1btn:'Ver cómo me siento',soundLabel:'Sonido',hz432:'Resonancia natural',hz528:'Reparación y alivio',hz963:'Despertar',
+    s2title:'¿Cuál se acerca más a ahora?',s3p1:'Solo notar cómo te sientes',s3p2:'ya es suficiente.',s3btn:'Continuar',
+    guide1m:'Respiración · 1 min',guide90:'Solo exhalar · 90 seg',phIn:'Inhala',phOut:'Exhala',
+    transP1:'Ahora, solo<br>exhala.',transP2:'Deja que el aire salga solo.',transbtn:'Continuar',
+    finP1:'Eso fue suficiente.',finP2:'Estás un poco mejor ahora.',finNote:'Vuelve cuando quieras.',finBtn:'Otra vez'},
 };
-
-let lang = 'ja';
-function t(k){ return LANGS[lang][k] || LANGS.ja[k] || k; }
-
-function setLang(l) {
-  lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.trim() === ({ja:'JP',en:'EN',zh:'中',es:'ES'}[l]));
-  });
-  applyTranslations();
-  document.documentElement.lang = l === 'zh' ? 'zh-Hans' : l;
+let lang='ja';
+const t=k=>L[lang][k]||L.ja[k]||k;
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===({ja:'JP',en:'EN',zh:'中',es:'ES'}[l])));
+  applyTrans();
+  document.documentElement.lang=l==='zh'?'zh-Hans':l;
+}
+function applyTrans(){
+  document.querySelectorAll('[data-i]').forEach(el=>{const v=t(el.getAttribute('data-i'));if(v.includes('<br>'))el.innerHTML=v;else el.textContent=v;});
+  if(curPhase!==null)document.getElementById('rPhase').textContent=t(curPhase?'phIn':'phOut');
 }
 
-function applyTranslations() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const v = t(el.getAttribute('data-i18n'));
-    if (v.includes('<br>')) el.innerHTML = v; else el.textContent = v;
-  });
-  if (currentPhase !== null)
-    document.getElementById('phaseText').textContent = t(currentPhase ? 'phaseIn' : 'phaseOut');
-}
+/* STATE */
+let zone='',hist=[1],rafId=null,actx=null,freq=528,curPhase=null;
+const ZE={sun:'🌞 😊',cloud:'☁️ 😑',rain:'🌧️ 😓',storm:'⛈️ 😡',fog:'🌫️ 🥶'};
 
-/* ═══════════════════════════════
-   STATE
-═══════════════════════════════ */
-let zone         = '';
-let historyStack = [1];
-let rafId        = null;
-let audioCtx     = null;
-let soundFreq    = 528;
-let currentPhase = null;
-
-/* ═══════════════════════════════
-   NAV
-═══════════════════════════════ */
-function next(n) {
+/* NAV */
+function next(n){
   cancelRaf();
-  document.querySelectorAll('.screen').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
-  historyStack.push(n);
-  document.getElementById('navArea').classList.toggle('show', n != 1);
+  hist.push(n);
+  document.getElementById('navArea').classList.toggle('show',n!=1);
 }
-function goHome() { cancelRaf(); historyStack=[1]; applyZoneTheme(null); next(1); }
-function goBack() {
+function goHome(){cancelRaf();hist=[1];applyTheme(null);next(1);}
+function goBack(){
   cancelRaf();
-  if (historyStack.length > 1) {
-    historyStack.pop();
-    const prev = historyStack[historyStack.length-1] || 1;
-    historyStack.pop();
-    if (prev == 1) applyZoneTheme(null);
-    next(prev);
-  }
+  if(hist.length>1){hist.pop();const p=hist[hist.length-1]||1;hist.pop();if(p==1)applyTheme(null);next(p);}
 }
 
-/* ═══════════════════════════════
-   ZONE THEME
-═══════════════════════════════ */
-function applyZoneTheme(z) {
-  const th = z ? ZONE_THEMES[z] : null;
-  const root = document.documentElement;
-  if (!th) {
-    // Reset to home (dawn)
-    root.style.setProperty('--z-bg1',    'rgba(255,153,102,0.28)');
-    root.style.setProperty('--z-bg2',    'rgba(255,179,71,0.10)');
-    root.style.setProperty('--z-bg3',    'rgba(232,131,122,0.10)');
-    root.style.setProperty('--z-cin1',   'rgba(255,215,160,0.97)');
-    root.style.setProperty('--z-cin2',   'rgba(255,140,70,0.88)');
-    root.style.setProperty('--z-cin3',   'rgba(220,100,55,0.80)');
-    root.style.setProperty('--z-cout1',  'rgba(255,180,120,0.92)');
-    root.style.setProperty('--z-cout2',  'rgba(210,100,70,0.82)');
-    root.style.setProperty('--z-cout3',  'rgba(180,70,50,0.75)');
-    root.style.setProperty('--z-glow',   'rgba(255,140,60,0.28)');
-    root.style.setProperty('--z-ring',   'rgba(255,153,102,0.18)');
-    root.style.setProperty('--z-arc1',   '#ff9966');
-    root.style.setProperty('--z-arc2',   '#ffcb8a');
-    root.style.setProperty('--z-btn1',   '#ff9966');
-    root.style.setProperty('--z-btn2',   '#ffb347');
-    root.style.setProperty('--z-bshadow','rgba(255,153,102,0.30)');
-    root.style.setProperty('--z-border', 'rgba(255,200,150,0.12)');
-    root.style.setProperty('--z-pill-bg','rgba(255,153,102,0.08)');
-    root.style.setProperty('--z-pill-bd','rgba(255,153,102,0.20)');
-    root.style.setProperty('--z-pill-c', '#ff9966');
-  } else {
-    root.style.setProperty('--z-bg1',    th.bg1);
-    root.style.setProperty('--z-bg2',    th.bg2);
-    root.style.setProperty('--z-bg3',    th.bg3);
-    root.style.setProperty('--z-cin1',   th.cin1);
-    root.style.setProperty('--z-cin2',   th.cin2);
-    root.style.setProperty('--z-cin3',   th.cin3);
-    root.style.setProperty('--z-cout1',  th.cout1);
-    root.style.setProperty('--z-cout2',  th.cout2);
-    root.style.setProperty('--z-cout3',  th.cout3);
-    root.style.setProperty('--z-glow',   th.glow);
-    root.style.setProperty('--z-ring',   th.ring);
-    root.style.setProperty('--z-arc1',   th.arc1);
-    root.style.setProperty('--z-arc2',   th.arc2);
-    root.style.setProperty('--z-btn1',   th.btn1);
-    root.style.setProperty('--z-btn2',   th.btn2);
-    root.style.setProperty('--z-bshadow',th.bshadow);
-    root.style.setProperty('--z-border', th.border);
-    root.style.setProperty('--z-pill-bg',th.pillBg);
-    root.style.setProperty('--z-pill-bd',th.pillBd);
-    root.style.setProperty('--z-pill-c', th.pillC);
-    // Arc gradient stops
-    document.getElementById('arcStop1').setAttribute('stop-color', th.arc1);
-    document.getElementById('arcStop2').setAttribute('stop-color', th.arc2);
-  }
-}
+/* ZONE */
+function pickZone(z){zone=z;applyTheme(z);document.getElementById('zoneBadge').textContent=ZE[z];next(3);}
 
-/* ═══════════════════════════════
-   ZONE SELECT
-═══════════════════════════════ */
-const zoneEmoji = { sun:'🌞 😊', cloud:'☁️ 😑', rain:'🌧️ 😓', storm:'⛈️ 😡', fog:'🌫️ 😞' };
+/* SOUND */
+function pickSound(f,btn){freq=f;document.querySelectorAll('.s-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');preview(f);}
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx;}
+function preview(f){try{const c=getAC(),o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(0.06,c.currentTime+0.05);g.gain.linearRampToValueAtTime(0,c.currentTime+0.5);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.55);}catch(e){}}
+function tick(){try{const c=getAC(),o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(0,c.currentTime);g.gain.linearRampToValueAtTime(0.24,c.currentTime+0.03);g.gain.linearRampToValueAtTime(0,c.currentTime+0.15);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.18);}catch(e){}}
 
-function selectZone(z) {
-  zone = z;
-  applyZoneTheme(z);
-  document.getElementById('zonePill').innerHTML =
-    `<div class="zone-pill">${zoneEmoji[z]}</div>`;
-  next(3);
-}
+/* ENGINE */
+const IN=3000,EX=5000,CYC=8000,SES=60000,ARC=660;
+function cancelRaf(){if(rafId){cancelAnimationFrame(rafId);rafId=null;}}
+function ease(t){return t<0.5?2*t*t:-1+(4-2*t)*t;}
 
-/* ═══════════════════════════════
-   SOUND
-═══════════════════════════════ */
-function selectSound(freq, btn) {
-  soundFreq = freq;
-  document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  previewTone(freq);
-}
-
-function getAudioCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
-
-function previewTone(freq) {
-  try {
-    const ctx = getAudioCtx();
-    const osc = ctx.createOscillator(), gain = ctx.createGain();
-    osc.type = 'sine'; osc.frequency.value = freq;
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.04, ctx.currentTime+0.05);
-    gain.gain.linearRampToValueAtTime(0, ctx.currentTime+0.5);
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.start(); osc.stop(ctx.currentTime+0.55);
-  } catch(e){}
-}
-
-function playTick() {
-  try {
-    const ctx = getAudioCtx();
-    const osc = ctx.createOscillator(), gain = ctx.createGain();
-    osc.type = 'sine'; osc.frequency.value = soundFreq;
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.24, ctx.currentTime+0.03);
-    gain.gain.linearRampToValueAtTime(0, ctx.currentTime+0.15);
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.start(); osc.stop(ctx.currentTime+0.18);
-  } catch(e){}
-}
-
-/* ═══════════════════════════════
-   BREATHING ENGINE
-═══════════════════════════════ */
-const INHALE=3000, EXHALE=5000, CYCLE=8000, SESSION=60000, ARC_C=629;
-
-function cancelRaf(){ if(rafId){ cancelAnimationFrame(rafId); rafId=null; } }
-function ease(t){ return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
-
-function startBreathing() {
-  next(4);
-  resetRings(true);
-  document.getElementById('guideChip').textContent = t('guide1min');
-  document.getElementById('breathHint').textContent = '';
+function startBreath(){
+  next(4);showRings(true);
   document.getElementById('arcWrap').classList.remove('show');
-
-  const start = performance.now(); let lastSec=-1;
-  function frame() {
-    const el = performance.now()-start;
-    if (el >= SESSION) { if(zone==='storm'||zone==='fog') next('4b'); else next(5); return; }
-    const pos = el % CYCLE, inPhase = pos < INHALE;
-    currentPhase = inPhase;
-    let sc, disp;
-    if (inPhase) {
-      const tt=pos/INHALE; sc=1.0+0.24*ease(tt); disp=Math.min(3,Math.floor(tt*3)+1);
-    } else {
-      const tt=(pos-INHALE)/EXHALE; sc=1.24-0.36*ease(tt); disp=Math.min(5,Math.floor(tt*5)+1);
-    }
-    applyCircle(sc, inPhase);
-    document.getElementById('phaseText').textContent = t(inPhase?'phaseIn':'phaseOut');
-    document.getElementById('countNum').textContent  = disp;
-    const sec=Math.floor(el/1000); if(sec!==lastSec){lastSec=sec;playTick();}
-    rafId=requestAnimationFrame(frame);
-  }
-  rafId=requestAnimationFrame(frame);
-}
-
-function startExhale() {
-  next(4);
-  resetRings(false);
-  document.getElementById('guideChip').textContent = t('guide90s');
-  document.getElementById('arcWrap').classList.add('show');
-  document.getElementById('arcProg').style.strokeDashoffset = ARC_C;
-  currentPhase = false;
-
-  const EXHALE_S=90000, start=performance.now(); let lastSec=-1;
-  function frame() {
+  document.getElementById('sessionChip').textContent=t('guide1m');
+  document.getElementById('breathNote').textContent='';
+  const start=performance.now();let ls=-1;
+  function f(){
     const el=performance.now()-start;
-    if (el>=EXHALE_S) { document.getElementById('arcProg').style.strokeDashoffset=0; next(5); return; }
-    const prog=el/EXHALE_S;
-    document.getElementById('arcProg').style.strokeDashoffset = ARC_C*(1-prog);
-    document.getElementById('countNum').textContent  = Math.ceil((EXHALE_S-el)/1000);
-    document.getElementById('phaseText').textContent = t('phaseOut');
-    const wave=Math.sin((el/5000)*Math.PI)*0.05;
-    applyCircle(0.72+wave, false);
-    const sec=Math.floor(el/1000); if(sec!==lastSec){lastSec=sec;playTick();}
-    rafId=requestAnimationFrame(frame);
+    if(el>=SES){if(zone==='storm'||zone==='fog')next('4b');else next(5);return;}
+    const pos=el%CYC,isIn=pos<IN;curPhase=isIn;
+    let sc,disp;
+    if(isIn){const tt=pos/IN;sc=1+0.26*ease(tt);disp=Math.min(3,Math.floor(tt*3)+1);}
+    else{const tt=(pos-IN)/EX;sc=1.26-0.38*ease(tt);disp=Math.min(5,Math.floor(tt*5)+1);}
+    drawC(sc,isIn);
+    document.getElementById('rPhase').textContent=t(isIn?'phIn':'phOut');
+    document.getElementById('rCount').textContent=disp;
+    const s=Math.floor(el/1000);if(s!==ls){ls=s;tick();}
+    rafId=requestAnimationFrame(f);
   }
-  rafId=requestAnimationFrame(frame);
+  rafId=requestAnimationFrame(f);
 }
 
-/* ═══════════════════════════════
-   CIRCLE
-═══════════════════════════════ */
-function resetRings(show) {
-  document.getElementById('ringOuter').style.display = show?'':'none';
-  document.getElementById('ringMid').style.display   = show?'':'none';
+function startExhale(){
+  next(4);showRings(false);
+  document.getElementById('arcWrap').classList.add('show');
+  document.getElementById('arcProg').style.strokeDashoffset=ARC;
+  document.getElementById('sessionChip').textContent=t('guide90');
+  curPhase=false;
+  const ES=90000,start=performance.now();let ls=-1;
+  function f(){
+    const el=performance.now()-start;
+    if(el>=ES){document.getElementById('arcProg').style.strokeDashoffset=0;next(5);return;}
+    document.getElementById('arcProg').style.strokeDashoffset=ARC*(1-el/ES);
+    document.getElementById('rCount').textContent=Math.ceil((ES-el)/1000);
+    document.getElementById('rPhase').textContent=t('phOut');
+    drawC(0.72+Math.sin((el/5000)*Math.PI)*0.05,false);
+    const s=Math.floor(el/1000);if(s!==ls){ls=s;tick();}
+    rafId=requestAnimationFrame(f);
+  }
+  rafId=requestAnimationFrame(f);
 }
 
-function applyCircle(s, isInhale) {
-  const core=document.getElementById('circleCore');
-  const outer=document.getElementById('ringOuter');
-  const mid=document.getElementById('ringMid');
-  const glow=document.getElementById('ringGlow');
-  core.style.transform  = `scale(${s.toFixed(4)})`;
-  if(outer) outer.style.transform = `scale(${(0.82+s*0.20).toFixed(4)})`;
-  if(mid)   mid.style.transform   = `scale(${(0.86+s*0.16).toFixed(4)})`;
-  if(glow)  { glow.style.transform=`scale(${(s*1.3).toFixed(4)})`; glow.style.opacity=(0.5+s*0.3).toFixed(3); }
-  const c1=isInhale?'--z-cin1':'--z-cout1', c2=isInhale?'--z-cin2':'--z-cout2', c3=isInhale?'--z-cin3':'--z-cout3';
-  const v = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
-  core.style.background = `radial-gradient(circle at 35% 30%, ${v(c1)}, ${v(c2)}, ${v(c3)})`;
-  core.style.boxShadow  = `0 0 0 1px ${v('--z-glow')}, 0 8px 40px ${v('--z-glow')}, inset 0 1px 0 rgba(255,255,255,0.40)`;
+function showRings(v){document.getElementById('rOuter').style.display=v?'':'none';document.getElementById('rMid').style.display=v?'':'none';}
+
+function drawC(s,isIn){
+  const core=document.getElementById('rCore');
+  const outer=document.getElementById('rOuter');
+  const mid=document.getElementById('rMid');
+  const glow=document.getElementById('rGlow');
+  core.style.transform=`scale(${s.toFixed(4)})`;
+  if(outer)outer.style.transform=`scale(${(0.82+s*0.20).toFixed(4)})`;
+  if(mid)mid.style.transform=`scale(${(0.86+s*0.16).toFixed(4)})`;
+  if(glow){glow.style.transform=`scale(${(s*1.3).toFixed(4)})`;glow.style.opacity=(0.4+s*0.35).toFixed(3);}
+  const g=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+  const c1=isIn?'--z-cin1':'--z-cout1',c2=isIn?'--z-cin2':'--z-cout2',c3=isIn?'--z-cin3':'--z-cout3';
+  core.style.background=`radial-gradient(circle at 35% 30%,${g(c1)},${g(c2)},${g(c3)})`;
+  core.style.boxShadow=`0 0 0 1px ${g('--z-glow')},0 8px 40px ${g('--z-glow')},inset 0 1px 0 rgba(255,255,255,0.35)`;
 }
 </script>
 </body>
