@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#2A1E00"/>
+      <stop offset="45%" stop-color="#140E00"/>
+      <stop offset="100%" stop-color="#060400"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="30%" r="55%">
+      <stop offset="0%" stop-color="#FFF8DC" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#FFF8DC"/>
+      <stop offset="20%"  stop-color="#F5D060"/>
+      <stop offset="45%"  stop-color="#C9A84C"/>
+      <stop offset="70%"  stop-color="#E8C87A"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <filter id="glow-filter">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="512" height="512" rx="0" fill="url(#bg)"/>
+
+  <!-- 光のグロー -->
+  <ellipse cx="256" cy="160" rx="280" ry="180" fill="url(#glow)"/>
+
+  <!-- ゴールドの枠線 -->
+  <rect x="2" y="2" width="508" height="508" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.3"/>
+
+  <!-- BREATH テキスト -->
+  <text
+    x="256"
+    y="278"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="88"
+    font-style="italic"
+    font-weight="300"
+    letter-spacing="10"
+    fill="url(#textGrad)"
+    filter="url(#glow-filter)"
+  >BREATH</text>
+</svg>
