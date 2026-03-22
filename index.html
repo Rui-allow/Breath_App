@@ -305,9 +305,9 @@ body::before {
     <div class="tagline fade-in d2" data-key="tagline">今すぐ幸せになる</div>
     <div class="divider fade-in d3"></div>
     <div class="body-text fade-in d3">
-      <div data-key="body1">感情は、一気に変えることはできません</div>
-      <div data-key="body2">でも、少しずつなら動かせます</div>
-      <div data-key="body3">呼吸を、少しだけ観察してみましょう</div>
+      <div data-key="body1">感情は、一気に変えることはできません。</div>
+      <div data-key="body2">少しずつなら動かせます。</div>
+      <div data-key="body3">1分だけ、静かになる。</div>
     </div>
     <div class="sound-section fade-in d4">
       <div class="sound-label" data-key="soundLabel">秒針音</div>
@@ -430,8 +430,9 @@ body::before {
     <div class="end-lines">
       <div class="end-line-1" id="el1" data-key="end1">それで十分です</div>
       <div class="end-line-2" id="el2" data-key="end2">あなたは今、少し上にいます</div>
+      <div class="end-line-2" id="el3" data-key="end3">この1分は、本当の自分への道。</div>
     </div>
-    <div class="end-note" id="el3" data-key="endNote">また、いつでも</div>
+    <div style="height:32px"></div>
     <button class="btn-primary" onclick="goHome()"><span data-key="againBtn">もう一度</span></button>
   </div>
 </div>
@@ -451,7 +452,7 @@ const THEMES={
 };
 
 const T={
-  jp:{tagline:'今すぐ幸せになる',body1:'感情は、一気に変えることはできません',body2:'でも、少しずつなら動かせます',body3:'呼吸を、少しだけ観察してみましょう',startBtn:'今の気分をチェックする',soundLabel:'秒針音',hz432:'自然な\n共鳴',hz528:'修復・\n癒し',hz963:'意識の\n覚醒',moodTitle:'今の気分に近いもの',mood0:'晴天',mood1:'曇り',mood2:'雨',mood3:'嵐',mood4:'霧',confirm1:'今の気分に',confirm2:'気づいただけで',confirm3:'十分です',continueBtn:'つづける',chipNormal:'通常の呼吸　1分',chipExhale:'吐くだけ　90秒',inhale:'吸う',exhale:'吐く',exhaleOnly:'吐く',bridge1:'次は、吐くことだけに任せてみます',bridge2:'肺の空気が、自然に出ていきます',end1:'それで十分です',end2:'あなたは今、少し上にいます',endNote:'また、いつでも',againBtn:'もう一度',back:'戻る',home:'ホーム'},
+  jp:{tagline:'今すぐ幸せになる',body1:'感情は、一気に変えることはできません。',body2:'少しずつなら動かせます。',body3:'1分だけ、静かになる。',startBtn:'今の気分をチェックする',soundLabel:'秒針音',hz432:'自然な\n共鳴',hz528:'修復・\n癒し',hz963:'意識の\n覚醒',moodTitle:'今の気分に近いもの',mood0:'晴天',mood1:'曇り',mood2:'雨',mood3:'嵐',mood4:'霧',confirm1:'今の気分に',confirm2:'気づいただけで',confirm3:'十分です',continueBtn:'つづける',chipNormal:'通常の呼吸　1分',chipExhale:'吐くだけ　90秒',inhale:'吸う',exhale:'吐く',exhaleOnly:'吐く',bridge1:'次は、吐くことだけに任せてみます',bridge2:'肺の空気が、自然に出ていきます',end1:'それで十分です',end2:'あなたは今、少し上にいます',end3:'この1分は、本当の自分への道。',againBtn:'もう一度',back:'戻る',home:'ホーム'},
   en:{tagline:'Find peace, right now',body1:'Emotions cannot change all at once.',body2:'But they can shift, little by little.',body3:"Let's simply observe your breath.",startBtn:'Check your mood',soundLabel:'Tone',hz432:'Natural\nResonance',hz528:'Healing\nRepair',hz963:'Conscious\nAwakening',moodTitle:'How are you feeling?',mood0:'Sunny',mood1:'Cloudy',mood2:'Rainy',mood3:'Storm',mood4:'Foggy',confirm1:'Just noticing',confirm2:'how you feel',confirm3:'is enough.',continueBtn:'Continue',chipNormal:'Breathing · 1 min',chipExhale:'Exhale only · 90s',inhale:'Inhale',exhale:'Exhale',exhaleOnly:'Exhale',bridge1:'Now, just let the exhale happen.',bridge2:'The air leaves on its own.',end1:"That's enough.",end2:'You are a little higher now.',endNote:'Whenever you need.',againBtn:'Again',back:'Back',home:'Home'},
   zh:{tagline:'此刻，找到平静',body1:'情绪无法一下子改变。',body2:'但可以慢慢移动。',body3:'让我们稍微观察一下呼吸。',startBtn:'检查心情',soundLabel:'音调',hz432:'自然\n共鸣',hz528:'修复\n疗愈',hz963:'意识\n觉醒',moodTitle:'现在的感觉接近哪个？',mood0:'晴天',mood1:'多云',mood2:'雨天',mood3:'暴风雨',mood4:'大雾',confirm1:'注意到',confirm2:'自己的状态',confirm3:'已经足够了。',continueBtn:'继续',chipNormal:'呼吸练习 · 1分钟',chipExhale:'只呼气 · 90秒',inhale:'吸气',exhale:'呼气',exhaleOnly:'呼气',bridge1:'接下来，只需要呼气。',bridge2:'空气会自然流出。',end1:'这已经足够了。',end2:'你现在在更高的地方。',endNote:'随时都可以回来。',againBtn:'再来一次',back:'返回',home:'首页'},
   es:{tagline:'Encuentra paz, ahora mismo',body1:'Las emociones no cambian de golpe.',body2:'Pero pueden moverse poco a poco.',body3:'Observemos la respiración un momento.',startBtn:'Ver cómo estoy',soundLabel:'Tono',hz432:'Resonancia\nnatural',hz528:'Sanación\ny reparo',hz963:'Despertar\nconsciencia',moodTitle:'¿Cómo te sientes ahora?',mood0:'Soleado',mood1:'Nublado',mood2:'Lluvia',mood3:'Tormenta',mood4:'Niebla',confirm1:'Notar',confirm2:'cómo te sientes',confirm3:'ya es suficiente.',continueBtn:'Continuar',chipNormal:'Respiración · 1 min',chipExhale:'Solo exhalar · 90s',inhale:'Inhalar',exhale:'Exhalar',exhaleOnly:'Exhalar',bridge1:'Ahora, solo deja que salga el aire.',bridge2:'El aire sale solo.',end1:'Con eso basta.',end2:'Ahora estás un poco más arriba.',endNote:'Cuando quieras.',againBtn:'De nuevo',back:'Volver',home:'Inicio'},
@@ -604,6 +605,7 @@ function animateS4b(){
 function animateS5(){
   [['el1',600],['el2',1000],['el3',1400]].forEach(([id,d])=>{
     const el=document.getElementById(id);
+    if(!el)return;
     el.style.opacity='0';el.style.transform='translateY(12px)';
     setTimeout(()=>{el.style.transition='opacity 0.8s ease,transform 0.8s ease';el.style.opacity='1';el.style.transform='translateY(0)';},d);
   });
