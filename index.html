@@ -244,7 +244,9 @@ body::before {
 @keyframes bolt    {0%,4%,100%{opacity:0}5%{opacity:1}7%{opacity:0.9}9%{opacity:0}}
 @keyframes freeze  {0%,100%{transform:translate(0,0)}50%{transform:translate(6px,3px)}}
 
-/* ══ S3 CONFIRM ══ */
+/* ══ S3b OBSERVE ══ */
+#s3b { z-index:10; }
+.observe-text{font-size:clamp(18px,4.5vw,26px);letter-spacing:0.15em;color:var(--text);font-weight:300;opacity:0;text-align:center;margin-bottom:36px;}
 #s3 { z-index:10; }
 .confirm-lines{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:20px;}
 .confirm-line{font-size:clamp(22px,5.5vw,32px);letter-spacing:0.12em;color:var(--text);font-weight:300;opacity:0;}
@@ -260,7 +262,7 @@ body::before {
 .breath-svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
 .breath-arc{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-linecap:round;opacity:0.6;}
 .breath-label{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--text-dim);letter-spacing:0.15em;margin-top:32px;min-height:30px;}
-.breath-countdown{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--text-dim);letter-spacing:0.2em;margin-top:20px;opacity:0.5;}
+.breath-countdown{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);letter-spacing:0.2em;margin-top:20px;opacity:0.75;}
 .wave-circle{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse,var(--zone-primary) 0%,rgba(201,168,76,0.1) 50%,transparent 80%);box-shadow:0 0 30px var(--zone-primary);animation:wavePulse 3s ease-in-out infinite;width:100px;height:100px;margin:auto;}
 @keyframes wavePulse{0%,100%{transform:scale(0.9);opacity:0.7}50%{transform:scale(1.05);opacity:1}}
 
@@ -384,6 +386,14 @@ body::before {
   </div>
 </div>
 
+<!-- S3b OBSERVE -->
+<div class="screen" id="s3b">
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
+    <div class="observe-text" id="s3bText" data-key="observe">呼吸を観察してみましょう</div>
+    <div class="s3-progress"><div class="s3-bar" id="s3bBar"></div></div>
+  </div>
+</div>
+
 <!-- S3 CONFIRM -->
 <div class="screen" id="s3">
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
@@ -452,11 +462,11 @@ const THEMES={
 };
 
 const T={
-  jp:{tagline:'今すぐ幸せになる',body1:'感情は、一気に変えることはできません。',body2:'少しずつなら動かせます。',body3:'1分だけ、静かになる。',startBtn:'今の気分をチェックする',soundLabel:'秒針音',hz432:'自然な\n共鳴',hz528:'修復・\n癒し',hz963:'意識の\n覚醒',moodTitle:'今の気分に近いもの',mood0:'晴天',mood1:'曇り',mood2:'雨',mood3:'嵐',mood4:'霧',confirm1:'今の気分に',confirm2:'気づいただけで',confirm3:'十分です',continueBtn:'つづける',chipNormal:'通常の呼吸　1分',chipExhale:'吐くだけ　90秒',inhale:'吸う',exhale:'吐く',exhaleOnly:'吐く',bridge1:'次は、吐くことだけに任せてみます',bridge2:'肺の空気が、自然に出ていきます',end1:'それで十分です',end2:'あなたは今、少し上にいます',end3:'この1分は、本当の自分への道。',againBtn:'もう一度',back:'戻る',home:'ホーム'},
-  en:{tagline:'Find peace, right now',body1:'Emotions cannot change all at once.',body2:'But they can shift, little by little.',body3:"Let's simply observe your breath.",startBtn:'Check your mood',soundLabel:'Tone',hz432:'Natural\nResonance',hz528:'Healing\nRepair',hz963:'Conscious\nAwakening',moodTitle:'How are you feeling?',mood0:'Sunny',mood1:'Cloudy',mood2:'Rainy',mood3:'Storm',mood4:'Foggy',confirm1:'Just noticing',confirm2:'how you feel',confirm3:'is enough.',continueBtn:'Continue',chipNormal:'Breathing · 1 min',chipExhale:'Exhale only · 90s',inhale:'Inhale',exhale:'Exhale',exhaleOnly:'Exhale',bridge1:'Now, just let the exhale happen.',bridge2:'The air leaves on its own.',end1:"That's enough.",end2:'You are a little higher now.',endNote:'Whenever you need.',againBtn:'Again',back:'Back',home:'Home'},
-  zh:{tagline:'此刻，找到平静',body1:'情绪无法一下子改变。',body2:'但可以慢慢移动。',body3:'让我们稍微观察一下呼吸。',startBtn:'检查心情',soundLabel:'音调',hz432:'自然\n共鸣',hz528:'修复\n疗愈',hz963:'意识\n觉醒',moodTitle:'现在的感觉接近哪个？',mood0:'晴天',mood1:'多云',mood2:'雨天',mood3:'暴风雨',mood4:'大雾',confirm1:'注意到',confirm2:'自己的状态',confirm3:'已经足够了。',continueBtn:'继续',chipNormal:'呼吸练习 · 1分钟',chipExhale:'只呼气 · 90秒',inhale:'吸气',exhale:'呼气',exhaleOnly:'呼气',bridge1:'接下来，只需要呼气。',bridge2:'空气会自然流出。',end1:'这已经足够了。',end2:'你现在在更高的地方。',endNote:'随时都可以回来。',againBtn:'再来一次',back:'返回',home:'首页'},
-  es:{tagline:'Encuentra paz, ahora mismo',body1:'Las emociones no cambian de golpe.',body2:'Pero pueden moverse poco a poco.',body3:'Observemos la respiración un momento.',startBtn:'Ver cómo estoy',soundLabel:'Tono',hz432:'Resonancia\nnatural',hz528:'Sanación\ny reparo',hz963:'Despertar\nconsciencia',moodTitle:'¿Cómo te sientes ahora?',mood0:'Soleado',mood1:'Nublado',mood2:'Lluvia',mood3:'Tormenta',mood4:'Niebla',confirm1:'Notar',confirm2:'cómo te sientes',confirm3:'ya es suficiente.',continueBtn:'Continuar',chipNormal:'Respiración · 1 min',chipExhale:'Solo exhalar · 90s',inhale:'Inhalar',exhale:'Exhalar',exhaleOnly:'Exhalar',bridge1:'Ahora, solo deja que salga el aire.',bridge2:'El aire sale solo.',end1:'Con eso basta.',end2:'Ahora estás un poco más arriba.',endNote:'Cuando quieras.',againBtn:'De nuevo',back:'Volver',home:'Inicio'},
-  ko:{tagline:'지금 이 순간, 평화를 찾아요',body1:'감정은 한번에 바꿀 수 없어요.',body2:'하지만 조금씩 움직일 수 있어요.',body3:'잠깐 호흡을 관찰해봐요.',startBtn:'지금 기분 확인하기',soundLabel:'음조',hz432:'자연\n공명',hz528:'치유\n회복',hz963:'의식\n각성',moodTitle:'지금 기분에 가까운 것은?',mood0:'맑음',mood1:'흐림',mood2:'비',mood3:'폭풍',mood4:'안개',confirm1:'지금 기분을',confirm2:'알아챘다는 것만으로도',confirm3:'충분해요.',continueBtn:'계속',chipNormal:'호흡 연습 · 1분',chipExhale:'내쉬기만 · 90초',inhale:'들이쉬기',exhale:'내쉬기',exhaleOnly:'내쉬기',bridge1:'이번엔 그냥 내쉬기만 해요.',bridge2:'공기가 자연스럽게 나와요.',end1:'그것으로 충분해요.',end2:'당신은 지금 조금 더 높은 곳에 있어요.',endNote:'언제든지 다시 오세요.',againBtn:'다시',back:'돌아가기',home:'홈'},
+  jp:{tagline:'今すぐ幸せになる',body1:'感情は、一気に変えることはできません。',body2:'少しずつなら動かせます。',body3:'1分だけ、静かになる。',startBtn:'今の気分をチェックする',soundLabel:'秒針音',hz432:'自然な\n共鳴',hz528:'修復・\n癒し',hz963:'意識の\n覚醒',moodTitle:'今の気分に近いもの',mood0:'晴天',mood1:'曇り',mood2:'雨',mood3:'嵐',mood4:'霧',confirm1:'今の気分に',confirm2:'気づいただけで',confirm3:'十分です',observe:'呼吸を観察してみましょう',continueBtn:'つづける',chipNormal:'通常の呼吸　1分',chipExhale:'吐くだけ　90秒',inhale:'吸う',exhale:'吐く',exhaleOnly:'吐く',bridge1:'次は、吐くことだけに任せてみます',bridge2:'肺の空気が、自然に出ていきます',end1:'それで十分です',end2:'あなたは今、少し上にいます',end3:'この1分は、本当の自分への道。',againBtn:'もう一度',back:'戻る',home:'ホーム'},
+  en:{tagline:'Find peace, right now',body1:'Emotions cannot change all at once.',body2:'But they can shift, little by little.',body3:'Just one minute of stillness.',startBtn:'Check your mood',soundLabel:'Tone',hz432:'Natural\nResonance',hz528:'Healing\nRepair',hz963:'Conscious\nAwakening',moodTitle:'How are you feeling?',mood0:'Sunny',mood1:'Cloudy',mood2:'Rainy',mood3:'Storm',mood4:'Foggy',confirm1:'Just noticing',confirm2:'how you feel',confirm3:'is enough.',observe:'Observe your breath.',continueBtn:'Continue',chipNormal:'Breathing · 1 min',chipExhale:'Exhale only · 90s',inhale:'Inhale',exhale:'Exhale',exhaleOnly:'Exhale',bridge1:'Now, just let the exhale happen.',bridge2:'The air leaves on its own.',end1:"That's enough.",end2:'You are a little higher now.',end3:'Your way back to yourself.',againBtn:'Again',back:'Back',home:'Home'},
+  zh:{tagline:'此刻，找到平静',body1:'情绪无法一下子改变。',body2:'但可以慢慢移动。',body3:'只需一分钟，静下来。',startBtn:'检查心情',soundLabel:'音调',hz432:'自然\n共鸣',hz528:'修复\n疗愈',hz963:'意识\n觉醒',moodTitle:'现在的感觉接近哪个？',mood0:'晴天',mood1:'多云',mood2:'雨天',mood3:'暴风雨',mood4:'大雾',confirm1:'注意到',confirm2:'自己的状态',confirm3:'已经足够了。',observe:'观察你的呼吸。',continueBtn:'继续',chipNormal:'呼吸练习 · 1分钟',chipExhale:'只呼气 · 90秒',inhale:'吸气',exhale:'呼气',exhaleOnly:'呼气',bridge1:'接下来，只需要呼气。',bridge2:'空气会自然流出。',end1:'这已经足够了。',end2:'你现在在更高的地方。',end3:'回到真实的自己。',againBtn:'再来一次',back:'返回',home:'首页'},
+  es:{tagline:'Encuentra paz, ahora mismo',body1:'Las emociones no cambian de golpe.',body2:'Pero pueden moverse poco a poco.',body3:'Solo un minuto de silencio.',startBtn:'Ver cómo estoy',soundLabel:'Tono',hz432:'Resonancia\nnatural',hz528:'Sanación\ny reparo',hz963:'Despertar\nconsciencia',moodTitle:'¿Cómo te sientes ahora?',mood0:'Soleado',mood1:'Nublado',mood2:'Lluvia',mood3:'Tormenta',mood4:'Niebla',confirm1:'Notar',confirm2:'cómo te sientes',confirm3:'ya es suficiente.',observe:'Observa tu respiración.',continueBtn:'Continuar',chipNormal:'Respiración · 1 min',chipExhale:'Solo exhalar · 90s',inhale:'Inhalar',exhale:'Exhalar',exhaleOnly:'Exhalar',bridge1:'Ahora, solo deja que salga el aire.',bridge2:'El aire sale solo.',end1:'Con eso basta.',end2:'Ahora estás un poco más arriba.',end3:'El camino de regreso a ti mismo.',againBtn:'De nuevo',back:'Volver',home:'Inicio'},
+  ko:{tagline:'지금 이 순간, 평화를 찾아요',body1:'감정은 한번에 바꿀 수 없어요.',body2:'하지만 조금씩 움직일 수 있어요.',body3:'1분만, 조용해져 봐요.',startBtn:'지금 기분 확인하기',soundLabel:'음조',hz432:'자연\n공명',hz528:'치유\n회복',hz963:'의식\n각성',moodTitle:'지금 기분에 가까운 것은?',mood0:'맑음',mood1:'흐림',mood2:'비',mood3:'폭풍',mood4:'안개',confirm1:'지금 기분을',confirm2:'알아챘다는 것만으로도',confirm3:'충분해요.',observe:'호흡을 관찰해봐요.',continueBtn:'계속',chipNormal:'호흡 연습 · 1분',chipExhale:'내쉬기만 · 90초',inhale:'들이쉬기',exhale:'내쉬기',exhaleOnly:'내쉬기',bridge1:'이번엔 그냥 내쉬기만 해요.',bridge2:'공기가 자연스럽게 나와요.',end1:'그것으로 충분해요.',end2:'당신은 지금 조금 더 높은 곳에 있어요.',end3:'진정한 자신으로 돌아가는 길.',againBtn:'다시',back:'돌아가기',home:'홈'},
 };
 
 function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
@@ -469,6 +479,7 @@ function goTo(id){
   currentScreen=id;
   document.getElementById('nav').classList.toggle('visible',id!=='s1');
   if(id==='s3')animateS3();
+  if(id==='s3b')animateS3b();
   if(id==='s4b')animateS4b();
   if(id==='s5')animateS5();
 }
@@ -504,7 +515,19 @@ function animateS3(){
   const bar=document.getElementById('s3Bar');
   bar.style.transition='none';bar.style.width='0%';
   setTimeout(()=>{bar.style.transition='width 3.2s linear';bar.style.width='100%';},1500);
-  s3Timer=setTimeout(()=>startBreath(),4800);
+  s3Timer=setTimeout(()=>goTo('s3b'),4800);
+}
+
+let s3bTimer=null;
+function animateS3b(){
+  if(s3bTimer){clearTimeout(s3bTimer);s3bTimer=null;}
+  const el=document.getElementById('s3bText');
+  el.style.opacity='0';el.style.transform='translateY(12px)';
+  setTimeout(()=>{el.style.transition='opacity 0.8s ease,transform 0.8s ease';el.style.opacity='1';el.style.transform='translateY(0)';},300);
+  const bar=document.getElementById('s3bBar');
+  bar.style.transition='none';bar.style.width='0%';
+  setTimeout(()=>{bar.style.transition='width 28s linear';bar.style.width='100%';},800);
+  s3bTimer=setTimeout(()=>startBreath(),30000);
 }
 
 function startBreath(){
@@ -589,6 +612,7 @@ function stopBreath(){
   if(tickTimer){clearInterval(tickTimer);tickTimer=null;}
   if(breathAF){cancelAnimationFrame(breathAF);breathAF=null;}
   if(s3Timer){clearTimeout(s3Timer);s3Timer=null;}
+  if(s3bTimer){clearTimeout(s3bTimer);s3bTimer=null;}
   const c=document.getElementById('breathCircle');
   c.style.transform='';c.style.width='120px';c.style.height='120px';c.innerHTML='';
   document.getElementById('breathArc').style.strokeDashoffset='722.6';
