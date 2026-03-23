@@ -407,7 +407,7 @@ body::before {
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
     <div class="observe-text" id="s3bText" data-key="observe">呼吸を観察してみましょう</div>
     <div class="s3-progress"><div class="s3-bar" id="s3bBar"></div></div>
-    <div style="font-size:12px;letter-spacing:0.2em;color:var(--text-dim);margin-top:12px;opacity:0.6;" id="s3bSec">30秒</div>
+    <div style="font-size:13px;letter-spacing:0.22em;color:var(--text-dim);margin-top:12px;opacity:0;" id="s3bSec" data-key="sec30">30秒</div>
   </div>
 </div>
 
@@ -580,6 +580,9 @@ function animateS3b(){
   const el=document.getElementById('s3bText');
   el.style.opacity='0';el.style.transform='translateY(12px)';
   setTimeout(()=>{el.style.transition='opacity 0.8s ease,transform 0.8s ease';el.style.opacity='1';el.style.transform='translateY(0)';},300);
+  const sec=document.getElementById('s3bSec');
+  sec.style.opacity='0';
+  setTimeout(()=>{sec.style.transition='opacity 0.8s ease';sec.style.opacity='0.65';},700);
   const bar=document.getElementById('s3bBar');
   bar.style.transition='none';bar.style.width='0%';
   setTimeout(()=>{bar.style.transition='width 28s linear';bar.style.width='100%';},800);
@@ -602,7 +605,13 @@ function startExhaleOnly(){
   document.getElementById('breathChip').textContent=T[currentLang]['chipExhale'];
   const c=document.getElementById('breathCircle');
   c.style.width='90px';c.style.height='90px';c.innerHTML='';
-  const w=document.createElement('div');w.className='wave-circle';c.appendChild(w);
+  // 波動ではなく静かな円を表示
+  c.style.background=`radial-gradient(ellipse, ${THEMES[currentMood].primary} 0%, rgba(201,168,76,0.15) 60%, transparent 100%)`;
+  c.style.boxShadow=`0 0 30px ${THEMES[currentMood].primary}`;
+  // アークをリセットして90秒で1周させる
+  const arc=document.getElementById('breathArc');
+  arc.style.strokeDashoffset='722.6';
+  arc.style.stroke=THEMES[currentMood].primary;
   goTo('s4');beginExhaleOnlyCycle();
 }
 
@@ -670,11 +679,17 @@ function beginExhaleOnlyCycle(){
   tickTimer=setInterval(()=>playTick(currentHz),1000);playTick(currentHz);
   const start=Date.now();
   const label=document.getElementById('breathLabel');
+  const arc=document.getElementById('breathArc');
+  const C=722.6;
   label.textContent=T[currentLang]['exhaleOnly'];label.style.color='var(--zone-primary)';
   const si=setInterval(()=>{
     const elapsed=(Date.now()-start)/1000;
     const rem=breathDuration-elapsed;
-    if(rem>0)document.getElementById('breathCountdown').textContent=Math.ceil(rem);
+    if(rem>0){
+      document.getElementById('breathCountdown').textContent=Math.ceil(rem);
+      // 90秒で円周を1周（722.6→0）
+      arc.style.strokeDashoffset=(C*(rem/breathDuration)).toFixed(1);
+    }
     if(elapsed>=breathDuration){
       clearInterval(si);clearInterval(tickTimer);
       if(currentMood==='storm'||currentMood==='fog'){goTo('s4d');}
