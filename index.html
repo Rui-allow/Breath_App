@@ -433,10 +433,9 @@ body::before {
         <circle cx="120" cy="120" r="115" class="breath-arc" id="breathArc" stroke-dasharray="722.6" stroke-dashoffset="722.6"/>
       </svg>
       <div class="breath-circle" id="breathCircle"></div>
-      <!-- ラベルと秒数を円の上に重ねる（circleの外・containerの中） -->
-      <div style="position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;pointer-events:none;">
-        <div id="breathLabel" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--text);letter-spacing:0.15em;opacity:0.9;line-height:1;">吸う</div>
-        <div id="breathPhaseCount" style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--text);letter-spacing:0.05em;margin-top:4px;font-weight:300;min-width:40px;text-align:center;"></div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;z-index:10;pointer-events:none;text-align:center;">
+        <div id="breathLabel" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#F0EDE8;letter-spacing:0.15em;line-height:1;text-shadow:0 0 10px rgba(0,0,0,0.8);">吸う</div>
+        <div id="breathPhaseCount" style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#F0EDE8;letter-spacing:0.05em;margin-top:2px;font-weight:300;text-shadow:0 0 10px rgba(0,0,0,0.8);min-width:36px;"></div>
       </div>
     </div>
     <div class="breath-countdown" id="breathCountdown"></div>
@@ -607,16 +606,9 @@ function startBreath(){
 function startExhaleOnly(){
   isExhaleOnly=true;breathDuration=90;
   document.getElementById('breathChip').textContent=T[currentLang]['chipExhale'];
-  const c=document.getElementById('breathCircle');
-  c.style.width='90px';c.style.height='90px';
-  c.style.background=`radial-gradient(ellipse, ${THEMES[currentMood].primary} 0%, rgba(201,168,76,0.15) 60%, transparent 100%)`;
-  c.style.boxShadow=`0 0 30px ${THEMES[currentMood].primary}`;
-  c.style.transform='scale(1)';
-  // ラベル更新
   const label=document.getElementById('breathLabel');
   label.textContent=T[currentLang]['exhaleOnly'];
   label.style.color='var(--zone-primary)';
-  // アークリセット
   const arc=document.getElementById('breathArc');
   arc.style.strokeDashoffset='722.6';
   arc.style.stroke=THEMES[currentMood].primary;
@@ -743,9 +735,14 @@ function stopBreath(){
   if(s3Timer){clearTimeout(s3Timer);s3Timer=null;}
   if(s3bTimer){clearTimeout(s3bTimer);s3bTimer=null;}
   const c=document.getElementById('breathCircle');
-  c.style.transform='';c.style.width='120px';c.style.height='120px';c.innerHTML='';
+  c.style.transform='scale(1)';
+  c.style.width='120px';c.style.height='120px';
+  c.style.background='radial-gradient(ellipse, var(--zone-primary) 0%, rgba(201,168,76,0.2) 60%, transparent 100%)';
+  c.style.boxShadow='0 0 40px var(--zone-primary)';
   document.getElementById('breathArc').style.strokeDashoffset='722.6';
   document.getElementById('breathCountdown').textContent='';
+  const pc=document.getElementById('breathPhaseCount');
+  if(pc)pc.textContent='';
 }
 
 function animateS4b(){
