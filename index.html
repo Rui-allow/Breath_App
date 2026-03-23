@@ -432,11 +432,11 @@ body::before {
       <svg class="breath-svg" viewBox="0 0 240 240">
         <circle cx="120" cy="120" r="115" class="breath-arc" id="breathArc" stroke-dasharray="722.6" stroke-dashoffset="722.6"/>
       </svg>
-      <div class="breath-circle" id="breathCircle">
-        <div id="breathInner" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;">
-          <div id="breathLabel" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--text);letter-spacing:0.15em;opacity:0.9;line-height:1;">吸う</div>
-          <div id="breathPhaseCount" style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--text);letter-spacing:0.05em;margin-top:4px;font-weight:300;"></div>
-        </div>
+      <div class="breath-circle" id="breathCircle"></div>
+      <!-- ラベルと秒数を円の上に重ねる（circleの外・containerの中） -->
+      <div style="position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;pointer-events:none;">
+        <div id="breathLabel" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--text);letter-spacing:0.15em;opacity:0.9;line-height:1;">吸う</div>
+        <div id="breathPhaseCount" style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--text);letter-spacing:0.05em;margin-top:4px;font-weight:300;min-width:40px;text-align:center;"></div>
       </div>
     </div>
     <div class="breath-countdown" id="breathCountdown"></div>
@@ -608,11 +608,15 @@ function startExhaleOnly(){
   isExhaleOnly=true;breathDuration=90;
   document.getElementById('breathChip').textContent=T[currentLang]['chipExhale'];
   const c=document.getElementById('breathCircle');
-  c.style.width='90px';c.style.height='90px';c.innerHTML='';
-  // 波動ではなく静かな円を表示
+  c.style.width='90px';c.style.height='90px';
   c.style.background=`radial-gradient(ellipse, ${THEMES[currentMood].primary} 0%, rgba(201,168,76,0.15) 60%, transparent 100%)`;
   c.style.boxShadow=`0 0 30px ${THEMES[currentMood].primary}`;
-  // アークをリセットして90秒で1周させる
+  c.style.transform='scale(1)';
+  // ラベル更新
+  const label=document.getElementById('breathLabel');
+  label.textContent=T[currentLang]['exhaleOnly'];
+  label.style.color='var(--zone-primary)';
+  // アークリセット
   const arc=document.getElementById('breathArc');
   arc.style.strokeDashoffset='722.6';
   arc.style.stroke=THEMES[currentMood].primary;
@@ -707,16 +711,20 @@ function beginExhaleOnlyCycle(){
   stopBreath();
   tickTimer=setInterval(()=>playTick(currentHz),1000);playTick(currentHz);
   const start=Date.now();
-  const label=document.getElementById('breathLabel');
   const arc=document.getElementById('breathArc');
+  const phaseCount=document.getElementById('breathPhaseCount');
   const C=722.6;
-  label.textContent=T[currentLang]['exhaleOnly'];label.style.color='var(--zone-primary)';
+  arc.style.stroke=THEMES[currentMood].primary;
+  arc.style.strokeDashoffset=C;
+
   const si=setInterval(()=>{
     const elapsed=(Date.now()-start)/1000;
     const rem=breathDuration-elapsed;
     if(rem>0){
+      // カウントダウン表示
       document.getElementById('breathCountdown').textContent=Math.ceil(rem);
-      // 90秒で円周を1周（722.6→0）
+      phaseCount.textContent=Math.ceil(rem);
+      // 円周アーク（90秒で1周）
       arc.style.strokeDashoffset=(C*(rem/breathDuration)).toFixed(1);
     }
     if(elapsed>=breathDuration){
