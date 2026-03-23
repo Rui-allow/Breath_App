@@ -432,9 +432,13 @@ body::before {
       <svg class="breath-svg" viewBox="0 0 240 240">
         <circle cx="120" cy="120" r="115" class="breath-arc" id="breathArc" stroke-dasharray="722.6" stroke-dashoffset="722.6"/>
       </svg>
-      <div class="breath-circle" id="breathCircle"></div>
+      <div class="breath-circle" id="breathCircle">
+        <div id="breathInner" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;">
+          <div id="breathLabel" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--text);letter-spacing:0.15em;opacity:0.9;line-height:1;">吸う</div>
+          <div id="breathPhaseCount" style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--text);letter-spacing:0.05em;margin-top:4px;font-weight:300;"></div>
+        </div>
+      </div>
     </div>
-    <div class="breath-label" id="breathLabel" data-key="inhale">吸う</div>
     <div class="breath-countdown" id="breathCountdown"></div>
   </div>
 </div>
@@ -646,31 +650,56 @@ function beginBreathCycle(){
 function animateBreath(){
   const circle=document.getElementById('breathCircle');
   const label=document.getElementById('breathLabel');
+  const phaseCount=document.getElementById('breathPhaseCount');
   const arc=document.getElementById('breathArc');
   const C=2*Math.PI*115;
   let cs=Date.now(),phase='inhale';
+  let lastSecond=-1;
+
   function frame(){
-    const t=Math.min((Date.now()-cs)/(phase==='inhale'?INHALE_DUR:EXHALE_DUR),1);
+    const elapsed=(Date.now()-cs)/1000;
+    const phaseDur=(phase==='inhale'?INHALE_DUR:EXHALE_DUR)/1000;
+    const t=Math.min(elapsed/phaseDur,1);
     const e=t<0.5?2*t*t:-1+(4-2*t)*t;
     const th=THEMES[currentMood];
+
+    // 残り秒数カウントダウン
+    const remainSec=Math.ceil(phaseDur-elapsed);
+    if(remainSec!==lastSecond && remainSec>0){
+      lastSecond=remainSec;
+      phaseCount.textContent=remainSec;
+    }
+
     if(phase==='inhale'){
-      circle.style.transform=`scale(${0.8+0.45*e})`;
+      const scale=0.8+0.45*e;
+      circle.style.transform=`scale(${scale})`;
       circle.style.background=`radial-gradient(ellipse,${th.primary} 0%,rgba(201,168,76,0.2) 60%,transparent 100%)`;
       circle.style.boxShadow=`0 0 ${20+40*e}px ${th.primary}`;
       arc.style.stroke=th.primary;
       arc.style.strokeDashoffset=C*(1-t*(INHALE_DUR/(INHALE_DUR+EXHALE_DUR)));
     }else{
-      circle.style.transform=`scale(${1.25-0.45*e})`;
+      const scale=1.25-0.45*e;
+      circle.style.transform=`scale(${scale})`;
       circle.style.background=`radial-gradient(ellipse,${th.secondary}66 0%,transparent 70%)`;
       circle.style.boxShadow=`0 0 ${60-40*e}px ${th.primary}66`;
       arc.style.stroke=th.secondary;
       const f=INHALE_DUR/(INHALE_DUR+EXHALE_DUR);
       arc.style.strokeDashoffset=(C*(1-f+f*t))%C;
     }
-    if(t>=1){phase=phase==='inhale'?'exhale':'inhale';cs=Date.now();label.textContent=T[currentLang][phase==='inhale'?'inhale':'exhale'];label.style.color=phase==='inhale'?'var(--zone-primary)':'var(--text-dim)';}
+
+    if(t>=1){
+      phase=phase==='inhale'?'exhale':'inhale';
+      cs=Date.now();
+      lastSecond=-1;
+      const key=phase==='inhale'?'inhale':'exhale';
+      label.textContent=T[currentLang][key];
+      label.style.color=phase==='inhale'?'var(--zone-primary)':'var(--text-dim)';
+    }
     breathAF=requestAnimationFrame(frame);
   }
-  label.textContent=T[currentLang]['inhale'];label.style.color='var(--zone-primary)';
+  label.textContent=T[currentLang]['inhale'];
+  label.style.color='var(--zone-primary)';
+  phaseCount.textContent='3';
   breathAF=requestAnimationFrame(frame);
 }
 
