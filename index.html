@@ -447,6 +447,8 @@ body::before {
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:400px">
     <div class="bridge-lines">
       <div class="bridge-line" id="bl1" data-key="bridge1">肺を空にしてみましょう。</div>
+      <div class="bridge-line" id="bl2" data-key="bridge2">まず大きく吸ってみましょう。30秒</div>
+      <div class="bridge-line" id="bl3" data-key="bridge3">次に鼻からゆっくり吐きましょう。60秒</div>
     </div>
     <button class="btn-ghost" onclick="startExhaleOnly()" data-key="continueBtn">つづける</button>
   </div>
@@ -503,7 +505,7 @@ const THEMES={
 };
 
 const T={
-  jp:{tagline:'今すぐ幸せになる',body1:'感情は、一気に変えることはできません。',body2:'少しずつなら動かせます。',body3:'1分だけ、静かになる。',startBtn:'今の気分をチェックする',soundLabel:'秒針音',hz432:'自然な\n共鳴',hz528:'修復・\n癒し',hz963:'意識の\n覚醒',moodTitle:'今の気分に近いもの',mood0:'晴天',mood1:'曇り',mood2:'雨',mood3:'嵐',mood4:'霧',confirm1:'今の気分に',confirm2:'気づいただけで',confirm3:'十分です',observe:'呼吸を観察してみましょう',sec30:'30秒',continueBtn:'つづける',chipNormal:'通常の呼吸　1分',chipSunny:'今の気分を続けましょう',chipExhale:'吐くだけ　90秒',inhale:'吸う',exhale:'吐く',exhaleOnly:'吐く',bridge1:'肺を空にしてみましょう。',release1:'余分な力を',release2:'解き放ちます',release3:'それで十分です。',storm1:'吐く　吐く　吐く　吐く',storm2:'寝る',storm3:'そうしましょう。',end1:'それで十分です',end2:'あなたは今、少し上にいます',end3:'この1分は、本当の自分への道。',againBtn:'もう一度',back:'戻る',home:'ホーム'},
+  jp:{tagline:'今すぐ幸せになる',body1:'感情は、一気に変えることはできません。',body2:'少しずつなら動かせます。',body3:'1分だけ、静かになる。',startBtn:'今の気分をチェックする',soundLabel:'秒針音',hz432:'自然な\n共鳴',hz528:'修復・\n癒し',hz963:'意識の\n覚醒',moodTitle:'今の気分に近いもの',mood0:'晴天',mood1:'曇り',mood2:'雨',mood3:'嵐',mood4:'霧',confirm1:'今の気分に',confirm2:'気づいただけで',confirm3:'十分です',observe:'呼吸を観察してみましょう',sec30:'30秒',continueBtn:'つづける',chipNormal:'通常の呼吸　1分',chipSunny:'今の気分を続けましょう',chipExhale:'吐くだけ　90秒',inhale:'吸う',exhale:'吐く',exhaleOnly:'吐く',bridge1:'肺を空にしてみましょう。',bridge2:'まず大きく吸ってみましょう。30秒',bridge3:'次に鼻からゆっくり吐きましょう。60秒',release1:'余分な力を',release2:'解き放ちます',release3:'それで十分です。',storm1:'吐く　吐く　吐く　吐く',storm2:'寝る',storm3:'そうしましょう。',end1:'それで十分です',end2:'あなたは今、少し上にいます',end3:'この1分は、本当の自分への道。',againBtn:'もう一度',back:'戻る',home:'ホーム'},
   en:{tagline:'Find peace, right now',body1:'Emotions cannot change all at once.',body2:'But they can shift, little by little.',body3:'Just one minute of stillness.',startBtn:'Check your mood',soundLabel:'Tone',hz432:'Natural\nResonance',hz528:'Healing\nRepair',hz963:'Conscious\nAwakening',moodTitle:'How are you feeling?',mood0:'Sunny',mood1:'Cloudy',mood2:'Rainy',mood3:'Storm',mood4:'Foggy',confirm1:'Just noticing',confirm2:'how you feel',confirm3:'is enough.',observe:'Observe your breath.',sec30:'30 sec',continueBtn:'Continue',chipNormal:'Breathing · 1 min',chipSunny:'Stay with this feeling',chipExhale:'Exhale only · 90s',inhale:'Inhale',exhale:'Exhale',exhaleOnly:'Exhale',bridge1:'Empty your lungs.',release1:'Release',release2:'all tension',release3:"That's enough.",storm1:'Exhale. Exhale. Exhale.',storm2:'Rest.',storm3:"Let's do that.",end1:"That's enough.",end2:'You are a little higher now.',end3:'Your way back to yourself.',againBtn:'Again',back:'Back',home:'Home'},
   zh:{tagline:'此刻，找到平静',body1:'情绪无法一下子改变。',body2:'但可以慢慢移动。',body3:'只需一分钟，静下来。',startBtn:'检查心情',soundLabel:'音调',hz432:'自然\n共鸣',hz528:'修复\n疗愈',hz963:'意识\n觉醒',moodTitle:'现在的感觉接近哪个？',mood0:'晴天',mood1:'多云',mood2:'雨天',mood3:'暴风雨',mood4:'大雾',confirm1:'注意到',confirm2:'自己的状态',confirm3:'已经足够了。',observe:'观察你的呼吸。',sec30:'30秒',continueBtn:'继续',chipNormal:'呼吸练习 · 1分钟',chipSunny:'保持这种感觉',chipExhale:'只呼气 · 90秒',inhale:'吸气',exhale:'呼气',exhaleOnly:'呼气',bridge1:'清空你的肺。',release1:'释放',release2:'身体的力量',release3:'这已经足够了。',storm1:'呼气　呼气　呼气',storm2:'休息。',storm3:'就这样吧。',end1:'这已经足够了。',end2:'你现在在更高的地方。',end3:'回到真实的自己。',againBtn:'再来一次',back:'返回',home:'首页'},
   es:{tagline:'Encuentra paz, ahora mismo',body1:'Las emociones no cambian de golpe.',body2:'Pero pueden moverse poco a poco.',body3:'Solo un minuto de silencio.',startBtn:'Ver cómo estoy',soundLabel:'Tono',hz432:'Resonancia\nnatural',hz528:'Sanación\ny reparo',hz963:'Despertar\nconsciencia',moodTitle:'¿Cómo te sientes ahora?',mood0:'Soleado',mood1:'Nublado',mood2:'Lluvia',mood3:'Tormenta',mood4:'Niebla',confirm1:'Notar',confirm2:'cómo te sientes',confirm3:'ya es suficiente.',observe:'Observa tu respiración.',sec30:'30 seg',continueBtn:'Continuar',chipNormal:'Respiración · 1 min',chipSunny:'Quédate con esta sensación',chipExhale:'Solo exhalar · 90s',inhale:'Inhalar',exhale:'Exhalar',exhaleOnly:'Exhalar',bridge1:'Vacía tus pulmones.',release1:'Suelta',release2:'la tensión del cuerpo',release3:'Con eso basta.',storm1:'Exhala. Exhala. Exhala.',storm2:'Descansa.',storm3:'Hagámoslo.',end1:'Con eso basta.',end2:'Ahora estás un poco más arriba.',end3:'El camino de regreso a ti mismo.',againBtn:'De nuevo',back:'Volver',home:'Inicio'},
@@ -605,9 +607,9 @@ function startBreath(){
 }
 function startExhaleOnly(){
   isExhaleOnly=true;breathDuration=90;
-  document.getElementById('breathChip').textContent=T[currentLang]['chipExhale'];
+  document.getElementById('breathChip').textContent='肺を空にしてみましょう';
   const label=document.getElementById('breathLabel');
-  label.textContent=T[currentLang]['exhaleOnly'];
+  label.textContent=T[currentLang]['inhale'];
   label.style.color='var(--zone-primary)';
   const arc=document.getElementById('breathArc');
   arc.style.strokeDashoffset='722.6';
@@ -702,27 +704,66 @@ function animateBreath(){
 function beginExhaleOnlyCycle(){
   stopBreath();
   tickTimer=setInterval(()=>playTick(currentHz),1000);playTick(currentHz);
-  const start=Date.now();
   const arc=document.getElementById('breathArc');
+  const label=document.getElementById('breathLabel');
   const phaseCount=document.getElementById('breathPhaseCount');
+  const circle=document.getElementById('breathCircle');
   const C=722.6;
-  arc.style.stroke=THEMES[currentMood].primary;
+  const INHALE_SEC=30;
+  const EXHALE_SEC=60;
+  const th=THEMES[currentMood];
+
+  // 吸うフェーズ開始
+  let phase='inhale';
+  let phaseStart=Date.now();
+  arc.style.stroke=th.primary;
   arc.style.strokeDashoffset=C;
+  label.textContent=T[currentLang]['inhale'];
+  label.style.color='var(--zone-primary)';
 
   const si=setInterval(()=>{
-    const elapsed=(Date.now()-start)/1000;
-    const rem=breathDuration-elapsed;
-    if(rem>0){
-      // カウントダウン表示
-      document.getElementById('breathCountdown').textContent=Math.ceil(rem);
-      phaseCount.textContent=Math.ceil(rem);
-      // 円周アーク（90秒で1周）
-      arc.style.strokeDashoffset=(C*(rem/breathDuration)).toFixed(1);
-    }
-    if(elapsed>=breathDuration){
-      clearInterval(si);clearInterval(tickTimer);
-      if(currentMood==='storm'||currentMood==='fog'){goTo('s4d');}
-      else{goTo('s4c');}
+    const phaseElapsed=(Date.now()-phaseStart)/1000;
+
+    if(phase==='inhale'){
+      const rem=INHALE_SEC-phaseElapsed;
+      if(rem>0){
+        phaseCount.textContent=Math.ceil(rem);
+        // 円が膨らむ
+        const t=phaseElapsed/INHALE_SEC;
+        const e=t<0.5?2*t*t:-1+(4-2*t)*t;
+        circle.style.transform=`scale(${0.8+0.45*e})`;
+        circle.style.background=`radial-gradient(ellipse,${th.primary} 0%,rgba(201,168,76,0.2) 60%,transparent 100%)`;
+        circle.style.boxShadow=`0 0 ${20+40*e}px ${th.primary}`;
+        // アーク：30秒で半周
+        arc.style.strokeDashoffset=(C*(1-t*0.5)).toFixed(1);
+        document.getElementById('breathCountdown').textContent='';
+      } else {
+        // 吐くフェーズへ
+        phase='exhale';
+        phaseStart=Date.now();
+        label.textContent=T[currentLang]['exhale'];
+        label.style.color='var(--text-dim)';
+        arc.style.stroke=th.secondary;
+      }
+    } else {
+      const rem=EXHALE_SEC-phaseElapsed;
+      if(rem>0){
+        phaseCount.textContent=Math.ceil(rem);
+        document.getElementById('breathCountdown').textContent=Math.ceil(rem);
+        // 円が縮む
+        const t=phaseElapsed/EXHALE_SEC;
+        const e=t<0.5?2*t*t:-1+(4-2*t)*t;
+        circle.style.transform=`scale(${1.25-0.45*e})`;
+        circle.style.background=`radial-gradient(ellipse,${th.secondary}66 0%,transparent 70%)`;
+        circle.style.boxShadow=`0 0 ${60-40*e}px ${th.primary}66`;
+        // アーク：60秒で残り半周
+        arc.style.strokeDashoffset=(C*(0.5-t*0.5)).toFixed(1);
+      } else {
+        // 終了
+        clearInterval(si);clearInterval(tickTimer);
+        if(currentMood==='storm'||currentMood==='fog'){goTo('s4d');}
+        else{goTo('s4c');}
+      }
     }
   },100);
   breathTimer=si;
@@ -746,10 +787,12 @@ function stopBreath(){
 }
 
 function animateS4b(){
-  const el=document.getElementById('bl1');
-  if(!el)return;
-  el.style.opacity='0';el.style.transform='translateY(10px)';
-  setTimeout(()=>{el.style.transition='opacity 0.8s ease,transform 0.8s ease';el.style.opacity='1';el.style.transform='translateY(0)';},300);
+  ['bl1','bl2','bl3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.style.opacity='0';el.style.transform='translateY(10px)';
+    setTimeout(()=>{el.style.transition='opacity 0.8s ease,transform 0.8s ease';el.style.opacity='1';el.style.transform='translateY(0)';},300+i*400);
+  });
 }
 
 function animateRelease(screenId, ids){
